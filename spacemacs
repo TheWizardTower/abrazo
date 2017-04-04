@@ -37,6 +37,7 @@ values."
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      ace-jump
+     ag
      ansible
      auto-completion
      emacs-lisp
