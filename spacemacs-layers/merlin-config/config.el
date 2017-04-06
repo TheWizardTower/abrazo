@@ -44,3 +44,12 @@
   '(ace-jump-mode-enable-mark-sync))
 (define-key global-map (kbd "C-c SPC") 'ace-jump-mode-pop-mark)
 (put 'set-goal-column 'disabled nil)
+
+(defvar haskell-completion-backend 'intero
+  "Completion backend used by company.
+Available options are `ghci', `intero' and `ghc-mod'. Default is
+`ghci'.")
+
+(defvar haskell-enable-hindent-style 'fundamental
+  "Style to use for formatting with hindent; available are: fundamental johan-tibell chris-done gibiansky. If nil hindent is disabled.")
+
