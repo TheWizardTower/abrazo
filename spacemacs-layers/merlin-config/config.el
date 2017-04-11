@@ -21,7 +21,7 @@
 (global-set-key (kbd "C-x G") 'magit-status)
 
 
-                                        ; To disable slowdown when editing remote files.
+; To disable slowdown when editing remote files.
 (add-hook 'find-file-hook
           (lambda ()
             (when (file-remote-p default-directory)
