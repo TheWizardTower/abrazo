@@ -11,14 +11,7 @@
 (global-set-key (kbd "C-x i") 'align-regexp)
 
 
-(eval-after-load 'company
-  '(progn
-     (define-key company-mode-map (kbd "C-:") 'helm-company)
-     (define-key company-active-map (kbd "C-:") 'helm-company)
-     (company-flx-mode +1)))
-
 (define-key 'help-command (kbd "C-l") 'helm-locate-library)
-
 
 ;;; This seems to be the one place where Ido wins out over helm. Helm plus Tramp bring Emacs to a crawl.
 (setq ido-vertical-define-keys 'C-n-and-C-p-only)
