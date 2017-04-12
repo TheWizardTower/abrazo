@@ -50,11 +50,14 @@ values."
      html
      javascript
      magit-svn
+     magithub
      markdown
      merlin-config
      merlin-eshell
      org
+     origami
      php
+     popup-kill-ring
      rust
      (shell :variables
             shell-default-height 30
