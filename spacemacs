@@ -61,6 +61,7 @@ values."
      spell-checking
      syntax-checking
      version-control
+     web-beautify
      xe-highlight-indent-guides
      xe-matrix
      xe-slack
