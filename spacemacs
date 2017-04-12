@@ -54,12 +54,11 @@ values."
      org
      php
      rust
-     shell
+     (shell :variables
+            shell-default-height 30
+            shell-default-position 'bottom)
      shell-scripts
-     ;; (shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
-     ;; spell-checking
+     spell-checking
      syntax-checking
      version-control
      xe-highlight-indent-guides
