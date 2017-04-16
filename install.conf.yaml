@@ -18,6 +18,7 @@
 - shell:
    - ["git submodule update --init --recursive", "Installing submodules"]
    - ["curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisher", "Installing Fisherman framework."]
+   - ["fish -c 'for ii in (cat fish/fishfile); echo $ii; fisher $ii; end", "Installing Fish plugins."]
    - ["bash installCargoPackages.sh", "Installing Cargo Packages"]
    - ["bash installGoPackages.sh", "Installing Go Packages."]
    - ["bash installSpacemacs.sh", "Installing Spacemacs."]
