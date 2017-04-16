@@ -1,0 +1,26 @@
+- clean: ['~']
+
+- link:
+    ~/.alias:        alias
+    ~/.bash_profile: bash_profile
+    ~/.config/fish/conf.d: fish/conf.d
+    ~/.config/fish/fishfile: fish/fishfile
+    ~/.config/fish/paths.d: fish/paths.d
+    ~/.gitconfig:    gitconfig
+    ~/.screenrc:     screenrc
+    ~/.spacemacs:    spacemacs
+    ~/.tmux.conf:    tmux.conf
+    ~/.toprc:        toprc
+    ~/.xmobarrc:     xmobarrc
+    ~/.xmonad:       xmonad
+
+
+- shell:
+   - ["git submodule update --init --recursive", "Installing submodules"]
+   - ["curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisher", "Installing Fisherman framework."]
+   - ["bash installCargoPackages.sh", "Installing Cargo Packages"]
+   - ["bash installGoPackages.sh", "Installing Go Packages."]
+   - ["bash installSpacemacs.sh", "Installing Spacemacs."]
+   - ["bash installStackPackages.sh", "Installing Stack Packages."]
+   - ["bash installTPM.sh", "Installing Tmux Plugin Manager."]
+   - ["pip install powerline-status", "Installing Powerline"]
