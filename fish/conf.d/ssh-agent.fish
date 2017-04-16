@@ -28,7 +28,7 @@ set -l output
 if test -z (hostname | grep lin[[:alpha:]]-sandbox)
     if test -n "$SSH_AGENT_PID"
         echo "Passed ssh-agent-pid guard."
-        ps -ef | grep $SSH_AGENT_PID | grep ssh-agent >/dev/null
+        ps -ef | grep "$SSH_AGENT_PID" | grep ssh-agent >/dev/null
         if [ $status -eq 0 ]
             test_identities
         end
