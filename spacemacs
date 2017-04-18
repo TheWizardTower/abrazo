@@ -69,7 +69,6 @@ values."
      version-control
      wakatime
      xe-highlight-indent-guides
-     xe-matrix
      xe-slack
      yaml
      )
