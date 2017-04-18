@@ -45,7 +45,13 @@ values."
      emacs-lisp
      git
      go
-     haskell
+     (haskell
+      :variables
+      haskell-process-type 'stack-ghci
+      haskell-indent-spaces 4
+      haskell-process-args-ghci "ghci"
+      haskell-process-args-stack-ghci "-v"
+      )
      helm
      html
      javascript
