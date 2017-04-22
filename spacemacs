@@ -39,7 +39,11 @@ values."
      ace-jump
      ag
      ansible
-     auto-completion
+     (auto-completion
+      :variables
+      auto-completion-enable-help-tooltip t
+      auto-completion-return-key-behavior 'complete
+      auto-completion-tab-key-behavior 'complete)
      awk-it
      cfengine
      emacs-lisp
