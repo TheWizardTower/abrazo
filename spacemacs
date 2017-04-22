@@ -71,8 +71,12 @@ values."
             shell-default-position 'bottom)
      shell-scripts
      spacemacs-editing
-     spell-checking
-     syntax-checking
+     (spell-checking
+      :variables
+      spell-checking-enable-by-default t)
+     (syntax-checking
+      :variables
+      syntax-checking-enable-tooltips t)
      version-control
      wakatime
      xe-highlight-indent-guides
