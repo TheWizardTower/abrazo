@@ -63,7 +63,6 @@ values."
      merlin-config
      merlin-eshell
      org
-     origami
      php
      popup-kill-ring
      rust
