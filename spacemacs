@@ -74,6 +74,7 @@ values."
      (spell-checking
       :variables
       spell-checking-enable-by-default t)
+     sql
      (syntax-checking
       :variables
       syntax-checking-enable-tooltips t)
