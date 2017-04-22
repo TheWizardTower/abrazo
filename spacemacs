@@ -61,6 +61,8 @@ values."
      helm
      html
      javascript
+     (latex :variables
+            latex-enable-auto-fill t)
      magit-svn
      magithub
      markdown
