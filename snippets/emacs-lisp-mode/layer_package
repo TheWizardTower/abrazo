@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: layerp
+# key: layerp
+# --
+
+(defconst ${1:layerName} '(${2:packageName}))
+
+(defun $1/init-$2 ()
+  (use-package $2)
+  )
