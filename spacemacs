@@ -95,7 +95,6 @@ values."
      systemd
      tmux
      version-control
-     wakatime
      xe-highlight-indent-guides
      xe-slack
      yaml
