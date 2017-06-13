@@ -90,7 +90,6 @@ values."
       :variables
       syntax-checking-enable-tooltips t)
      version-control
-     wakatime
      xe-highlight-indent-guides
      xe-slack
      yaml
