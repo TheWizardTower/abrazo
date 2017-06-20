@@ -123,7 +123,9 @@ import           XMonad.Layout.ZoomRow               (ZoomMessage (ZoomFullToggl
 import           XMonad.Prompt                       (Direction1D (..),
                                                       XPConfig (..),
                                                       XPPosition (Top),
-                                                      defaultXPConfig)
+                                                      defaultXPConfig,
+                                                      def)
+import qualified XMonad.Prompt.Window                 as WP
 
 
 
@@ -233,6 +235,7 @@ myKeys =
     -- Modal Bindings
         ,  ("M-u",   submap . mkKeymap myXConfig $
            [("c", spawn "krunner")
+         , ("j", WP.windowPromptGoto def)
          , ("M-<Return>",    spawn "emacs")
          , ("<Backspace>",   spawn "xscreensaver-command -lock")
          , ("s", windows W.swapMaster)
