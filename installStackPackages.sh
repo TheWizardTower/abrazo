@@ -30,6 +30,7 @@ stack install intero
 stack install present
 stack install ShellCheck
 stack install stylish-haskell
+stack install threadscope
 
 pushd ~/git
 getGitRepo "https://github.com/carlohamalainen/ghc-imported-from" "ghc-imported-from"
