@@ -9,14 +9,14 @@ function start_agent
     echo "succeeded"
     chmod 600 $SSH_ENV
     source $SSH_ENV
-    ssh-add ~/.ssh/amccullough-corp-20150911 ~/.ssh/amccullough-prod-20150910 ~/.ssh/github.com-imvu ~/.ssh/github
+    ssh-add ~/.ssh/ ~/.ssh/github
     ln -sf $SSH_AUTH_SOCK $SSH_SOCK_LINK
 end
 
 function test_identities
     ssh-add -l | grep -e "The agent has no identities" >/dev/null
     if test $status -eq 0
-        ssh-add ~/.ssh/amccullough-corp-20150911 ~/.ssh/amccullough-prod-20150910 ~/.ssh/github.com-imvu ~/.ssh/github
+        ssh-add ~/.ssh/github
         if [ $status -eq 2 ]
             start_agent
         end
