@@ -4,7 +4,7 @@ if [ -d ~/spacemacs ]
     git pull
     popd
 else
-    git clone https://github.com/syl20bnr/spacemacs.git ~/spacemacs.git
+    git clone https://github.com/syl20bnr/spacemacs.git ~/spacemacs
 fi
 
 ln -sf ~/spacemacs ~/.emacs.d
