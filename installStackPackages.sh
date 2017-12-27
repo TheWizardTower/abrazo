@@ -20,6 +20,7 @@ function getGitRepo {
 
 stack setup
 stack update
+stack install cpphs
 stack install ghc-mod
 stack install happy
 stack install hasktags
