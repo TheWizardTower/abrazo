@@ -1,11 +1,16 @@
-- clean: ['~']
+- defaults:
+    link:
+        relink: true
+
+- clean: ["~/", "~/.config/fish"]
+
+- link:
+    ~/dotfiles:      ~/abrazo
 
 - link:
     ~/.alias:        alias
     ~/.bash_profile: bash_profile
-    ~/.config/fish/conf.d: fish/conf.d
     ~/.config/fish/fishfile: fish/fishfile
-    ~/.config/fish/paths.d: fish/paths.d
     ~/.gitconfig:    gitconfig
     ~/.screenrc:     screenrc
     ~/.spacemacs:    spacemacs
@@ -16,12 +21,13 @@
 
 
 - shell:
+   - ["bash -c 'rm -rf ~/.config/fish/conf.d ~/.config/fish/paths.d; ln -s ~/abrazo/fish/conf.d ~/.config/fish/conf.d; ln -s ~/arbrazo/fish/paths.d ~/.config/fish/paths.d'", "Setting up Fish symlinks."]
    - ["git submodule update --init --recursive", "Installing submodules"]
    - ["curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisher", "Installing Fisherman framework."]
-   - ["fish -c 'for ii in (cat fish/fishfile); echo $ii; fisher $ii; end", "Installing Fish plugins."]
+   - ["fish -c 'for ii in (cat fish/fishfile); echo $ii; fisher $ii; end'", "Installing Fish plugins."]
    - ["bash installCargoPackages.sh", "Installing Cargo Packages"]
    - ["bash installGoPackages.sh", "Installing Go Packages."]
    - ["bash installSpacemacs.sh", "Installing Spacemacs."]
    - ["bash installStackPackages.sh", "Installing Stack Packages."]
    - ["bash installTPM.sh", "Installing Tmux Plugin Manager."]
-   - ["pip install powerline-status", "Installing Powerline"]
+   - ["sudo pip install powerline-status", "Installing Powerline"]
