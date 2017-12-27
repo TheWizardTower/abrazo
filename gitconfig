@@ -15,3 +15,5 @@
     purr = pull --rebase
 [push]
         default = matching
+[github]
+	user = TheWizardTower

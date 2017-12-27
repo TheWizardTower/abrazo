@@ -68,7 +68,6 @@ values."
      (latex :variables
             latex-enable-auto-fill t)
      magit-svn
-     magithub
      markdown
      merlin-config
      merlin-eshell
