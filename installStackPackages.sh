@@ -20,18 +20,21 @@ function getGitRepo {
 
 stack setup
 stack update
-stack install cpphs
-stack install ghc-mod
-stack install happy
-stack install hasktags
-stack install hindent
-stack install hlint
-stack install hoogle
-stack install intero
-stack install present
-stack install ShellCheck
-stack install stylish-haskell
-stack install threadscope
+
+for ii in cpphs\
+              ghc-mod\
+              happy\
+              hasktags\
+              hlint\
+              hoogle\
+              intero\
+              pandoc\
+              present\
+              ShellCheck\
+              stylish-haskell\
+              threadscope ; do
+    stack install $ii
+done
 
 pushd ~/git
 getGitRepo "https://github.com/carlohamalainen/ghc-imported-from" "ghc-imported-from"
