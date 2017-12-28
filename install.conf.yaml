@@ -21,7 +21,7 @@
 
 
 - shell:
-   - ["bash -c 'rm -rf ~/.config/fish/conf.d ~/.config/fish/paths.d; ln -s ~/abrazo/fish/conf.d ~/.config/fish/conf.d; ln -s ~/arbrazo/fish/paths.d ~/.config/fish/paths.d'", "Setting up Fish symlinks."]
+   - ["bash -c 'rm -rf ~/.config/fish/conf.d ~/.config/fish/paths.d; ln -s ~/abrazo/fish/conf.d ~/.config/fish/conf.d; ln -s ~/abrazo/fish/paths.d ~/.config/fish/paths.d'", "Setting up Fish symlinks."]
    - ["git submodule update --init --recursive", "Installing submodules"]
    - ["curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisher", "Installing Fisherman framework."]
    - ["fish -c 'for ii in (cat fish/fishfile); echo $ii; fisher $ii; end'", "Installing Fish plugins."]
