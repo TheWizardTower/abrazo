@@ -49,3 +49,12 @@ flycheck_*.el
 .dir-locals.el
 
 # End of https://www.gitignore.io/api/emacs
+/fish/conf.d/ansible-completion.fish
+/fish/conf.d/git-flow.init.fish
+/fish/conf.d/paths.fish
+/xmonad/xmonad-x86_64-linux
+/xmonad/xmonad.errors
+/xmonad/xmonad.hi
+/xmonad/xmonad.o
+/xmonad/xmonad.state
+.stack-work/
