@@ -58,10 +58,11 @@ values."
       :variables
       haskell-completion-backend 'intero
       haskell-enable-hindent-style 'fundamental
-      haskell-process-type 'stack-ghci
       haskell-indent-spaces 4
       haskell-process-args-ghci "ghci"
       haskell-process-args-stack-ghci "-v"
+      haskell-process-type 'stack-ghci
+      haskell-stylish-on-save 't
       )
      helm
      html
