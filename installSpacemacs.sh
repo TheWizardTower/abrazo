@@ -1,8 +1,10 @@
+#!/usr/bin/env bash
+
 if [ -d ~/spacemacs ]
     then
-    pushd ~/spacemacs
+    pushd ~/spacemacs || exit
     git pull
-    popd
+    popd || exit
 else
     git clone https://github.com/syl20bnr/spacemacs.git ~/spacemacs
 fi
