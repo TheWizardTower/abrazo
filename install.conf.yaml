@@ -27,7 +27,4 @@
    - ["fish -c 'for ii in (cat fish/fishfile); echo $ii; fisher $ii; end'", "Installing Fish plugins."]
    - ["bash installCargoPackages.sh", "Installing Cargo Packages"]
    - ["bash installGoPackages.sh", "Installing Go Packages."]
-   - ["bash installSpacemacs.sh", "Installing Spacemacs."]
    - ["bash installStackPackages.sh", "Installing Stack Packages."]
-   - ["bash installTPM.sh", "Installing Tmux Plugin Manager."]
-   - ["sudo pip install powerline-status", "Installing Powerline"]
