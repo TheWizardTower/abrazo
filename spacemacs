@@ -365,7 +365,8 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (global-set-key (kbd "C-x C-j") 'dired-jump)
-  (add-to-list 'yas-snippet-dirs "~/abrazo/snippets")
+  (add-to-list 'yas-snippet-dirs (expand-file-name "~/abrazo/snippets/"))
+  (yas-reload-all)
   (setq-default dotspacemacs-configuration-layers
                 '((c-c++ :variables c-c++-enable-clang-support t)))
   ;; Bind clang-format-region to C-M-tab in all modes:
