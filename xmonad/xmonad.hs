@@ -178,6 +178,9 @@ myGSConfig colorizer  = (buildDefaultGSConfig myGridConfig)
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ---SCRATCHPADS
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+-- If you need to find out X window properties, xprop is the tool you need.
 myScratchpads =
               [ NS "terminal"        "konsole"                                      (className =? "Konsole")        myPosition
               , NS "music"           "audacious"                                    (className =? "Audacious")      myPosition
