@@ -85,6 +85,7 @@ values."
      python
      rust
      (shell :variables
+            shell-default-term-shell "/usr/bin/fish"
             shell-default-height 30
             shell-default-position 'bottom)
      shell-scripts
