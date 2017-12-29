@@ -58,3 +58,4 @@ flycheck_*.el
 /xmonad/xmonad.o
 /xmonad/xmonad.state
 .stack-work/
+/spacemacs-layers/merlin-spotify/*
