@@ -100,7 +100,6 @@ values."
      tmux
      version-control
      xe-highlight-indent-guides
-     xe-slack
      yaml
      )
    ;; List of additional packages that will be installed without being
