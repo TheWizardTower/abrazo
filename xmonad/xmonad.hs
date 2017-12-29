@@ -181,7 +181,7 @@ myGSConfig colorizer  = (buildDefaultGSConfig myGridConfig)
 myScratchpads =
               [ NS "terminal"        "konsole"                                      (className =? "Konsole")        myPosition
               , NS "music"           "audacious"                                    (className =? "Audacious")      myPosition
-              , NS "google-music"    "seamonkey 'http://music.google.com/'"         (className =? "Seamonkey")      myPosition
+              , NS "spotify"         "/var/lib/snapd/snap/bin/spotify"              (className =? "Spotify")      myPosition
               , NS "rtorrent"        "urxvtc_mod -name rtorrent -e rtorrent"        (resource =? "rtorrent")        myPosition
               , NS "calc"            "free42dec"                                    (role =? "Free42 Calculator")   myPosition
               , NS "cairo"           "cairo-dock"                                   (resource =? "cairo-dock")      doFloat
@@ -274,7 +274,7 @@ myKeys =
 
     -- Scratchpads
         , ("M-M1-m",               namedScratchpadAction myScratchpads "music" )
-        , ("M-C-m",                namedScratchpadAction myScratchpads "google-music" )
+        , ("M-C-m",                namedScratchpadAction myScratchpads "spotify" )
         , ("M-M1-c",               namedScratchpadAction myScratchpads "calc" )
         , ("M-M1-<Return>",        namedScratchpadAction myScratchpads "terminal" )
         , ("<XF86Tools>",          namedScratchpadAction myScratchpads "music")
