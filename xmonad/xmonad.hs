@@ -204,6 +204,10 @@ myKeys =
         , ("M-M1-q",            io exitSuccess)
         , ("M-<Backspace>",     spawn "/usr/libexec/kscreenlocker_greet")
 
+    -- Windows workaround. :sadface:
+        -- Windows-L is captured by windows (it locks the screen). It's not easily remappable, so xmonad must change.
+        -- We don't want to change the default binding (for when Linux is the host OS), but provide this for when I'm stuck in a VM.
+        , ("M-S-l",             sendMessage $ Expand)
 
     -- Windows
         , ("M-r",               refresh)
