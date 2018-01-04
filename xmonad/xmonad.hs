@@ -356,13 +356,13 @@ myManageHook = scratchpadManageHook (W.RationalRect l t w h) <+>
 ---LAYOUTS
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 mainLayout = avoidStruts $ rename "MirrorThree" (Mirror three)
-             ||| rename "MirrorTiled" ( Mirror tiled)
-             ||| rename "Accordion" (Accordion)
-             ||| rename "Column1.6" (Column 1.6)
-             ||| rename "OneBig" (OneBig (3/4) (3/4))
-             ||| rename "Tiled" (tiled)
+             ||| rename "7: MirrorTiled" ( Mirror tiled)
+             ||| rename "6: Accordion" (Accordion)
+             ||| rename "5: Column1.6" (Column 1.6)
+             ||| rename "2: OneBig" (OneBig (3/4) (3/4))
+             ||| rename "4: Tiled" (tiled)
              ||| rename "Three" (three)
-             ||| rename "Full" Full
+             ||| rename "1: Full" Full
    where
      rename s = renamed [Replace s]
      -- Default tiling algorithm partitions the screen into two panes
