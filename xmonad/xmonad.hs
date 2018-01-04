@@ -333,8 +333,6 @@ myManageHook = scratchpadManageHook (W.RationalRect l t w h) <+>
           , className =? "plasma-desktop" --> makeMaster <+> doFloat
 	  , className =? "Plasma"         --> makeMaster <+> doFloat
           , resource  =? "cairo-dock"     --> makeMaster <+> doFloat
---          , className =? "dzen"           --> makeMaster <+> doFloat <+> docksEventHook
---          , className =? "dzen2"          --> makeMaster <+> doFloat <+> docksEventHook
          ]
          ++
          [   isFullscreen --> doFullFloat
