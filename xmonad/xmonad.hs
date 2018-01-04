@@ -347,7 +347,7 @@ myManageHook = scratchpadManageHook (W.RationalRect l t w h) <+>
          where
            makeMaster = insertPosition Master Newer
            role = stringProperty "WM_WINDOW_ROLE"
-           h= 0.4
+           h = 0.4
            w = 0.75
            t = 0.85 - h
            l = 0.87 - w
