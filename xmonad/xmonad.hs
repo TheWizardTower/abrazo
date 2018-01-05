@@ -381,7 +381,7 @@ mainLayout = avoidStruts $ rename "MirrorThree" (Mirror three)
 myLayout = mouseResize $
            windowArrange mainLayout
 
-numworkspaces = take 10 [1..]
+numworkspaces = Prelude.take 10 [1..]
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ---STATUSBAR
