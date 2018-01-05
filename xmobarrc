@@ -2,7 +2,7 @@
 -- Updated: 2015-03-13
 
 
-Config { font         = "-misc-fixed-*-*-*-*-12-*-*-*-*-*-*-*"
+Config { font         = "xft:Inconsolata for Powerline:pixelsize=12"
        , alpha        = 255 -- opaque
        , bgColor      = "#000000"
        , fgColor      = "#00FF00"
