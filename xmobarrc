@@ -1,12 +1,45 @@
-Config { font = "xft:Sans-10:normal"
-       , bgColor = "black"
-       , fgColor = "grey"
-       , position = TopW L 90
-       , lowerOnStart = False
-       , commands = [ Run StdinReader
-    		        , Run Date "%a %b %_d %Y %H:%M:%S" "date" 10
-                    ]
-       , sepChar = "%"
-       , alignSep = "}{"
-       , template = "%StdinReader% }{ <fc=#ee9a00>%date%</fc>"
+-- Author: microfracture / https://linuxious.com
+-- Updated: 2015-03-13
+
+
+Config { font         = "-misc-fixed-*-*-*-*-12-*-*-*-*-*-*-*"
+       , alpha        = 255 -- opaque
+       , bgColor      = "#000000"
+       , fgColor      = "#00FF00"
+       , border       = NoBorder
+       , borderColor  = "#000000"
+       , position     = TopW L 95
+       , lowerOnStart = True
+       , allDesktops  = True
+       , hideOnStart  = False
+       , persistent   = True
+       , commands     = [ Run MultiCpu
+                          [ "-L","3"
+                          , "-H","50"
+                          , "--high","#FF5555"
+                          ] 10
+                        , Run CoreTemp
+                          [ "-t", "Temp: <core0>C, <core1>C, <core2>C, <core3>C"
+                          , "-H","50"
+                          , "--high","#FF5555"
+                          ] 10
+                        , Run Memory
+                          [ "-t","Mem: <usedratio>%"
+                          ] 10
+                        , Run Network "enp0s3"
+                          [ "-t", "<dev> Down: <rx> kB/s / Up: <tx> kB/s"
+                          ,"-H","70"
+                          ,"--high","#FF5555"
+                          ] 10
+                        , Run Network "wlan0"
+                          [ "-t", "<dev> Down: <rx> kB/s / Up: <tx> kB/s"
+                          , "-H", "70"
+                          , "--high", "#FF5555"
+                          ] 10
+                        , Run Date "%a, %b %_d %Y %I:%M%P" "date" 10
+                        , Run StdinReader
+                        ]
+       , sepChar      = "%"
+       , alignSep     = "}{"
+       , template     = "%StdinReader% }{ %multicpu% <fc=#FFFFFF>|</fc> %coretemp% <fc=#FFFFFF>|</fc> %memory% <fc=#FFFFFF>|</fc> %enp0s3% %wlan0% <fc=#FFFFFF>|</fc> %date%"
        }
