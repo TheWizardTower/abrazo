@@ -1,0 +1,12 @@
+#!/bin/sh
+# ~/.xmonad/build
+# Shamelessly stolen from http://brianbuccola.com/how-to-install-xmonad-and-xmobar-via-stack/
+# Many thanks!
+exec stack ghc -- \
+  --make xmonad.hs \
+  -i \
+  -ilib \
+  -fforce-recomp \
+  -main-is main \
+  -v0 \
+  -o "$1"
