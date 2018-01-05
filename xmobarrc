@@ -18,11 +18,6 @@ Config { font         = "xft:Inconsolata for Powerline:pixelsize=12"
                           , "-H","50"
                           , "--high","#FF5555"
                           ] 10
-                        , Run CoreTemp
-                          [ "-t", "Temp: <core0>C, <core1>C, <core2>C, <core3>C"
-                          , "-H","50"
-                          , "--high","#FF5555"
-                          ] 10
                         , Run Memory
                           [ "-t","Mem: <usedratio>%"
                           ] 10
@@ -41,5 +36,5 @@ Config { font         = "xft:Inconsolata for Powerline:pixelsize=12"
                         ]
        , sepChar      = "%"
        , alignSep     = "}{"
-       , template     = "%StdinReader% }{ %multicpu% <fc=#FFFFFF>|</fc> %coretemp% <fc=#FFFFFF>|</fc> %memory% <fc=#FFFFFF>|</fc> %enp0s3% %wlan0% <fc=#FFFFFF>|</fc> %date%"
+       , template     = "%StdinReader% }{ %multicpu% <fc=#FFFFFF>|</fc> %memory% <fc=#FFFFFF>|</fc> %enp0s3% <fc=#FFFFFF>|</fc> %wlan0% <fc=#FFFFFF>|</fc> %date%"
        }
