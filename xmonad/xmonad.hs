@@ -84,7 +84,7 @@ import           XMonad.Layout.Maximize
 import           XMonad.Layout.Minimize
 import           XMonad.Layout.MultiToggle           (EOT (EOT), Toggle (..),
                                                       mkToggle, single, (??))
-import           XMonad.Layout.MultiToggle.Instances (StdTransformers (NBFULL, MIRROR, NOBORDERS))
+import           XMonad.Layout.MultiToggle.Instances (StdTransformers (MIRROR, NBFULL, NOBORDERS))
 import           XMonad.Layout.PerWorkspace          (onWorkspace)
 import           XMonad.Layout.Reflect               (REFLECTX (..),
                                                       REFLECTY (..),
@@ -122,10 +122,9 @@ import           XMonad.Layout.ZoomRow               (ZoomMessage (ZoomFullToggl
     -- Prompts
 import           XMonad.Prompt                       (Direction1D (..),
                                                       XPConfig (..),
-                                                      XPPosition (Top),
-                                                      defaultXPConfig,
-                                                      def)
-import qualified XMonad.Prompt.Window                 as WP
+                                                      XPPosition (Top), def,
+                                                      defaultXPConfig)
+import qualified XMonad.Prompt.Window                as WP
 
 
 
