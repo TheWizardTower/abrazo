@@ -249,12 +249,14 @@ myKeys =
          , ("s", windows W.swapMaster)
          , ("r", spawn "xmonad --recompile && pkill xmobar && xmonad --restart")
           , ("l", submap .  mkKeymap myXConfig $
-                  [  ("1", sendMessage $ JumpToLayout "Full")
-                  ,  ("2", sendMessage $ JumpToLayout "OneBig")
-                  ,  ("4", sendMessage $ JumpToLayout "Tiled")
-                  ,  ("5", sendMessage $ JumpToLayout "Column1.6")
-                  ,  ("6", sendMessage $ JumpToLayout "Accordion")
-                  ,  ("7", sendMessage $ JumpToLayout "MirrorTiled")
+                  [  ("1", sendMessage $ JumpToLayout "1: Full")
+                  ,  ("2", sendMessage $ JumpToLayout "2: OneBig")
+                  ,  ("3", sendMessage $ JumpToLayout "3: MirrorTiled")
+                  ,  ("4", sendMessage $ JumpToLayout "4: Tiled")
+                  ,  ("5", sendMessage $ JumpToLayout "5: Column1.6")
+                  ,  ("6", sendMessage $ JumpToLayout "6: Accordion")
+                  ,  ("7", sendMessage $ JumpToLayout "7: Three")
+                  ,  ("8", sendMessage $ JumpToLayout "8: MirrorThree")
                   ])
           , ("u", submap . mkKeymap myXConfig $
                  [("u", spawn "Xdialog --titlle  'Really, dude?' --screencenter --yesno 'Really, dude?' 10 30")
@@ -356,14 +358,14 @@ myManageHook = scratchpadManageHook (W.RationalRect l t w h) <+>
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ---LAYOUTS
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-mainLayout = avoidStruts $ rename "MirrorThree" (Mirror three)
-             ||| rename "7: MirrorTiled" ( Mirror tiled)
-             ||| rename "6: Accordion" (Accordion)
-             ||| rename "5: Column1.6" (Column 1.6)
+mainLayout = avoidStruts $ rename "1: Full" Full
              ||| rename "2: OneBig" (OneBig (3/4) (3/4))
+             ||| rename "3: MirrorTiled" ( Mirror tiled)
              ||| rename "4: Tiled" (tiled)
-             ||| rename "Three" (three)
-             ||| rename "1: Full" Full
+             ||| rename "5: Column1.6" (Column 1.6)
+             ||| rename "6: Accordion" (Accordion)
+             ||| rename "7: Three" (three)
+             ||| rename "8: MirrorThree" (Mirror three)
    where
      rename s = renamed [Replace s]
      -- Default tiling algorithm partitions the screen into two panes
