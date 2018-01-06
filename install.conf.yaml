@@ -20,7 +20,6 @@
     ~/.xmobarrc:     xmobarrc
     ~/.xmonad:       xmonad
 
-
 - shell:
    - ["bash -c 'rm -rf ~/.config/fish/conf.d ~/.config/fish/paths.d; ln -s ~/abrazo/fish/conf.d ~/.config/fish/conf.d; ln -s ~/abrazo/fish/paths.d ~/.config/fish/paths.d'", "Setting up Fish symlinks."]
    - ["git submodule update --init --recursive", "Installing submodules"]
