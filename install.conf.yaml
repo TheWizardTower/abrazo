@@ -10,10 +10,12 @@
 - link:
     ~/.alias:        alias
     ~/.bash_profile: bash_profile
+    ~/.bashrc:       bashrc
     ~/.config/fish/fishfile: fish/fishfile
     ~/.eslintrc.js:  eslintrc.js
     ~/.gitconfig:    gitconfig
     ~/.screenrc:     screenrc
+    ~/.shellrc:      shellrc
     ~/.spacemacs:    spacemacs
     ~/.tmux.conf:    tmux.conf
     ~/.toprc:        toprc

@@ -29,7 +29,7 @@ function start_agent {
   echo succeeded
   chmod 600 ${SSH_ENV}
   . ${SSH_ENV} > /dev/null
-  /usr/bin/ssh-add ~/.ssh/amccullough-corp-20150911 ~/.ssh/amccullough-prod-20150910 ~/.ssh/github.com-imvu ~/.ssh/github
+  /usr/bin/ssh-add ~/.ssh/github ~/.ssh/bitbucket
 }
 
 # Source SSH settings, if applicable
@@ -46,9 +46,7 @@ if [ ${hostname} != "lint-sandbox" ]; then
     fi
 fi
 
-export REPOS="svn+ssh://amccullough@svn.corp.imvu.com/home/svnrepos/trunk/operations/"
-export GOPATH="$HOME/gocode:$HOME/code/golang:$HOME/imvu/operations/golang/imvu:$HOME/imvu/operations/golang/external:$GOPATH"
-export PERL5LIB="$HOME/imvu/operations/software/ImvuPerlModules"
+export GOPATH="$HOME/gocode:$HOME/code/golang:$GOPATH"
 
 # don't put duplicate lines in the history. See bash(1) for more options
 # ... or force ignoredups and ignorespace
@@ -111,25 +109,6 @@ function mymytop() {
     fi
 }
 
-# This only works in Prod, at IMVU. Let's not.
-# export PS1=`/usr/local/bin/getps`
-
-alias fix_ssh='ssh-keygen -f "/home/amccullough/.ssh/known_hosts" -R'
-alias su_fix_ssh='sudo ssh-keygen -f "/root/.ssh/known_hosts" -R'
-
-function myfix {
-    echo $1
-    hostname=$1
-    ip=`nslookup $hostname | grep Address | grep -v 127.0.0.1 | awk '{ print $2 }'`
-    echo $hostname at ip $ip
-    fix_ssh $hostname
-    fix_ssh $ip
-    su_fix_ssh $hostname
-    su_fix_ssh $ip
-}
-
-alias ia=imvuasset.pl
-
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 [[ -s "$HOME/.local/share/marker/marker.sh" ]] && source "$HOME/.local/share/marker/marker.sh"
 
@@ -137,4 +116,5 @@ alias ia=imvuasset.pl
 powerline-daemon -q
 POWERLINE_BASH_CONTINUATION=1
 POWERLINE_BASH_SELECT=1
-. /usr/local/lib/python2.7/dist-packages/powerline/bindings/bash/powerline.sh
+
+. /usr/lib/python2.7/site-packages/powerline/bindings/bash/powerline.sh
