@@ -409,11 +409,11 @@ myStartupHook = do
           spawnOnce "xsetroot -cursor_name left_ptr &"
           spawnOnce "unclutter &"
           spawnOnce "compton -bc -t -8 -l -9 -r 6 -o 0.7 -m 1.0 &"
-          spawnOnce "yakuake &"
           spawnOnce "xcompmgr -c &"
           spawnOnce "redshift -l geoclue2 &"
           spawnOnce "xmodmap ~/.Xmodmap &"
           spawnOnce "systemctl --user start emacs"
+          docksStartupHook
 
 kdeOverride :: Query Bool
 kdeOverride = ask >>= \w -> liftX $ do
