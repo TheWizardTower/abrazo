@@ -11,6 +11,7 @@
     ~/.alias:        alias
     ~/.bash_profile: bash_profile
     ~/.config/fish/fishfile: fish/fishfile
+    ~/.eslintrc.js:  eslintrc.js
     ~/.gitconfig:    gitconfig
     ~/.screenrc:     screenrc
     ~/.spacemacs:    spacemacs
