@@ -187,7 +187,6 @@ myScratchpads =
               , NS "spotify"         "/var/lib/snapd/snap/bin/spotify"              (className =? "Spotify")      myPosition
               , NS "rtorrent"        "urxvtc_mod -name rtorrent -e rtorrent"        (resource =? "rtorrent")        myPosition
               , NS "calc"            "free42dec"                                    (role =? "Free42 Calculator")   myPosition
-              , NS "cairo"           "cairo-dock"                                   (resource =? "cairo-dock")      doFloat
               ] where
                 myPosition = customFloating $ W.RationalRect (1/3) (1/3) (1/3) (1/3)
                 role = stringProperty "WM_WINDOW_ROLE"
@@ -287,7 +286,6 @@ myKeys =
         , ("M-M1-c",               namedScratchpadAction myScratchpads "calc" )
         , ("M-M1-<Return>",        namedScratchpadAction myScratchpads "terminal" )
         , ("<XF86Tools>",          namedScratchpadAction myScratchpads "music")
-        , ("M-S-b",                namedScratchpadAction myScratchpads "cairo")
 
     -- Multimedia Keys
         , ("<XF86AudioPlay>",   spawn "ncmpcpp toggle")
@@ -334,7 +332,6 @@ myManageHook = scratchpadManageHook (W.RationalRect l t w h) <+>
           , className =? "plasmashell"    --> doFloat
           , className =? "plasma-desktop" --> makeMaster <+> doFloat
           , className =? "Plasma"         --> makeMaster <+> doFloat
-          , resource  =? "cairo-dock"     --> makeMaster <+> doFloat
          ]
          ++
          [   isFullscreen --> doFullFloat
@@ -428,7 +425,7 @@ myXConfig = kde4Config
         { modMask            = myModMask
         , terminal           = myTerminal
         , manageHook         = ((className =? "krunner" <||> className =?
- "Plasma-desktop" <||> className =? "cairo-dock") >>= return . not --> manageHook kde4Config) <+>
+ "Plasma-desktop") >>= return . not --> manageHook kde4Config) <+>
  (kdeOverride --> doFloat) <+> myManageHook
         , layoutHook         = myLayout
         , startupHook        = myStartupHook
