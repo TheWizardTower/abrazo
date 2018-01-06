@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+pushd ~/ || exit
+
 for ii in \
         acorn\
         jshint\
@@ -23,3 +25,4 @@ ln -s ~/node_modules/js-beautify/js/bin/js-beautify.js   ~/local/bin/js-beautify
 npm install standard
 ln -s ~/node_modules/standard/bin/cmd.js ~/local/bin/cmd.js
 
+popd || exit
