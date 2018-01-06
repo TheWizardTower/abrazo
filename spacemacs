@@ -364,6 +364,7 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+  (add-to-list 'exec-path (expand-file-name "~/local/bin"))
   (global-set-key (kbd "C-x C-j") 'dired-jump)
   (add-to-list 'yas-snippet-dirs (expand-file-name "~/abrazo/snippets/"))
   (yas-reload-all)
