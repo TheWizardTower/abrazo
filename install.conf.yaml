@@ -28,3 +28,4 @@
    - ["bash installCargoPackages.sh", "Installing Cargo Packages"]
    - ["bash installGoPackages.sh", "Installing Go Packages."]
    - ["bash installStackPackages.sh", "Installing Stack Packages."]
+   - ["bash installNPMPackages.sl", "Installing npm Packages"]
