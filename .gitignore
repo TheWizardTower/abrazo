@@ -60,3 +60,4 @@ flycheck_*.el
 .stack-work/
 /spacemacs-layers/merlin-spotify/*
 .yas-compiled-snippets.el
+/xmonad/prompt-history
