@@ -27,6 +27,7 @@ for ii in cpphs\
               hasktags\
               hlint\
               hoogle\
+              idris\
               intero\
               pandoc\
               present\
