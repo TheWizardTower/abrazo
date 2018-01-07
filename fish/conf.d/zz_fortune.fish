@@ -1,3 +1,6 @@
 #!/usr/bin/fish
 
-cowsay -f /usr/share/cowsay/tux.cow (fortune -a)
+if status --is-interactive
+  cowsay -f /usr/share/cowsay/tux.cow (fortune -a)
+end
+
