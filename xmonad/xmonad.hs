@@ -246,22 +246,22 @@ myKeys =
          , ("<Backspace>",   spawn "xscreensaver-command -lock")
          , ("s", windows W.swapMaster)
          , ("r", spawn "xmonad --recompile && pkill xmobar && xmonad --restart")
-          , ("l", submap .  mkKeymap myXConfig $
-                  [  ("1", sendMessage $ JumpToLayout "1: Full")
-                  ,  ("2", sendMessage $ JumpToLayout "2: OneBig")
-                  ,  ("3", sendMessage $ JumpToLayout "3: MirrorTiled")
-                  ,  ("4", sendMessage $ JumpToLayout "4: Tiled")
-                  ,  ("5", sendMessage $ JumpToLayout "5: Column1.6")
-                  ,  ("6", sendMessage $ JumpToLayout "6: Accordion")
-                  ,  ("7", sendMessage $ JumpToLayout "7: Three")
-                  ,  ("8", sendMessage $ JumpToLayout "8: MirrorThree")
-                  ])
-          , ("u", submap . mkKeymap myXConfig $
+         , ("l", submap .  mkKeymap myXConfig $
+                 [  ("1", sendMessage $ JumpToLayout "1: Full")
+                 ,  ("2", sendMessage $ JumpToLayout "2: OneBig")
+                 ,  ("3", sendMessage $ JumpToLayout "3: MirrorTiled")
+                 ,  ("4", sendMessage $ JumpToLayout "4: Tiled")
+                 ,  ("5", sendMessage $ JumpToLayout "5: Column1.6")
+                 ,  ("6", sendMessage $ JumpToLayout "6: Accordion")
+                 ,  ("7", sendMessage $ JumpToLayout "7: Three")
+                 ,  ("8", sendMessage $ JumpToLayout "8: MirrorThree")
+                 ])
+         , ("u", submap . mkKeymap myXConfig $
                  [("u", spawn "Xdialog --titlle  'Really, dude?' --screencenter --yesno 'Really, dude?' 10 30")
-                ])
-          , ("M-u", submap . mkKeymap myXConfig $
-            [("M-<Return>",    spawn "systemctl --user restart emacs")])
-          ])
+                 ])
+         , ("M-u", submap . mkKeymap myXConfig $
+             [("M-<Return>",    spawn "systemctl --user restart emacs")])
+         ])
 
     -- Apps
 
