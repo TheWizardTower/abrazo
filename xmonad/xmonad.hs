@@ -244,8 +244,6 @@ myKeys =
          , ("j", WP.windowPromptGoto def)
          , ("M-<Return>",    spawn "emacs")
          , ("<Backspace>",   spawn "xscreensaver-command -lock")
-         , ("s", windows W.swapMaster)
-         , ("r", spawn "xmonad --recompile && pkill xmobar && xmonad --restart")
          , ("l", submap .  mkKeymap myXConfig $
                  [  ("1", sendMessage $ JumpToLayout "1: Full")
                  ,  ("2", sendMessage $ JumpToLayout "2: OneBig")
@@ -256,6 +254,8 @@ myKeys =
                  ,  ("7", sendMessage $ JumpToLayout "7: Three")
                  ,  ("8", sendMessage $ JumpToLayout "8: MirrorThree")
                  ])
+         , ("r", spawn "xmonad --recompile && pkill xmobar && xmonad --restart")
+         , ("s", windows W.swapMaster)
          , ("u", submap . mkKeymap myXConfig $
                  [("u", spawn "Xdialog --titlle  'Really, dude?' --screencenter --yesno 'Really, dude?' 10 30")
                  ])
