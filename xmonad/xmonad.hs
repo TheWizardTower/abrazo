@@ -202,7 +202,7 @@ myKeys =
         , ("M-S-r",             spawn "pkill xmobar && xmonad --restart")
         , ("M-M1-q",            io exitSuccess)
         , ("M-<Backspace>",     spawn "/usr/libexec/kscreenlocker_greet")
-        , ("M-S-;",               xmonadPrompt def)
+        , ("M-S-;",               xmonadPrompt myPromptConfig)
     -- Windows workaround. :sadface:
         -- Windows-L is captured by windows (it locks the screen). It's not easily remappable, so xmonad must change.
         -- We don't want to change the default binding (for when Linux is the host OS), but provide this for when I'm stuck in a VM.
