@@ -1,6 +1,7 @@
 #
 # Screenrc derived from dist
 # modified by cwilliams
+# further modified by Adam McCullough
 #
 
 # Set TERM = screen-256color-bce
