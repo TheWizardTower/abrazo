@@ -23,6 +23,10 @@ function test_identities
     end
 end
 
+if status --is-interactive
+else
+  exit
+end
 
 set -l output
 if test -z (hostname | grep lin[[:alpha:]]-sandbox)
