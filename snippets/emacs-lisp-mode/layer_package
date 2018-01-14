@@ -3,7 +3,7 @@
 # key: layerp
 # --
 
-(defconst ${1:layerName} '(${2:packageName}))
+(defconst ${1:layerName}-packages '(${2:packageName}))
 
 (defun $1/init-$2 ()
   (use-package $2)
