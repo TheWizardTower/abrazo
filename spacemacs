@@ -75,6 +75,7 @@ values."
      markdown
      merlin-config
      merlin-eshell
+     merlin-evil-goggles
      merlin-spotify ;; This has the client ID and client secret, so it isn't committed to git.
      nginx
      org
