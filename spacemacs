@@ -73,6 +73,7 @@ values."
             latex-enable-auto-fill t)
      magit-svn
      markdown
+     merlin-beacon
      merlin-config
      merlin-dired-k
      merlin-eshell
