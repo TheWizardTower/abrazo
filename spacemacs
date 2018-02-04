@@ -49,6 +49,7 @@ values."
      cfengine
      clojure
      command-log
+     csharp
      pocket
      emacs-lisp
      evernote
