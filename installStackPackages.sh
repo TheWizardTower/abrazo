@@ -21,19 +21,22 @@ function getGitRepo {
 stack setup
 stack update
 
-for ii in cpphs\
-              ghc-mod\
-              happy\
-              hasktags\
-              hlint\
-              hoogle\
-              idris\
-              intero\
-              pandoc\
-              present\
-              ShellCheck\
-              stylish-haskell\
-              threadscope ; do
+for ii in \
+    cpphs\
+    ghc-mod\
+    happy\
+    hasktags\
+    hlint\
+    hoogle\
+    idris\
+    intero\
+    pandoc\
+    present\
+    ShellCheck\
+    stylish-haskell\
+    threadscope \
+    weeder\
+          ; do
     stack install $ii
 done
 
