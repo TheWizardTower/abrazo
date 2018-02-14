@@ -61,3 +61,4 @@ flycheck_*.el
 /spacemacs-layers/merlin-spotify/*
 .yas-compiled-snippets.el
 /xmonad/prompt-history
+/auth_sock_symlink
