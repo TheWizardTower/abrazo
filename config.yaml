@@ -1,0 +1,21 @@
+# This is the implicit global project's config file, which is only used when
+# 'stack' is run outside of a real project.  Settings here do _not_ act as
+# defaults for all projects.  To change stack's default settings, edit
+# '/home/merlin/.stack/config.yaml' instead.
+#
+# For more information about stack's configuration, see
+# http://docs.haskellstack.org/en/stable/yaml_configuration/
+#
+templates:
+  params:
+    author-name:  Adam McCullough
+    author-email: merlinfmct87@gmail.com
+    copyright: (c) 2018 Adam McCullough
+    github-username: TheWizardTower
+
+packages: []
+resolver: lts-10.4
+
+ghc-options:
+  "$locals": -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints
+apply-ghc-options: locals
