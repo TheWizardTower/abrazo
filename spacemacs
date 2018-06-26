@@ -379,7 +379,8 @@ you should place your code here."
   (add-to-list 'exec-path (expand-file-name "~/.cargo/bin/"))
   (global-set-key (kbd "C-x C-j") 'dired-jump)
   (add-to-list 'yas-snippet-dirs (expand-file-name "~/abrazo/snippets/"))
-  (yas-reload-all)
+  (eval-after-load "yasnippet"
+    (yas-reload-all))
   (setq-default dotspacemacs-configuration-layers
                 '((c-c++ :variables c-c++-enable-clang-support t))
                 '((org :variables
