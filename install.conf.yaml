@@ -19,6 +19,7 @@
     ~/.shellrc:              shellrc
     ~/.spacemacs:            spacemacs
     ~/.stack/config.yaml:    config.yaml
+    ~/.stack/global-project/stack.yaml: stack.yaml
     ~/.tmux.conf:            tmux.conf
     ~/.toprc:                toprc
     ~/.xmobarrc:             xmobarrc
