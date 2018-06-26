@@ -8,22 +8,22 @@
     ~/dotfiles:      ~/abrazo
 
 - link:
-    ~/.alias:                alias
-    ~/.bash_profile:         bash_profile
-    ~/.bashrc:               bashrc
-    ~/.config/fish/fishfile: fish/fishfile
-    ~/.eslintrc.js:          eslintrc.js
-    ~/.gitconfig:            gitconfig
-    ~/.haskeline:            haskeline
-    ~/.screenrc:             screenrc
-    ~/.shellrc:              shellrc
-    ~/.spacemacs:            spacemacs
-    ~/.stack/config.yaml:    config.yaml
-    ~/.stack/global-project/stack.yaml: stack.yaml
-    ~/.tmux.conf:            tmux.conf
-    ~/.toprc:                toprc
-    ~/.xmobarrc:             xmobarrc
-    ~/.xmonad:               xmonad
+    ~/.alias:                               alias
+    ~/.bash_profile:                        bash_profile
+    ~/.bashrc:                              bashrc
+    ~/.config/fish/fishfile:                fish/fishfile
+    ~/.eslintrc.js:                         eslintrc.js
+    ~/.gitconfig:                           gitconfig
+    ~/.haskeline:                           haskeline
+    ~/.screenrc:                            screenrc
+    ~/.shellrc:                             shellrc
+    ~/.spacemacs:                           spacemacs
+    ~/.stack/config.yaml:                   config.yaml
+    ~/.stack/global-project/stack.yaml:     stack.yaml
+    ~/.tmux.conf:                           tmux.conf
+    ~/.toprc:                               toprc
+    ~/.xmobarrc:                            xmobarrc
+    ~/.xmonad:                              xmonad
 
 - shell:
    - ["bash -c 'rm -rf ~/.config/fish/conf.d ~/.config/fish/paths.d; ln -s ~/abrazo/fish/conf.d ~/.config/fish/conf.d; ln -s ~/abrazo/fish/paths.d ~/.config/fish/paths.d'", "Setting up Fish symlinks."]
