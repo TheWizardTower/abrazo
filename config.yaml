@@ -13,9 +13,6 @@ templates:
     copyright: (c) 2018 Adam McCullough
     github-username: TheWizardTower
 
-packages: []
-resolver: lts-10.4
-
 ghc-options:
   "$locals": -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints
 apply-ghc-options: locals
