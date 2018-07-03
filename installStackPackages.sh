@@ -23,6 +23,7 @@ stack update
 
 for ii in \
     cpphs\
+    dhall\
     ghc-mod\
     happy\
     hasktags\

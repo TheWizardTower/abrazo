@@ -13,7 +13,10 @@
     ready = rebase -i @{u}
     lg = log --graph --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
     purr = pull --rebase
+	ctags = !.git/hooks/ctags
 [push]
         default = matching
 [github]
 	user = TheWizardTower
+[init]
+	templatedir = /home/merlin/.git_template

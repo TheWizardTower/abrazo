@@ -6,13 +6,7 @@
 # For more information about stack's configuration, see
 # http://docs.haskellstack.org/en/stable/yaml_configuration/
 #
-templates:
-  params:
-    author-name:  Adam McCullough
-    author-email: merlinfmct87@gmail.com
-    copyright: (c) 2018 Adam McCullough
-    github-username: TheWizardTower
+packages: []
+resolver: lts-11.14
 
-ghc-options:
-  "$locals": -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints
-apply-ghc-options: locals
+allow-newer: true
