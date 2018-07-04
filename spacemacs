@@ -45,7 +45,16 @@ values."
       auto-completion-tab-key-behavior 'complete
       )
      awk-it
-     c-c++
+     (setq-default dotspacemacs-configuration-layers
+                   '((c-c++ :variables c-c++-enable-clang-support t))
+                   '((org :variables
+                          org-enable-reveal-js-support t
+                          org-enable-github-support t)))
+
+     ;;awk-it
+     (c-c++
+      :variables
+      c-c++-enable-clang-support t)
      cfengine
      clojure
      command-log
@@ -83,7 +92,10 @@ values."
      merlin-highlight-thing
      merlin-spotify ;; This has the client ID and client secret, so it isn't committed to git.
      nginx
-     org
+     (org
+      :variables
+      org-enable-reveal-js-support t
+      org-enable-github-support t)
      pandoc
      php
      pocket
@@ -381,11 +393,6 @@ you should place your code here."
   (add-to-list 'yas-snippet-dirs (expand-file-name "~/abrazo/snippets/"))
   (eval-after-load "yasnippet.el"
     '(yas-reload-all))
-  (setq-default dotspacemacs-configuration-layers
-                '((c-c++ :variables c-c++-enable-clang-support t))
-                '((org :variables
-                       org-enable-reveal-js-support t
-                       org-enable-github-support t)))
   ;; Bind clang-format-region to C-M-tab in all modes:
   (global-set-key [C-M-tab] 'clang-format-region)
   ;; Bind clang-format-buffer to tab on the c++-mode only:
