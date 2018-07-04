@@ -44,14 +44,6 @@ values."
       auto-completion-return-key-behavior 'complete
       auto-completion-tab-key-behavior 'complete
       )
-     awk-it
-     (setq-default dotspacemacs-configuration-layers
-                   '((c-c++ :variables c-c++-enable-clang-support t))
-                   '((org :variables
-                          org-enable-reveal-js-support t
-                          org-enable-github-support t)))
-
-     ;;awk-it
      (c-c++
       :variables
       c-c++-enable-clang-support t)
