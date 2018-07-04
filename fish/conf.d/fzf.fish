@@ -1,0 +1,1 @@
+/home/merlin/.config/fisherman/fzf/conf.d/fzf.fish
