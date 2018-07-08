@@ -1,3 +1,5 @@
 
 alias k="zsh -c 'source ~/git/k/k.sh; k'"
 alias epoch="date +%s"
+alias magit="emacs --eval '(let ((display-buffer-alist `(("^\\*magit: " display-buffer-same-window) ,display-buffer-alist))) (magit-status))'"
+alias mgc="emacsclient -c --eval '(let ((display-buffer-alist `(("^\\*magit: " display-buffer-same-window) ,display-buffer-alist))) (magit-status))'"
