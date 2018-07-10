@@ -44,7 +44,9 @@ values."
       auto-completion-return-key-behavior 'complete
       auto-completion-tab-key-behavior 'complete
       )
-     c-c++
+     (c-c++
+      :variables
+      c-c++-enable-clang-support t)
      cfengine
      clojure
      command-log
@@ -81,9 +83,12 @@ values."
      merlin-ghcid
      merlin-highlight-thing
      merlin-monky
-     merlin-spotify ;; This has the client ID and client secret, so it isn't committed to git.
+     ;; merlin-spotify ;; This has the client ID and client secret, so it isn't committed to git.
      nginx
-     org
+     (org
+      :variables
+      org-enable-reveal-js-support t
+      org-enable-github-support t)
      pandoc
      php
      pocket
@@ -379,13 +384,8 @@ you should place your code here."
   (add-to-list 'exec-path (expand-file-name "~/.cargo/bin/"))
   (global-set-key (kbd "C-x C-j") 'dired-jump)
   (add-to-list 'yas-snippet-dirs (expand-file-name "~/abrazo/snippets/"))
-  (eval-after-load "yasnippet"
-    (yas-reload-all))
-  (setq-default dotspacemacs-configuration-layers
-                '((c-c++ :variables c-c++-enable-clang-support t))
-                '((org :variables
-                       org-enable-reveal-js-support t
-                       org-enable-github-support t)))
+  (eval-after-load "yasnippet.el"
+    '(yas-reload-all))
   ;; Bind clang-format-region to C-M-tab in all modes:
   (global-set-key [C-M-tab] 'clang-format-region)
   ;; Bind clang-format-buffer to tab on the c++-mode only:
@@ -405,12 +405,18 @@ you should place your code here."
    ["#bcbcbc" "#d70008" "#5faf00" "#875f00" "#268bd2" "#800080" "#008080" "#5f5f87"])
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
-   '(org-mime omnisharp shut-up helm-spotify-plus csharp-mode highlight-thing beacon dired-k evil-easymotion evil-goggles clojure-snippets clj-refactor inflections edn paredit peg cider-eval-sexp-fu cider queue clojure-mode spotify helm-spotify multi pandoc-mode ox-pandoc idris-mode prop-menu disaster company-c-headers cmake-mode clang-format popup-kill-ring org-category-capture let-alist projectile-ripgrep ripgrep helm-gtags ggtags systemd nginx-mode command-log-mode yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic psci purescript-mode psc-ide ghub+ apiwrap ghub geeknote el-pocket web sql-indent company-quickhelp company-auctex auctex nord-theme powerline spinner magithub hydra parent-mode projectile request flyspell-correct-helm flyspell-correct pkg-info epl flx smartparens iedit anzu evil goto-chg undo-tree highlight diminish bind-map bind-key auto-dictionary packed f s dash avy helm helm-core async popup wakatime-mode web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern dash-functional tern coffee-mode phpunit phpcbf php-extras php-auto-yasnippets drupal-mode php-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data package-build winum fuzzy company-ansible \(evenhold\ :location\ \(recipe\ :fetcher\ github\ :repo\ \"evenhold/evenhold-theme\"\)\)-theme eshell-git-prompt eshell-fringe-status eshell-did-you-mean awk-it highlight-indent-guides slack websocket oauth2 emojify ht circe matrix-client flycheck ghc haskell-mode company yasnippet flycheck-stack org alert log4e gntp markdown-mode gitignore-mode fringe-helper git-gutter+ git-gutter seq pos-tip magit magit-popup git-commit with-editor ag auto-complete ace-popup-menu avy-menu ace-jump-buffer ace-isearch ace-jump-mode yaml-mode jinja2-mode ansible-doc ansible magit-svn go-guru go-eldoc company-go go-mode toml-mode racer flycheck-rust cargo rust-mode xterm-color ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spacemacs-theme spaceline smeargle shell-pop restart-emacs rainbow-delimiters quelpa popwin persp-mode pcre2el paradox orgit org-projectile org-present org-pomodoro org-plus-contrib org-download org-bullets open-junk-file neotree multi-term move-text mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum linum-relative link-hint intero insert-shebang info+ indent-guide ido-vertical-mode hungry-delete htmlize hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-hoogle helm-gitignore helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag haskell-snippets google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md flycheck-pos-tip flycheck-haskell flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help elisp-slime-nav dumb-jump diff-hl define-word company-statistics company-shell company-ghci company-ghc company-cabal column-enforce-mode cmm-mode clean-aindent-mode auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
+   (quote
+    (org-mime omnisharp shut-up helm-spotify-plus csharp-mode highlight-thing beacon dired-k evil-easymotion evil-goggles clojure-snippets clj-refactor inflections edn paredit peg cider-eval-sexp-fu cider queue clojure-mode spotify helm-spotify multi pandoc-mode ox-pandoc idris-mode prop-menu disaster company-c-headers cmake-mode clang-format popup-kill-ring org-category-capture let-alist projectile-ripgrep ripgrep helm-gtags ggtags systemd nginx-mode command-log-mode yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic psci purescript-mode psc-ide ghub+ apiwrap ghub geeknote el-pocket web sql-indent company-quickhelp company-auctex auctex nord-theme powerline spinner magithub hydra parent-mode projectile request flyspell-correct-helm flyspell-correct pkg-info epl flx smartparens iedit anzu evil goto-chg undo-tree highlight diminish bind-map bind-key auto-dictionary packed f s dash avy helm helm-core async popup wakatime-mode web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern dash-functional tern coffee-mode phpunit phpcbf php-extras php-auto-yasnippets drupal-mode php-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data package-build winum fuzzy company-ansible \(evenhold\ :location\ \(recipe\ :fetcher\ github\ :repo\ \"evenhold/evenhold-theme\"\)\)-theme eshell-git-prompt eshell-fringe-status eshell-did-you-mean awk-it highlight-indent-guides slack websocket oauth2 emojify ht circe matrix-client flycheck ghc haskell-mode company yasnippet flycheck-stack org alert log4e gntp markdown-mode gitignore-mode fringe-helper git-gutter+ git-gutter seq pos-tip magit magit-popup git-commit with-editor ag auto-complete ace-popup-menu avy-menu ace-jump-buffer ace-isearch ace-jump-mode yaml-mode jinja2-mode ansible-doc ansible magit-svn go-guru go-eldoc company-go go-mode toml-mode racer flycheck-rust cargo rust-mode xterm-color ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spacemacs-theme spaceline smeargle shell-pop restart-emacs rainbow-delimiters quelpa popwin persp-mode pcre2el paradox orgit org-projectile org-present org-pomodoro org-plus-contrib org-download org-bullets open-junk-file neotree multi-term move-text mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum linum-relative link-hint intero insert-shebang info+ indent-guide ido-vertical-mode hungry-delete htmlize hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-hoogle helm-gitignore helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag haskell-snippets google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md flycheck-pos-tip flycheck-haskell flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help elisp-slime-nav dumb-jump diff-hl define-word company-statistics company-shell company-ghci company-ghc company-cabal column-enforce-mode cmm-mode clean-aindent-mode auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
+ '(safe-local-variable-values
+   (quote
+    ((haskell-process-use-ghci . t)
+     (haskell-indent-spaces . 4)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(evil-goggles-change-face ((t (:inherit diff-removed))))
  '(evil-goggles-delete-face ((t (:inherit diff-removed))))
  '(evil-goggles-paste-face ((t (:inherit diff-added))))
  '(evil-goggles-undo-redo-add-face ((t (:inherit diff-added))))

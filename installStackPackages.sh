@@ -25,6 +25,7 @@ for ii in \
     cpphs\
     dhall\
     ghc-mod\
+    ghcid\
     happy\
     hasktags\
     hlint\

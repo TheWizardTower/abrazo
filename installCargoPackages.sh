@@ -1,9 +1,22 @@
 #!/usr/bin/env bash
 
-cargo install cargo-check
-# cargo install clippy
-cargo install racer
-cargo install ripgrep
-cargo install rustfmt
+for ii in \
+    cargo-check\
+        cargo-edit\
+        cargo-find\
+        cargo-graph\
+        cargo-script\
+        cargo-update\
+        cargo-watch\
+        ptags\
+        racer\
+        ripgrep\
+        rustfmt\
+        xsv\
+    ; do
+    cargo install $ii
+done
+
+
 
 true
