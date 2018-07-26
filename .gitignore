@@ -62,3 +62,9 @@ flycheck_*.el
 .yas-compiled-snippets.el
 /xmonad/prompt-history
 /auth_sock_symlink
+
+/atom/storage/
+compile-cache/
+/atom/dev/
+.npm/
+.node-gyp/
