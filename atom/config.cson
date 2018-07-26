@@ -1,0 +1,136 @@
+"*":
+  core:
+    automaticallyUpdate: false
+    closeDeletedFileTabs: true
+    closeEmptyWindows: false
+    customFileTypes:
+      "source.ini": [
+        ".hgrc"
+        ".buckconfig"
+      ]
+      "source.json": [
+        ".arcconfig"
+        ".jfconfig"
+        ".watchmanconfig"
+        "BUCK.autodeps"
+      ]
+      "source.python": [
+        "BUILD_DEFS"
+        "TARGETS"
+        "BUCK_WIN"
+        "bzl"
+        "cconf"
+        "cinc"
+        "ctest"
+        "ctw"
+        "mcconf"
+        "tw"
+        "thrift-cvalidator"
+        "BUCK"
+      ]
+      "source.reason": [
+        ".re"
+      ]
+      "source.yaml": [
+        "yarn.lock"
+      ]
+    disabledPackages: [
+      "symbols-view"
+      "fuzzy-finder"
+      "metrics"
+      "linter"
+      "github"
+      "tree-view"
+      "encoding-selector"
+      "image-view"
+      "go-to-line"
+    ]
+    ignoredNames: [
+      ".git"
+      ".hg"
+      ".svn"
+      ".DS_Store"
+      "._*"
+      "Thumbs.db"
+      "desktop.ini"
+      "**/xplat/**/.*.metadata"
+    ]
+    telemetryConsent: "no"
+  editor:
+    fontSize: 13
+    scrollPastEnd: true
+  "exception-reporting":
+    userId: "8c71a94d-9850-49bd-acb5-7e7d51e86b07"
+  "file-icons":
+    coloured: false
+  notifications:
+    showErrorsInDevMode: true
+  nuclide:
+    "atom-ide-console":
+      diffUrlPattern: "https://phabricator.intern.facebook.com/%s"
+      taskUrlPattern: "https://our.intern.facebook.com/intern/tasks?t=%s"
+    "fb-arc-lint":
+      blacklistedLinters: [
+        "FBHACK"
+        "FLAKE8"
+        "FLOW"
+        "HACK"
+        "HACKSYNTAX"
+        "PEP8"
+      ]
+    installRecommendedPackages: true
+    "nuclide-js-imports-client":
+      componentModulePathFilter: "html/js"
+      diagnosticsWhitelist: [
+        "/nuclide"
+        "/www"
+        "/instance-ide"
+        "/xplat/js"
+        "/oculus-skyline"
+        "/Software/Apps/skyline"
+      ]
+      requiresWhitelist: [
+        "/www"
+        "/instance-ide"
+        "/xplat/js"
+      ]
+    "nuclide-remote-projects":
+      connectionProfiles: [
+        {
+          deletable: true
+          displayTitle: "www"
+          params:
+            authMethod: "PRIVATE_KEY"
+            cwd: "/home/merlin/www"
+            pathToPrivateKey: "C:\\Users\\merlin\\.ssh\\fb_id_rsa"
+            remoteServerCommand: ""
+            server: "our.merlin.sb.facebook.com"
+            sshPort: "22"
+            username: "merlin"
+          saveable: true
+        }
+      ]
+    "nuclide-welcome-page":
+      hiddenTopics: []
+    overriddenThirdPartySettings: [
+      "core.automaticallyUpdate"
+      "core.closeDeletedFileTabs"
+      "core.closeEmptyWindows"
+      "core.telemetryConsent"
+      "tool-bar.position"
+      "tool-bar.iconSize"
+      "nuclide.installRecommendedPackages"
+      "file-icons.coloured"
+      "nuclide.atom-ide-console.diffUrlPattern"
+      "nuclide.atom-ide-console.taskUrlPattern"
+      "whitespace.ignoreWhitespaceOnCurrentLine"
+    ]
+  "tool-bar":
+    iconSize: "16px"
+    position: "Left"
+  "vim-mode":
+    useClipboardAsDefaultRegister: true
+  welcome:
+    showOnStartup: false
+  whitespace:
+    ignoreWhitespaceOnCurrentLine: false
