@@ -9,6 +9,7 @@ for ii in \
         cargo-update\
         cargo-watch\
         ptags\
+        kickstart\
         racer\
         ripgrep\
         rustfmt\
