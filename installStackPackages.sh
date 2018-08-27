@@ -36,9 +36,10 @@ for ii in \
     present\
     ShellCheck\
     stylish-haskell\
-    threadscope \
+    threadscope\
+    turtle\
     weeder\
-          ; do
+    ; do
     stack install $ii
 done
 
