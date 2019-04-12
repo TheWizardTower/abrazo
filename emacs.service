@@ -2,10 +2,11 @@
 Description=Emacs Daemon
 
 [Service]
+User=merlin
 Type=forking
 ExecStart=/usr/bin/emacs --daemon
 ExecStop=/usr/bin/emacsclient --eval "(kill-emacs)"
-EnvironmentFile=/home/amccullough/dotfiles/emacs.env
+EnvironmentFile=/home/merlin/dotfiles/emacs.env
 Restart=always
 
 [Install]
