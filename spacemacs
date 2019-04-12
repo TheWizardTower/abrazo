@@ -381,6 +381,7 @@ you should place your code here."
   (global-aggressive-indent-mode 1)
   (add-to-list 'aggressive-indent-excluded-modes 'html-mode)
   (add-to-list 'aggressive-indent-excluded-modes 'haskell-mode)
+  (add-to-list 'aggressive-indent-excluded-modes 'php-mode)
   (add-to-list 'exec-path (expand-file-name "~/local/bin"))
   (add-to-list 'exec-path (expand-file-name "~/.cargo/bin/"))
   (global-set-key (kbd "C-x C-j") 'dired-jump)
