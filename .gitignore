@@ -68,3 +68,5 @@ compile-cache/
 /atom/dev/
 .npm/
 .node-gyp/
+/fish/conf.d/omf.fish
+/fish/conf.d/fzf_key_bindings.fish
