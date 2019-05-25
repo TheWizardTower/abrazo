@@ -378,10 +378,7 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (intero-global-mode 0)
-  (global-aggressive-indent-mode 1)
-  (add-to-list 'aggressive-indent-excluded-modes 'html-mode)
-  (add-to-list 'aggressive-indent-excluded-modes 'haskell-mode)
-  (add-to-list 'aggressive-indent-excluded-modes 'php-mode)
+  (global-aggressive-indent-mode 0)
   (add-to-list 'exec-path (expand-file-name "~/local/bin"))
   (add-to-list 'exec-path (expand-file-name "~/.cargo/bin/"))
   (global-set-key (kbd "C-x C-j") 'dired-jump)
