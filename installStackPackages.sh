@@ -49,4 +49,5 @@ getGitRepo "https://github.com/carlohamalainen/ghc-imported-from" "ghc-imported-
 # to make this play with Emacs. Stack stores it as a tgz.
 getGitRepo "https://github.com/alanz/HaRe.git" "HaRe"
 getGitRepo "https://github.com/creichert/stack-tag.git" "stack-tag"
+getGitRepo "https://github.com/ndmitchell/ghcid.git" "ghcid"
 popd || exit
