@@ -18,11 +18,6 @@ fi
 
 SSH_ENV=$HOME/.ssh/environment
 
-function gen_haproxy {
-    perl ../../scripts/generate-haproxy-config.pl --pool $1 > haproxy.cfg.${1}.new
-    diff -u haproxy.cfg.${1} haproxy.cfg.${1}.new
-}
-
 function start_agent {
   echo "Initialising new SSH agent..."
   /usr/bin/ssh-agent | sed 's/^echo/#echo/' > ${SSH_ENV}
@@ -82,6 +77,7 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
+alias lp='ls --color=yes | less -R'
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
