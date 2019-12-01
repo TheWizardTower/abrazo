@@ -76,6 +76,7 @@ values."
      magit-svn
      markdown
      merlin-beacon
+     merlin-crosshairs
      merlin-config
      merlin-dired-k
      merlin-eshell
@@ -415,6 +416,7 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(col-highlight ((t (:background "color-234"))))
  '(evil-goggles-change-face ((t (:inherit diff-removed))))
  '(evil-goggles-delete-face ((t (:inherit diff-removed))))
  '(evil-goggles-paste-face ((t (:inherit diff-added))))
