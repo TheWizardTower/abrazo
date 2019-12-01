@@ -5,7 +5,6 @@ pushd ~/ || exit
 for ii in \
         acorn\
         jshint\
-        standard\
         tern\
         youtube-dl
 do
