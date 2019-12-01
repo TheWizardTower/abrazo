@@ -81,7 +81,6 @@ values."
      merlin-eshell
      merlin-evil-goggles
      merlin-evil-easymotion
-     merlin-ghcid
      merlin-highlight-thing
      merlin-monky
      ;; merlin-spotify ;; This has the client ID and client secret, so it isn't committed to git.
@@ -391,6 +390,8 @@ you should place your code here."
   (add-hook 'c++-mode-hook 'clang-format-bindings)
   (defun clang-format-bindings ()
     (define-key c++-mode-map [tab] 'clang-format-buffer))
+  (load (expand-file-name "~/git/ghcid/plugins/emacs/ghcid"))
+  (add-hook 'haskell-mode 'ghcid)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
