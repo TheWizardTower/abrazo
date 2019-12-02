@@ -31,7 +31,3 @@
    - ["git submodule update --init --recursive", "Installing submodules"]
    - ["curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisher", "Installing Fisherman framework."]
    - ["fish -c 'fisher'", "Installing and updating Fish plugins."]
-   # - ["bash installCargoPackages.sh", "Installing Cargo Packages"]
-   # - ["bash installGoPackages.sh", "Installing Go Packages."]
-   # - ["bash installStackPackages.sh", "Installing Stack Packages."]
-   # - ["bash installNPMPackages.sl", "Installing npm Packages"]
