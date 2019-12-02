@@ -15,7 +15,6 @@ fishpkg/terminals-are-sexy
 kralewitz/ansible-completion
 oh-my-fish/plugin-functional
 oh-my-fish/plugin-gi
-oh-my-fish/plugin-git-flow
 oh-my-fish/plugin-peco
 oh-my-fish/plugin-php
 oh-my-fish/plugin-python
