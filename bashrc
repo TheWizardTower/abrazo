@@ -10,12 +10,6 @@ if [ -f /etc/bashrc ]; then
     . /etc/bashrc
 fi
 
-
-if [[ "$term" -eq "eterm-color" ]]
-then
-    export TERM="vt100"
-fi
-
 SSH_ENV=$HOME/.ssh/environment
 
 function start_agent {
