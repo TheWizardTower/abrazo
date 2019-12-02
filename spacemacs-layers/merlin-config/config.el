@@ -37,3 +37,11 @@
   '(ace-jump-mode-enable-mark-sync))
 (define-key global-map (kbd "C-c SPC") 'ace-jump-mode-pop-mark)
 (put 'set-goal-column 'disabled nil)
+
+
+;; Configure some modes for file names that aren't standard.
+(add-to-list 'auto-mode-alist '("alias\\'" . shell-script-mode))
+(add-to-list 'auto-mode-alist '("bashrc\\'" . shell-script-mode))
+(add-to-list 'auto-mode-alist '("bash_profile\\'" . shell-script-mode))
+(add-to-list 'auto-mode-alist '("screenrc\\'" . conf-space-mode))
+(add-to-list 'auto-mode-alist '("emacs\\'" . emacs-lisp-mode))
