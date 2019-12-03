@@ -7,6 +7,6 @@
 # http://docs.haskellstack.org/en/stable/yaml_configuration/
 #
 packages: []
-resolver: lts-11.14
+resolver: lts-14.16
 
 allow-newer: true
