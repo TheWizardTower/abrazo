@@ -8,3 +8,5 @@ fi
 PATH=$PATH:$HOME/.local/bin:$HOME/bin
 
 export PATH
+
+export PATH="$HOME/.cargo/bin:$PATH"
