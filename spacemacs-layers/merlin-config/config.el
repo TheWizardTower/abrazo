@@ -45,3 +45,10 @@
 (add-to-list 'auto-mode-alist '("bash_profile\\'" . shell-script-mode))
 (add-to-list 'auto-mode-alist '("screenrc\\'" . conf-space-mode))
 (add-to-list 'auto-mode-alist '("emacs\\'" . emacs-lisp-mode))
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages '((C . t)))
+
+(org-babel-do-load-languages
+  'org-babel-load-languages
+  '((haskell . t)))

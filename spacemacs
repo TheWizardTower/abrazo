@@ -63,7 +63,7 @@ values."
       haskell-enable-hindent-style 'fundamental
       haskell-indent-spaces 4
       haskell-process-args-ghci "ghci"
-      haskell-process-args-stack-ghci "-v"
+      ;; haskell-process-args-stack-ghci (cons "-v" '() )
       haskell-process-type 'stack-ghci
       haskell-stylish-on-save 't
       )
