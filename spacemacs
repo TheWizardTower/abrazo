@@ -82,6 +82,7 @@ values."
      merlin-eshell
      merlin-evil-goggles
      merlin-evil-easymotion
+     merlin-hacklang
      merlin-highlight-thing
      merlin-monky
      merlin-rpn
