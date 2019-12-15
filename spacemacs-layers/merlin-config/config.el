@@ -52,3 +52,5 @@
 (org-babel-do-load-languages
   'org-babel-load-languages
   '((haskell . t)))
+
+(add-hook 'text-mode-hook 'turn-on-visual-line-mode)
