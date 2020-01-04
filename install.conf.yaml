@@ -15,6 +15,7 @@
     ~/.gitconfig:                           gitconfig
     ~/.git_template:                        git_template
     ~/.haskeline:                           haskeline
+    ~/.mypy.ini:                            mypy.ini
     ~/.screenrc:                            screenrc
     ~/.shellrc:                             shellrc
     ~/.spacemacs:                           spacemacs
