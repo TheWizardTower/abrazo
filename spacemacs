@@ -384,6 +384,7 @@ you should place your code here."
   (add-to-list 'exec-path (expand-file-name "~/local/bin"))
   (add-to-list 'exec-path (expand-file-name "~/.cargo/bin/"))
   (global-set-key (kbd "C-x C-j") 'dired-jump)
+  (add-hook 'prog-mode-hook 'linum-relative-on)
   (add-to-list 'yas-snippet-dirs (expand-file-name "~/abrazo/snippets/"))
   (eval-after-load "yasnippet.el"
     '(yas-reload-all))
