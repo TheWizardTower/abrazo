@@ -24,15 +24,13 @@ function start_agent {
 # Source SSH settings, if applicable
 
 hostname=$(hostname)
-if [ ${hostname} != "lint-sandbox" ]; then
-    if [ -f "${SSH_ENV}" ]; then
-        . ${SSH_ENV} > /dev/null
-        ps ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
-        start_agent;
-    }
-    else
-        start_agent;
-    fi
+if [ -f "${SSH_ENV}" ]; then
+    . ${SSH_ENV} > /dev/null
+    ps ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
+    start_agent;
+}
+else
+    start_agent;
 fi
 
 export GOPATH="$HOME/gocode:$HOME/code/golang:$GOPATH"
