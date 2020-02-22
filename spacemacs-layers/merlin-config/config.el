@@ -54,3 +54,24 @@
   '((haskell . t)))
 
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
+
+(defun run-command-on-current-file ()
+  "Run a shell command on the file behind the current buffer, then reload."
+  (interactive)
+  (message buffer-file-name)
+  (when buffer-file-name
+    (shell-command
+     (format
+      "%s %s"
+      (read-shell-command "Shell command on file: ")
+      (file-truename buffer-file-name)
+      )
+     "shell-command: output"
+     "shell-command: Error"
+     )
+    )
+  )
+
+;; This ugly monstrosity is how "C-!" is interpreted.
+(global-set-key (kbd "M-[ 1 ; 6 q") 'run-command-on-current-file)
+(spacemacs/set-leader-keys "bx" 'run-command-on-current-file)
