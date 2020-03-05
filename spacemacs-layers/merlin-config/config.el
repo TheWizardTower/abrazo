@@ -76,7 +76,5 @@
 (global-set-key (kbd "M-[ 1 ; 6 q") 'run-command-on-current-file)
 (spacemacs/set-leader-keys "bx" 'run-command-on-current-file)
 
-(spacemacs/set-leader-keys-for-major-mode 'c++-mode "F" 'clang-format-buffer)
-
 (setq scheme-program-name "guile")
 (setq vc-follow-symlinks t)
