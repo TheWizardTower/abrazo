@@ -398,6 +398,8 @@ you should place your code here."
     (define-key c++-mode-map [tab] 'clang-format-buffer))
   (load (expand-file-name "~/git/ghcid/plugins/emacs/ghcid"))
   (add-hook 'haskell-mode 'ghcid)
+  (setq auto-mode-alist (cons '("\\.g\\'" . antlr-mode) auto-mode-alist))
+  (setq auto-mode-alist (cons '("\\.g4\\'" . antlr-mode) auto-mode-alist))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
