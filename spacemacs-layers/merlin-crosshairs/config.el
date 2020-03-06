@@ -5,4 +5,5 @@
 (load (expand-file-name "~/abrazo/spacemacs-layers/merlin-crosshairs/crosshairs.el"))
 
 (setq col-highlight-vline-face-flag 1)
-(crosshairs-mode)
+;; (add-hook 'prog-mode-hook 'crosshairs-mode)
+;; (crosshairs-mode)

@@ -77,7 +77,7 @@ values."
      markdown
      merlin-beacon
      merlin-blacken
-     merlin-crosshairs
+     ;; merlin-crosshairs
      merlin-config
      merlin-dired-k
      merlin-eshell
