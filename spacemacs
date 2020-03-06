@@ -394,6 +394,7 @@ you should place your code here."
   (global-set-key [C-M-tab] 'clang-format-region)
   ;; Bind clang-format-buffer to tab on the c++-mode only:
   (add-hook 'c++-mode-hook 'clang-format-bindings)
+  (spacemacs/set-leader-keys-for-major-mode 'c++-mode "F" 'clang-format-buffer)
   (defun clang-format-bindings ()
     (define-key c++-mode-map [tab] 'clang-format-buffer))
   (load (expand-file-name "~/git/ghcid/plugins/emacs/ghcid"))
