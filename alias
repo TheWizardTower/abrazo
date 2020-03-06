@@ -3,3 +3,6 @@ alias k="zsh -c 'source ~/git/k/k.sh; k'"
 alias epoch="date +%s"
 alias magit="~/abrazo/magit.sh"
 alias mgc="~/abrazo/mgc.sh"
+
+alias antlr4='java -Xmx500M -cp "/usr/local/lib/antlr-4.7.1-complete.jar:$CLASSPATH" org.antlr.v4.Tool'
+alias grun='java -Xmx500M -cp "/usr/local/lib/antlr-4.7.1-complete.jar:$CLASSPATH" org.antlr.v4.gui.TestRig'
