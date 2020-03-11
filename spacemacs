@@ -99,6 +99,7 @@ values."
      merlin-strace-mode
      merlin-symon
      merlin-totd
+     merlin-writegood
      merlin-yaml
      nginx
      (org
