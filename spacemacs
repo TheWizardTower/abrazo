@@ -86,7 +86,6 @@ values."
      merlin-dired
      merlin-dotnet
      merlin-eshell
-     merlin-evil-goggles
      merlin-evil
      merlin-hacklang
      merlin-helm
