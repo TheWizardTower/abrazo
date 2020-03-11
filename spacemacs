@@ -82,7 +82,7 @@ values."
      ;; merlin-crosshairs
      merlin-config
      merlin-dante
-     merlin-dired-k
+     merlin-dired
      merlin-eshell
      merlin-evil-goggles
      merlin-evil-easymotion
