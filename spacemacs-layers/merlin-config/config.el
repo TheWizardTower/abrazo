@@ -14,9 +14,9 @@
 (define-key 'help-command (kbd "C-l") 'helm-locate-library)
 
 ;;; This seems to be the one place where Ido wins out over helm. Helm plus Tramp bring Emacs to a crawl.
-(setq ido-vertical-define-keys 'C-n-and-C-p-only)
-(setq ido-vertical-show-count t)
-(global-set-key (kbd "C-c C-f") 'counsel-find-file)
+;; (setq ido-vertical-define-keys 'C-n-and-C-p-only)
+;; (setq ido-vertical-show-count t)
+;; (global-set-key (kbd "C-c C-f") 'counsel-find-file)
 
 (global-set-key (kbd "C-x G") 'magit-status)
 
