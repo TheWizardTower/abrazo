@@ -92,6 +92,7 @@ values."
      merlin-rpn
      merlin-strace-mode
      merlin-symon
+     merlin-totd
      merlin-yaml
      nginx
      (org
