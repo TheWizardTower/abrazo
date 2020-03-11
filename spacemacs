@@ -102,6 +102,7 @@ values."
      merlin-totd
      merlin-writegood
      merlin-yaml
+     merlin-yasnippet
      nginx
      (org
       :variables
