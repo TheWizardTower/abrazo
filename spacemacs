@@ -92,6 +92,7 @@ values."
      merlin-highlight-thing
      merlin-jq
      merlin-kubernetes
+     merlin-markdownfmt
      merlin-monky
      merlin-rpn
      merlin-strace-mode
