@@ -91,6 +91,7 @@ values."
      merlin-helm
      merlin-highlight-thing
      merlin-jq
+     merlin-kubernetes
      merlin-monky
      merlin-rpn
      merlin-strace-mode
