@@ -90,6 +90,7 @@ values."
      merlin-hacklang
      merlin-helm
      merlin-highlight-thing
+     merlin-jq
      merlin-monky
      merlin-rpn
      merlin-strace-mode
