@@ -72,8 +72,9 @@
     )
   )
 
-;; This ugly monstrosity is how "C-!" is interpreted.
+;; This ugly monstrosity is how "C-!" is interpreted under WSL.
 (global-set-key (kbd "M-[ 1 ; 6 q") 'run-command-on-current-file)
+(global-set-key (kbd "C-!") 'run-command-on-current-file)
 (spacemacs/set-leader-keys "bx" 'run-command-on-current-file)
 
 (setq scheme-program-name "guile")
