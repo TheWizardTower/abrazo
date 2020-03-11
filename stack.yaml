@@ -12,5 +12,5 @@ resolver: lts-15.3
 allow-newer: true
 
 extra-deps:
-  # for pandoc
+  # For pandoc.
   - cheapskate-0.1.1.2@sha256:74df5ffc40ce20f7df7ff99296dd94ae4ebf59366880592f31418e286fb70d22,3058
