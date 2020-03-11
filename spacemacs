@@ -80,6 +80,7 @@ values."
      merlin-beacon
      merlin-blacken
      ;; merlin-crosshairs
+     merlin-company
      merlin-config
      merlin-dante
      merlin-dired
