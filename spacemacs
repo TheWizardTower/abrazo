@@ -92,6 +92,7 @@ values."
      merlin-highlight-thing
      merlin-jq
      merlin-kubernetes
+     merlin-leading-spaces
      merlin-markdownfmt
      merlin-monky
      merlin-rpn
