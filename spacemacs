@@ -83,6 +83,7 @@ values."
      merlin-config
      merlin-dante
      merlin-dired
+     merlin-dotnet
      merlin-eshell
      merlin-evil-goggles
      merlin-evil
