@@ -95,6 +95,7 @@ values."
      merlin-leading-spaces
      merlin-markdownfmt
      merlin-monky
+     merlin-moody
      merlin-rpn
      merlin-strace-mode
      merlin-symon
