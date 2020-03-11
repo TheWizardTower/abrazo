@@ -90,6 +90,7 @@ values."
      merlin-highlight-thing
      merlin-monky
      merlin-rpn
+     merlin-strace-mode
      merlin-symon
      merlin-yaml
      nginx
