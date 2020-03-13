@@ -97,6 +97,7 @@ values."
      merlin-monky
      merlin-moody
      merlin-rpn
+     merlin-rust-auto-use
      merlin-strace-mode
      merlin-symon
      merlin-totd
