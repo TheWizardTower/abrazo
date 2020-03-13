@@ -29,7 +29,8 @@
   (use-package org-sync-snippets
     :config
     (setq org-sync-snippets-snippets-dir "~/abrazo/org-sync-snippets")
-    (add-hook 'yas-after-reload-hook 'snippets-to-org)
+    (setq org-sync-snippets-org-snippets-file "~/abrazo/org-sync-snippets/snippets.org")
+    (add-hook 'yas-after-reload-hook #'org-sync-snippets-snippets-to-org)
     )
   )
 
