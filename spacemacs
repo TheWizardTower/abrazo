@@ -84,6 +84,7 @@ values."
      merlin-config
      merlin-dante
      merlin-dired
+     merlin-dismal
      merlin-dotnet
      merlin-eshell
      merlin-evil
