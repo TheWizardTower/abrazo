@@ -1,0 +1,81 @@
+#+TITLE: Snippets Collection
+#+AUTHOR: org-sync-snippets
+
+* snippets
+
+#+BEGIN_SRC snippet :tangle {SNIPPETS-DIR}/snippets.org
+  #+TITLE: Snippets Collection
+  #+AUTHOR: org-sync-snippets
+  
+  * snippets
+  
+  #+BEGIN_SRC snippet :tangle {SNIPPETS-DIR}/snippets.org
+    #+TITLE: Snippets Collection
+    #+AUTHOR: org-sync-snippets
+    
+    * snippets
+    
+    #+BEGIN_SRC snippet :tangle {SNIPPETS-DIR}/snippets.org
+      #+TITLE: Snippets Collection
+      #+AUTHOR: org-sync-snippets
+      
+      * snippets
+      
+      #+BEGIN_SRC snippet :tangle {SNIPPETS-DIR}/snippets.org
+        #+TITLE: Snippets Collection
+        #+AUTHOR: org-sync-snippets
+        
+        * snippets
+        
+        #+BEGIN_SRC snippet :tangle {SNIPPETS-DIR}/snippets.org
+          #+TITLE: Snippets Collection
+          #+AUTHOR: org-sync-snippets
+          
+          * snippets
+          
+          #+BEGIN_SRC snippet :tangle {SNIPPETS-DIR}/snippets.org
+            #+TITLE: Snippets Collection
+            #+AUTHOR: org-sync-snippets
+            
+            * snippets
+            
+            #+BEGIN_SRC snippet :tangle {SNIPPETS-DIR}/snippets.org
+              #+TITLE: Snippets Collection
+              #+AUTHOR: org-sync-snippets
+              
+              * snippets
+              
+              #+BEGIN_SRC snippet :tangle {SNIPPETS-DIR}/snippets.org
+                #+TITLE: Snippets Collection
+                #+AUTHOR: org-sync-snippets
+                
+                * snippets
+                
+                #+BEGIN_SRC snippet :tangle {SNIPPETS-DIR}/snippets.org
+                
+                #+END_SRC
+                
+              
+              #+END_SRC
+              
+            
+            #+END_SRC
+            
+          
+          #+END_SRC
+          
+        
+        #+END_SRC
+        
+      
+      #+END_SRC
+      
+    
+    #+END_SRC
+    
+  
+  #+END_SRC
+  
+
+#+END_SRC
+
