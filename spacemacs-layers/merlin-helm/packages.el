@@ -1,5 +1,10 @@
-(defconst merlin-helm-packages '(helm-flycheck helm-flyspell helm-git-files helm-git-grep helm-helm-commands helm-ispell helm-lastpass helm-ls-git helm-proc))
+(defconst merlin-helm-packages '(helm-file-preview helm-flycheck helm-flyspell helm-git-files helm-git-grep helm-helm-commands helm-ispell helm-lastpass helm-ls-git helm-proc))
 
+(defun merlin-helm/init-helm-file-preview ()
+  (use-package helm-file-preview
+    :config
+    (helm-file-preview-mode 1))
+  )
 (defun merlin-helm/init-helm-flycheck ()
   (use-package helm-flycheck
     :config
