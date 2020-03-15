@@ -88,6 +88,7 @@ values."
      merlin-dotnet
      merlin-eshell
      merlin-evil
+     merlin-flycheck
      merlin-hacklang
      merlin-helm
      merlin-highlight-thing
