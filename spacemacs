@@ -105,6 +105,7 @@ values."
      merlin-writegood
      merlin-yaml
      merlin-yasnippet
+     merlin-xclip
      merlin-ztree
      nginx
      (org
