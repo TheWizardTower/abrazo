@@ -137,6 +137,7 @@ values."
       syntax-checking-enable-tooltips t)
      systemd
      tmux
+     typescript
      version-control
      vimscript
      xe-highlight-indent-guides
