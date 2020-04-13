@@ -1,4 +1,4 @@
-(defconst merlin-dired-packages '(dired-git dired-git-info dired-k dired-launch dired-quick-sort dired-toggle-sudo))
+(defconst merlin-dired-packages '(dired-git dired-git-info dired-k dired-launch dired-quick-sort dired-toggle-sudo helm-dired-history))
 
 (defun merlin-dired/init-dired-git ()
   (use-package dired-git
@@ -56,6 +56,21 @@
                       '(".*" "\\`.+\\'" "/ssh:%h:")
                       )
          )
+      )
+    )
+  )
+
+(defun merlin-dired/init-helm-dired-history ()
+  (use-package helm-dired-history
+    :config
+    (add-to-list 'savehist-additional-variables 'helm-dired-history-variable)
+    (savehist-mode 1)
+
+    (with-eval-after-load 'dired
+      (require 'helm-dired-history)
+      ;; if you are using ido,you'd better disable ido for dired
+      ;; (define-key (cdr ido-minor-mode-map-entry) [remap dired] nil) ;in ido-setup-hook
+      (define-key dired-mode-map "," 'dired)
       )
     )
   )
