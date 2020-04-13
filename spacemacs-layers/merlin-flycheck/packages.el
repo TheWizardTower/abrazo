@@ -1,4 +1,9 @@
-(defconst merlin-flycheck-packages '(flycheck-clang-analyzer flycheck-clangcheck flycheck-clang-tidy flycheck-irony))
+(defconst merlin-flycheck-packages '(elsa flycheck-clang-analyzer flycheck-clangcheck flycheck-clang-tidy flycheck-elsa flycheck-irony flycheck-mypy flycheck-pycheckers))
+
+(defun merlin-flycheck/init-elsa ()
+  (use-package elsa
+    )
+  )
 
 (defun merlin-flycheck/init-flycheck-clang-analyzer ()
   (use-package flycheck-clang-analyzer
@@ -31,10 +36,29 @@
     )
   )
 
+(defun merlin-flycheck/init-flycheck-elsa ()
+  (use-package flycheck-elsa
+    :config
+    (add-hook 'emacs-lisp-mode-hook #'flycheck-elsa-setup)
+    )
+  )
+
 (defun merlin-flycheck/init-flycheck-irony ()
   (use-package flycheck-irony
     :after flycheck
     :config
     '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup)
+    )
+  )
+
+(defun merlin-flycheck/init-flycheck-mypy ()
+  (use-package flycheck-mypy)
+  )
+
+(defun merlin-flycheck/init-flycheck-pycheckers ()
+  (use-package flycheck-pycheckers
+    :after flycheck
+    :config
+    (add-hook 'flycheck-mode-hook #'flycheck-pycheckers-setup)
     )
   )
