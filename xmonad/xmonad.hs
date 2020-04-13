@@ -3,7 +3,7 @@
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- informations = { Author   = Adam James McCullough
 --                , Based on = Config by Graawr
---                , Version  = XMonad 0.13 <+> ghc lts 8.0.2 <+> xmobar 0.24.3
+--                , Version  = XMonad 0.15 <+> ghc lts 8.0.2 <+> xmobar 0.24.3
 --                }
 
 
@@ -264,6 +264,7 @@ myKeys =
                                         ,  ("8: MirrorThree", sendMessage $ JumpToLayout "8: MirrorThree")
                                         ] myPromptConfig)
                  ])
+         , ("q", kill1)
          , ("r", spawn "xmonad --recompile && pkill xmobar && xmonad --restart")
          , ("s", windows W.swapMaster)
          , ("u", submap . mkKeymap myXConfig $
@@ -309,7 +310,7 @@ myKeys =
         , ("<XF86Mail>",        runOrRaise "icedove" (resource =? "icedove"))
         , ("<XF86Calculator>",  runOrRaise "speedcrunch" (resource =? "speedcrunch"))
         , ("<XF86Eject>",       spawn "toggleeject")
-        , ("<Print>",           spawn "scrot 0")
+        , ("<Print>",           spawn "spectacle")
         ] where nonNSP          = WSIs (return (\ws -> W.tag ws /= "NSP"))
                 nonEmptyNonNSP  = WSIs (return (\ws -> isJust (W.stack ws) && W.tag ws /= "NSP"))
 
@@ -342,6 +343,7 @@ myManageHook = scratchpadManageHook (W.RationalRect l t w h) <+>
           , className =? "plasmashell"    --> doFloat
           , className =? "plasma-desktop" --> makeMaster <+> doFloat
           , className =? "Plasma"         --> makeMaster <+> doFloat
+          , className =? "plasma"         --> makeMaster <+> doFloat
          ]
          ++
          [   isFullscreen --> doFullFloat
