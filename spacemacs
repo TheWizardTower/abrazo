@@ -86,6 +86,7 @@ values."
      merlin-dired
      merlin-dismal
      merlin-dotnet
+     merlin-emms
      merlin-eshell
      merlin-evil
      merlin-flycheck
