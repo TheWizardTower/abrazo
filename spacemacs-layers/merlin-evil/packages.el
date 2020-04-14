@@ -25,6 +25,7 @@
 (defun merlin-evil/init-evil-embrace ()
   (use-package evil-embrace
     :config
+    (add-hook 'org-mode-hook 'embrace-org-mode-hook)
     (evil-embrace-enable-evil-surround-integration)
     )
   )
