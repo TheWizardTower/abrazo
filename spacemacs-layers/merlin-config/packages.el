@@ -1,7 +1,4 @@
-(defconst merlin-config-packages '(free-keys fortune-cookie))
-
-(defun merlin-config/init-free-keys ()
-  (use-package free-keys))
+(defconst merlin-config-packages '(fortune-cookie))
 
 (defun merlin-config/init-fortune-cookie ()
   (use-package fortune-cookie

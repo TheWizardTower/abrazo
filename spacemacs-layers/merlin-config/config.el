@@ -10,16 +10,12 @@
 (global-unset-key (kbd "C-x i"))
 (global-set-key (kbd "C-x i") 'align-regexp)
 
-
 (define-key 'help-command (kbd "C-l") 'helm-locate-library)
 
 ;;; This seems to be the one place where Ido wins out over helm. Helm plus Tramp bring Emacs to a crawl.
 ;; (setq ido-vertical-define-keys 'C-n-and-C-p-only)
 ;; (setq ido-vertical-show-count t)
 ;; (global-set-key (kbd "C-c C-f") 'counsel-find-file)
-
-;; (global-set-key (kbd "C-x G") 'magit-status)
-
 
 ; To disable slowdown when editing remote files.
 (add-hook 'find-file-hook
@@ -29,7 +25,6 @@
 
 (global-unset-key (kbd "C-x o"))
 (global-set-key (kbd "C-x o") 'ace-window)
-
 
 (eval-after-load "helm"
   '(define-key helm-map (kbd "C-'") 'ace-jump-helm-line))

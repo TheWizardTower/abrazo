@@ -1,4 +1,4 @@
-(defconst merlin-yasnippet-packages '(code-library common-lisp-snippets el-autoyas go-snippets java-snippets org-sync-snippets yasnippet-snippets yatemplate ))
+(defconst merlin-yasnippet-packages '(code-library common-lisp-snippets el-autoyas go-snippets java-snippets org-sync-snippets yatemplate))
 
 (defun merlin-yasnippet/init-code-library ()
   (use-package code-library
@@ -32,10 +32,6 @@
     (setq org-sync-snippets-org-snippets-file "~/abrazo/org-sync-snippets/snippets.org")
     (add-hook 'yas-after-reload-hook #'org-sync-snippets-snippets-to-org)
     )
-  )
-
-(defun merlin-yasnippet/init-yasnippet-snippets ()
-  (use-package yasnippet-snippets)
   )
 
 (defun merlin-yasnippet/init-yatemplate ()

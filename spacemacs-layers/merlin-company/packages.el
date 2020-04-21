@@ -1,4 +1,4 @@
-(defconst merlin-company-packages '(company-dict company-fuzzy company-irony company-irony-c-headers company-lsp company-math company-php company-plsense company-rtags))
+(defconst merlin-company-packages '(company-dict company-fuzzy company-irony company-irony-c-headers company-lsp company-math company-plsense company-restclient))
 
 (defun merlin-company/init-company-dict ()
   (use-package company-dict)
@@ -24,14 +24,21 @@
   (use-package company-math)
   )
 
-(defun merlin-company/init-company-php ()
-  (use-package company-php)
-  )
-
 (defun merlin-company/init-company-plsense ()
   (use-package company-plsense)
   )
 
-(defun merlin-company/init-company-rtags ()
-  (use-package company-rtags)
+;; (defun merlin-company/init-company-quickhelp ()
+;;   (use-package company-quickhelp
+;;     :bind
+;;     (:map company-active-help ("M-h" . company-quickhelp-manual-begin)
+;;           )
+;;     )
+;;   )
+
+(defun merlin-company/init-company-restclient ()
+  (use-package company-restclient
+    :config
+    (push 'company-restclient company-backends)
+    )
   )

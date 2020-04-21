@@ -27,7 +27,7 @@ values."
    ;; If non-nil layers with lazy install support are lazy installed.
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
-   dotspacemacs-configuration-layer-path '("~/abrazo/spacemacs-layers/")
+   dotspacemacs-configuration-layer-path '("~/.layers/")
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
@@ -46,8 +46,7 @@ values."
       )
      (c-c++
       :variables
-      c-c++-enable-clang-support t)
-     cfengine
+      c-c++enable-clang-support t)
      clojure
      command-log
      csharp
@@ -56,14 +55,12 @@ values."
      fsharp
      git
      go
-     gtags
      (haskell
       :variables
-      haskell-completion-backend 'lsp
+      haskell-completion-backend 'stack
       haskell-enable-hindent-style 'fundamental
-      haskell-indent-spaces 4
+      haskell-indent-spaces 2
       haskell-process-args-ghci "ghci"
-      ;; haskell-process-args-stack-ghci (cons "-v" '() )
       haskell-process-type 'stack-ghci
       haskell-stylish-on-save 't
       )
@@ -73,54 +70,41 @@ values."
      javascript
      (latex :variables
             latex-enable-auto-fill t)
-     ;; lsp
-     magit-svn
+     lsp
      markdown
-     merlin-beacon
-     merlin-blacken
-     ;; merlin-crosshairs
      merlin-company
      merlin-config
-     merlin-dante
      merlin-dired
-     merlin-dismal
      merlin-dotnet
-     merlin-emms
      merlin-eshell
      merlin-evil
      merlin-flycheck
      merlin-hacklang
      merlin-helm
-     merlin-highlight-thing
      merlin-jq
      merlin-kubernetes
-     merlin-leading-spaces
      merlin-markdownfmt
      merlin-monky
-     merlin-moody
+     merlin-python
      merlin-rpn
-     merlin-rust-auto-use
-     merlin-strace-mode
-     merlin-symon
+     merlin-scala
      merlin-totd
      merlin-writegood
      merlin-yaml
      merlin-yasnippet
      merlin-xclip
-     merlin-ztree
-     nginx
      (org
       :variables
       org-enable-reveal-js-support t
       org-enable-github-support t)
      pandoc
      php
-     pocket
      popup-kill-ring
      projectile-ripgrep
      purescript
      python
      rust
+     scala
      (shell :variables
             shell-default-term-shell "/usr/bin/bash"
             shell-default-height 30
@@ -130,17 +114,12 @@ values."
      (spell-checking
       :variables
       spell-checking-enable-by-default t)
-     spotify
      sql
      (syntax-checking
       :variables
       syntax-checking-enable-tooltips t)
-     systemd
-     tmux
      typescript
      version-control
-     vimscript
-     xe-highlight-indent-guides
      yaml
      )
    ;; List of additional packages that will be installed without being
@@ -151,7 +130,7 @@ values."
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '()
+   dotspacemacs-excluded-packages '(ensime)
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
@@ -284,7 +263,7 @@ values."
    ;; Maximum number of rollback slots to keep in the cache. (default 5)
    dotspacemacs-max-rollback-slots 5
    ;; If non nil, `helm' will try to minimize the space it uses. (default nil)
-   dotspacemacs-helm-resize t
+   dotspacemacs-helm-resize 't
    ;; if non nil, the helm header is hidden when there is only one source.
    ;; (default nil)
    dotspacemacs-helm-no-header nil
@@ -358,11 +337,11 @@ values."
    dotspacemacs-folding-method 'evil
    ;; If non-nil smartparens-strict-mode will be enabled in programming modes.
    ;; (default nil)
-   dotspacemacs-smartparens-strict-mode t
+   dotspacemacs-smartparens-strict-mode nil
    ;; If non-nil pressing the closing parenthesis `)' key in insert mode passes
    ;; over any automatically added closing parenthesis, bracket, quote, etc…
    ;; This can be temporary disabled by pressing `C-q' before `)'. (default nil)
-   dotspacemacs-smart-closing-parenthesis 'all
+   dotspacemacs-smart-closing-parenthesis nil
    ;; Select a scope to highlight delimiters. Possible values are `any',
    ;; `current', `all' or `nil'. Default is `all' (highlight any scope and
    ;; emphasis the current one). (default 'all)
@@ -393,8 +372,8 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
-
   (setq evil-want-keybinding nil)
+  (setq lsp-keymap-prefix "C-c l")
   )
 
 (defun dotspacemacs/user-config ()
@@ -404,26 +383,25 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  (intero-global-mode 0)
-  (global-aggressive-indent-mode 0)
+  (message "Running user-config")
   (add-to-list 'exec-path (expand-file-name "~/local/bin"))
-  (add-to-list 'exec-path (expand-file-name "~/.cargo/bin/"))
+  (add-to-list 'exec-path (expand-file-name "~/.cargo/bin"))
   (global-set-key (kbd "C-x C-j") 'dired-jump)
-  (add-hook 'prog-mode-hook 'linum-relative-on)
-  (add-to-list 'yas-snippet-dirs (expand-file-name "~/abrazo/snippets/"))
-  (eval-after-load "yasnippet.el"
-    '(yas-reload-all))
-  ;; Bind clang-format-region to C-M-tab in all modes:
-  (global-set-key [C-M-tab] 'clang-format-region)
-  ;; Bind clang-format-buffer to tab on the c++-mode only:
-  (add-hook 'c++-mode-hook 'clang-format-bindings)
+  (yas-reload-all)
   (spacemacs/set-leader-keys-for-major-mode 'c++-mode "F" 'clang-format-buffer)
-  (defun clang-format-bindings ()
-    (define-key c++-mode-map [tab] 'clang-format-buffer))
   (load (expand-file-name "~/git/ghcid/plugins/emacs/ghcid"))
-  (add-hook 'haskell-mode 'ghcid)
+  (add-hook 'haskell-mode-hook 'ghcid)
   (setq auto-mode-alist (cons '("\\.g\\'" . antlr-mode) auto-mode-alist))
   (setq auto-mode-alist (cons '("\\.g4\\'" . antlr-mode) auto-mode-alist))
+  ;; (lsp-ui-doc-enable t)
+  (add-hook 'scala-mode-hook (lambda ()
+                          (progn
+                            (message "Running lsp hook!")
+                            (lsp)
+                            (lsp-ui-doc-enable)
+                            )
+                          )
+            )
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -433,30 +411,12 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector
-   ["#bcbcbc" "#d70008" "#5faf00" "#875f00" "#268bd2" "#800080" "#008080" "#5f5f87"])
- '(c-basic-offset 2)
- '(evil-want-Y-yank-to-eol nil)
- '(flycheck-python-mypy-config "~/.mypy.ini")
- '(flycheck-python-mypy-ini "~/.mypy.ini")
- '(js-indent-level 2)
  '(package-selected-packages
    (quote
-    (dante lcr fsharp-mode eglot flymake jsonrpc symon blacken hack-mode rpn-calc flycheck-yamllint ox-reveal ox-gfm transient lv sesman parseedn parseclj a vimrc-mode dactyl-mode monky org-mime omnisharp shut-up helm-spotify-plus csharp-mode highlight-thing beacon dired-k evil-easymotion evil-goggles clojure-snippets clj-refactor inflections edn paredit peg cider-eval-sexp-fu cider queue clojure-mode spotify helm-spotify multi pandoc-mode ox-pandoc idris-mode prop-menu disaster company-c-headers cmake-mode clang-format popup-kill-ring org-category-capture let-alist projectile-ripgrep ripgrep helm-gtags ggtags systemd nginx-mode command-log-mode yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic psci purescript-mode psc-ide ghub+ apiwrap ghub geeknote el-pocket web sql-indent company-quickhelp company-auctex auctex nord-theme powerline spinner magithub hydra parent-mode projectile request flyspell-correct-helm flyspell-correct pkg-info epl flx smartparens iedit anzu evil goto-chg undo-tree highlight diminish bind-map bind-key auto-dictionary packed f s dash avy helm helm-core async popup wakatime-mode web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern dash-functional tern coffee-mode phpunit phpcbf php-extras php-auto-yasnippets drupal-mode php-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data package-build winum fuzzy company-ansible \(evenhold\ :location\ \(recipe\ :fetcher\ github\ :repo\ \"evenhold/evenhold-theme\"\)\)-theme eshell-git-prompt eshell-fringe-status eshell-did-you-mean awk-it highlight-indent-guides slack websocket oauth2 emojify ht circe matrix-client flycheck ghc haskell-mode company yasnippet flycheck-stack org alert log4e gntp markdown-mode gitignore-mode fringe-helper git-gutter+ git-gutter seq pos-tip magit magit-popup git-commit with-editor ag auto-complete ace-popup-menu avy-menu ace-jump-buffer ace-isearch ace-jump-mode yaml-mode jinja2-mode ansible-doc ansible magit-svn go-guru go-eldoc company-go go-mode toml-mode racer flycheck-rust cargo rust-mode xterm-color ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spacemacs-theme spaceline smeargle shell-pop restart-emacs rainbow-delimiters quelpa popwin persp-mode pcre2el paradox orgit org-projectile org-present org-pomodoro org-plus-contrib org-download org-bullets open-junk-file neotree multi-term move-text mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum linum-relative link-hint intero insert-shebang info+ indent-guide ido-vertical-mode hungry-delete htmlize hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-hoogle helm-gitignore helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag haskell-snippets google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md flycheck-pos-tip flycheck-haskell flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help elisp-slime-nav dumb-jump diff-hl define-word company-statistics company-shell company-ghci company-ghc company-cabal column-enforce-mode cmm-mode clean-aindent-mode auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
- '(safe-local-variable-values
-   (quote
-    ((haskell-process-use-ghci . t)
-     (haskell-indent-spaces . 4)))))
+    (scala-mode sbt-mode noflet lsp-ui lsp-treemacs treemacs pfuture helm-lsp lsp-mode markdown-mode ht dash-functional ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(col-highlight ((t (:background "color-234"))))
- '(evil-goggles-change-face ((t (:inherit diff-removed))))
- '(evil-goggles-delete-face ((t (:inherit diff-removed))))
- '(evil-goggles-paste-face ((t (:inherit diff-added))))
- '(evil-goggles-undo-redo-add-face ((t (:inherit diff-added))))
- '(evil-goggles-undo-redo-change-face ((t (:inherit diff-changed))))
- '(evil-goggles-undo-redo-remove-face ((t (:inherit diff-removed))))
- '(evil-goggles-yank-face ((t (:inherit diff-changed)))))
+ )
