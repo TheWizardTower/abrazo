@@ -1,11 +1,4 @@
-(defconst merlin-magit-packages '(git-ps1-mode magit-filenotify))
-
-(defun merlin-magit/init-git-ps1-mode()
-  (use-package git-ps1-mode
-    :config
-    (git-ps1-mode t)
-    )
-  )
+(defconst merlin-magit-packages '(magit-filenotify))
 
 (defun merlin-magit/init-magit-filenotify ()
   (use-package magit-filenotify
