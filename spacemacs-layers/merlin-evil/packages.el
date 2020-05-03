@@ -1,11 +1,15 @@
 (defconst merlin-evil-packages
-  '(evil-collection
+  '(
+    evil-collection
     evil-easymotion
     evil-embrace
     evil-ex-fasd
-    evil-extra-operator
-    evil-expat
     evil-ex-shell-command
+    evil-expat
+    evil-extra-operator
+    evil-fringe-mark
+    evil-mark-replace
+    evil-smartparens
     powerline-evil
     )
   )
@@ -34,6 +38,14 @@
   (use-package evil-ex-fasd)
   )
 
+(defun merlin-evil/init-evil-ex-shell-command ()
+  (use-package evil-ex-shell-command)
+  )
+
+(defun merlin-evil/init-evil-expat ()
+  (use-package evil-expat)
+  )
+
 (defun merlin-evil/init-evil-extra-operator ()
   (use-package evil-ex-fasd
     :config
@@ -42,14 +54,24 @@
     )
   )
 
-(defun merlin-evil/init-evil-expat ()
-  (use-package evil-expat)
+(defun merlin-evil/init-evil-fringe-mark ()
+  (use-package evil-fringe-mark)
+  :config
+  (global-evil-fringe-mark-mode)
+  ;; Display special marks
+  (setq-default evil-fringe-mark-show-special t)
   )
 
-(defun merlin-evil/init-evil-ex-shell-command ()
-  (use-package evil-ex-shell-command)
+(defun merlin-evil/init-evil-mark-replace ()
+  (use-package evil-mark-replace)
   )
 
+(defun merlin-evil/init-evil-smartparens ()
+  (use-package evil-smartparens
+    :config
+    (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
+    )
+  )
 
 (defun merlin-evil/init-powerline-evil ()
   (use-package powerline-evil)
