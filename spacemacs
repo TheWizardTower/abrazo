@@ -402,6 +402,8 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (message "Running user-config")
   (add-to-list 'exec-path (expand-file-name "~/local/bin"))
+  (add-to-list 'exec-path (expand-file-name "~/go/bin"))
+  (add-to-list 'exec-path (expand-file-name "~/gocode/bin"))
   (add-to-list 'exec-path (expand-file-name "~/.cargo/bin"))
   (global-set-key (kbd "C-x C-j") 'dired-jump)
   (yas-reload-all)
