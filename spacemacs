@@ -50,6 +50,7 @@ values."
       )
      (c-c++
       :variables
+      c-c++-backend 'lsp-ccls
       c-c++enable-clang-support t)
      clojure
      command-log
