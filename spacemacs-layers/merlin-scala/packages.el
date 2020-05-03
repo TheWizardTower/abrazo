@@ -9,9 +9,8 @@
 (defun merlin-scala/init-electric-operator ()
   (use-package electric-operator
     :delight
-    :hook
-    (scala-mode . electric-operator-mode)
     :config
+    (add-hook 'prog-mode-hook 'electric-operator-mode)
     (apply #'electric-operator-add-rules-for-mode 'scala-mode
            (electric-operator-get-rules-for-mode 'prog-mode))
     (electric-operator-add-rules-for-mode 'scala-mode
