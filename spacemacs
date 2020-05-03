@@ -114,7 +114,6 @@ values."
      rust
      scala
      (shell :variables
-            shell-default-term-shell "/usr/bin/bash"
             shell-default-height 30
             shell-default-position 'bottom)
      shell-scripts
@@ -382,6 +381,16 @@ before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
   (setq evil-want-keybinding nil)
   (setq lsp-keymap-prefix "C-c l")
+  (if (getenv "TMUX")
+      (progn
+        (message "Tmux detected")
+        (setq shell-default-term-shell "/usr/bin/bash")
+        )
+    (progn
+      (message "No tmux!")
+      (setq shell-default-term-shell "~/local/bin/bash_tmux.sh")
+      )
+    )
   )
 
 (defun dotspacemacs/user-config ()
