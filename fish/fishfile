@@ -9,10 +9,14 @@ fishpkg/fish-await
 fishpkg/fish-colored-man
 fishpkg/fish-get
 fishpkg/fish-humanize-duration
+fishpkg/fish-last-job-id
 fishpkg/fish-prompt-metro
+fishpkg/fish-spin
 fishpkg/gitignore
 fishpkg/terminals-are-sexy
+jorgebucaran/fish-getopts
 kralewitz/ansible-completion
+laughedelic/pisces
 oh-my-fish/plugin-functional
 oh-my-fish/plugin-gi
 oh-my-fish/plugin-peco
@@ -20,5 +24,3 @@ oh-my-fish/plugin-php
 oh-my-fish/plugin-python
 oh-my-fish/plugin-theme
 orefalo/grc
-fishpkg/fish-last-job-id
-laughedelic/pisces
