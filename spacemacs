@@ -42,7 +42,11 @@ values."
       :variables
       auto-completion-enable-help-tooltip t
       auto-completion-return-key-behavior 'complete
-      auto-completion-tab-key-behavior 'complete
+      auto-completion-tab-key-behavior 'cycle
+      auto-completion-complete-with-key-sequence "jk"
+      auto-completion-enable-snippets-in-popup t
+      auto-completion-enable-help-tooltip t
+      auto-completion-use-company-box t
       )
      (c-c++
       :variables
