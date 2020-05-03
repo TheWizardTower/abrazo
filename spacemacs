@@ -77,6 +77,7 @@ values."
             latex-enable-auto-fill t)
      lsp
      markdown
+     merlin-beacon
      merlin-company
      merlin-config
      merlin-dired
@@ -88,11 +89,13 @@ values."
      merlin-helm
      merlin-jq
      merlin-kubernetes
+     merlin-magit
      merlin-markdownfmt
      merlin-monky
      merlin-python
      merlin-rpn
      merlin-scala
+     merlin-shell
      merlin-totd
      merlin-writegood
      merlin-yaml
