@@ -1,4 +1,3 @@
-
 alias k="zsh -c 'source ~/git/k/k.sh; k'"
 alias epoch="date +%s"
 alias magit="~/abrazo/magit.sh"
