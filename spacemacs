@@ -79,6 +79,7 @@ values."
             latex-enable-auto-fill t)
      lsp
      markdown
+     merlin-base-convert
      merlin-beacon
      merlin-cmake
      merlin-company
