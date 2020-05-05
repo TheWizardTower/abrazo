@@ -54,6 +54,7 @@ values."
       c-c++-backend 'lsp-ccls
       c-c++enable-clang-support t)
      clojure
+     cmake
      command-log
      csharp
      emacs-lisp
@@ -79,6 +80,7 @@ values."
      lsp
      markdown
      merlin-beacon
+     merlin-cmake
      merlin-company
      merlin-config
      merlin-dired
