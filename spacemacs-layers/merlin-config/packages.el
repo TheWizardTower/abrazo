@@ -1,4 +1,18 @@
-(defconst merlin-config-packages '(fortune-cookie modern-fringes))
+(defconst merlin-config-packages '(cloc doom-themes fortune-cookie modern-fringes))
+
+(defun merlin-config/init-cloc ()
+  (use-package cloc)
+  )
+
+(defun merlin-config/init-doom-themes ()
+  (use-package doom-themes
+    :config
+    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+          doom-themes-enable-italic t) ; if nil, italics is universally disabled
+    (doom-themes-visual-bell-config)
+    (doom-themes-org-config)
+    )
+  )
 
 (defun merlin-config/init-fortune-cookie ()
   (use-package fortune-cookie
