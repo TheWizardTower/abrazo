@@ -2,10 +2,10 @@
 
 (defun merlin-writegood/init-writegood-mode ()
   (use-package writegood-mode
-    :config
-    (global-set-key "\C-cg" 'writegood-mode)
-    (global-set-key "\C-c\C-gg" 'writegood-grade-level)
-    (global-set-key "\C-c\C-ge" 'writegood-reading-ease)
+    :bind
+    ("C-c g g" . 'writegood-mode)
+    ("C-c g l" . 'writegood-grade-level)
+    ("C-c g e" . 'writegood-reading-ease)
     )
   )
 
