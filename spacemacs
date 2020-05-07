@@ -86,6 +86,7 @@ values."
      merlin-config
      merlin-dired
      merlin-dotnet
+     merlin-double-saber
      merlin-eshell
      merlin-evil
      merlin-flycheck
