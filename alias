@@ -1,7 +1,15 @@
-alias k="zsh -c 'source ~/git/k/k.sh; k'"
+alias ..='cd ..'
+alias antlr4='java -Xmx500M -cp ".:/usr/local/lib/antlr-4.7.1-complete.jar:$CLASSPATH" org.antlr.v4.Tool'
+alias egrep='egrep --color=auto'
 alias epoch="date +%s"
+alias fgrep='fgrep --color=auto'
+alias grep='grep --color=auto'
+alias grun='java -Xmx500M -cp ".:/usr/local/lib/antlr-4.7.1-complete.jar:$CLASSPATH" org.antlr.v4.gui.TestRig'
+alias k="zsh -c 'source ~/git/k/k.sh; k'"
+alias l='ls -CF'
+alias la='ls -A'
+alias ll='ls -alF'
+alias lp='ls --color=yes | less -R'
 alias magit="~/abrazo/magit.sh"
 alias mgc="~/abrazo/mgc.sh"
-
-alias antlr4='java -Xmx500M -cp ".:/usr/local/lib/antlr-4.7.1-complete.jar:$CLASSPATH" org.antlr.v4.Tool'
-alias grun='java -Xmx500M -cp ".:/usr/local/lib/antlr-4.7.1-complete.jar:$CLASSPATH" org.antlr.v4.gui.TestRig'
+alias treer='tree -C | less -R'
