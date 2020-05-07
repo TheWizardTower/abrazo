@@ -7,6 +7,8 @@
     ("C-c g l" . 'writegood-grade-level)
     ("C-c g e" . 'writegood-reading-ease)
     )
+  :config
+  (add-hook 'text-mode-hook 'writegood-mode)
   )
 
 (defun merlin-writegood/init-artbollocks-mode ()
