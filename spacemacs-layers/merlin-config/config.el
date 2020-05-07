@@ -26,6 +26,8 @@
 (global-unset-key (kbd "C-x o"))
 (global-set-key (kbd "C-x o") 'ace-window)
 
+(spacemacs/set-leader-keys "ps" 'projectile-ripgrep)
+
 (eval-after-load "helm"
   '(define-key helm-map (kbd "C-'") 'ace-jump-helm-line))
 (eval-after-load "ace-jump-mode"
