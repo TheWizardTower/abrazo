@@ -117,6 +117,8 @@ values."
      purescript
      python
      rust
+     semantic
+     semantic-web
      scala
      (shell :variables
             shell-default-height 30
