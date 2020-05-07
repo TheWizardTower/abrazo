@@ -1,4 +1,22 @@
-(defconst merlin-dired-packages '(dired-git dired-git-info dired-k dired-launch dired-quick-sort dired-toggle-sudo helm-dired-history))
+(defconst merlin-dired-packages
+  '(
+    dired-git
+    dired-git-info
+    dired-k
+    dired-launch
+    dired-narrow
+    dired-quick-sort
+    dired-rainbow
+    dired-ranger
+    dired-recent
+    dired-rifle
+    dired-rsync
+    dired-toggle-sudo
+    diredful
+    fd-dired
+    helm-dired-history
+             )
+  )
 
 (defun merlin-dired/init-dired-git ()
   (use-package dired-git
@@ -38,11 +56,38 @@
     )
   )
 
+(defun merlin-dired/init-dired-narrow ()
+  (use-package dired-narrow))
+
 (defun merlin-dired/init-dired-quick-sort ()
   (use-package dired-quick-sort
     :config
     (dired-quick-sort-setup)
     )
+  )
+
+(defun merlin-dired/init-dired-rainbow ()
+  (use-package dired-rainbow)
+  )
+
+(defun merlin-dired/init-dired-ranger ()
+  (use-package dired-ranger)
+  )
+
+(defun merlin-dired/init-dired-recent ()
+  (use-package dired-recent)
+  )
+
+(defun merlin-dired/init-dired-rifle ()
+  (use-package dired-rifle)
+  )
+
+(defun merlin-dired/init-dired-rsync ()
+  (use-package dired-rsync)
+  )
+
+(defun merlin-dired/init-diredful ()
+  (use-package diredful)
   )
 
 (defun merlin-dired/init-dired-toggle-sudo ()
@@ -56,6 +101,22 @@
                       '(".*" "\\`.+\\'" "/ssh:%h:")
                       )
          )
+      )
+    )
+  )
+
+(defun merlin-dired/init-evil-owl ()
+  (use-packages evil-owl)
+  )
+
+(defun merlin-dired/init-fd-dired ()
+  (use-package fd-dired
+    :config
+    (defun projectile-fd-dired ()
+      (interactive)
+      (fd-dired (projectile-project-root)
+                (read-regexp "pattern to search for: ")
+                )
       )
     )
   )
