@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+cd ~/interkarma-daggerfall-unity-daggerfallunity_linux_universal-185 || exit 1
+./DaggerfallUnity.x86_64
