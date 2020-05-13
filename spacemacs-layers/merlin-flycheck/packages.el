@@ -1,4 +1,11 @@
-(defconst merlin-flycheck-packages '(flycheck-clang-analyzer flycheck-clangcheck flycheck-clang-tidy flycheck-mypy flycheck-pycheckers))
+(defconst merlin-flycheck-packages '(flycheck-checkbashisms flycheck-clang-analyzer flycheck-clang-analyzer flycheck-clangcheck flycheck-clang-tidy flycheck-indicator flycheck-mypy flycheck-popup-tip flycheck-pycheckers))
+
+(defun merlin-flycheck/init-flycheck-checkbashisms ()
+  (use-package flycheck-checkbashisms
+    :config
+    (add-hook 'flycheck-mode-hook #'flycheck-checkbashisms-setup)
+    )
+  )
 
 (defun merlin-flycheck/init-flycheck-clang-analyzer ()
   (use-package flycheck-clang-analyzer
@@ -23,6 +30,14 @@
     )
   )
 
+(defun merlin-flycheck/init-flycheck-clang-analyzer ()
+  (use-package flycheck-clang-analyzer
+    :ensure t
+    :after flycheck
+    :config (flycheck-clang-analyzer-setup)
+    )
+  )
+
 (defun merlin-flycheck/init-flycheck-clang-tidy ()
   (use-package flycheck-clang-tidy
     :after flycheck
@@ -39,8 +54,23 @@
     )
   )
 
+(defun merlin-flycheck/init-flycheck-indicator ()
+  (use-package flycheck-indicator
+    :hook (flycheck-mode . flycheck-indicator-mode)
+    )
+  )
+
 (defun merlin-flycheck/init-flycheck-mypy ()
   (use-package flycheck-mypy)
+  )
+
+(defun merlin-flycheck/init-flycheck-popup-tip ()
+  (use-package flycheck-popup-tip
+    :after
+    flycheck
+    :config
+    (add-hook 'flycheck-mode-hook 'flycheck-popup-tip-mode)
+    )
   )
 
 (defun merlin-flycheck/init-flycheck-pycheckers ()
