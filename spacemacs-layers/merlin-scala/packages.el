@@ -10,7 +10,8 @@
   (use-package electric-operator
     :delight
     :config
-    (add-hook 'prog-mode-hook 'electric-operator-mode)
+    ;; (add-hook 'prog-mode-hook 'electric-operator-mode)
+    (add-hook 'scala-mode-hook 'electric-operator-mode)
     (apply #'electric-operator-add-rules-for-mode 'scala-mode
            (electric-operator-get-rules-for-mode 'prog-mode))
     (electric-operator-add-rules-for-mode 'scala-mode
