@@ -65,7 +65,7 @@ values."
      go
      (haskell
       :variables
-      haskell-completion-backend 'stack
+      haskell-completion-backend 'lsp
       haskell-enable-hindent-style 'fundamental
       haskell-indent-spaces 2
       haskell-process-args-ghci "ghci"
