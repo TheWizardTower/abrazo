@@ -76,3 +76,13 @@
 
 (setq scheme-program-name "guile")
 (setq vc-follow-symlinks t)
+
+(defun merlin-sort-list-temporary (list)
+  (defun sort-util (a b)
+    (string<
+     (symbol-name a)
+     (symbol-name b)
+     )
+    )
+  (seq-sort-by sort-util list)
+  )
