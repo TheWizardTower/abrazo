@@ -1,5 +1,6 @@
 (defconst merlin-evil-packages
   '(
+    evil-avy
     evil-collection
     evil-easymotion
     evil-embrace
@@ -9,8 +10,17 @@
     evil-extra-operator
     evil-fringe-mark
     evil-mark-replace
+    evil-owl
     evil-smartparens
+    evil-space
     powerline-evil
+    )
+  )
+
+(defun merlin-evil/init-evil-avy ()
+  (use-package evil-avy
+    :config
+    (evil-avy-mode)
     )
   )
 
@@ -66,10 +76,35 @@
   (use-package evil-mark-replace)
   )
 
+
+
+(defun merlin-evil/init-evil-owl ()
+  (use-package evil-owl
+    :config
+    ;; (setq evil-owl-display-method 'posframe
+    ;;       evil-owl-extra-posframe-args '(:width 50 :height 20)
+    ;;       evil-owl-max-string-length 50)
+    (setq evil-owl-max-string-length 500)
+    (add-to-list 'display-buffer-alist
+                 '("*evil-owl*"
+                   (display-buffer-in-side-window)
+                   (side . bottom)
+                   (window-height . 0.3)))
+    (evil-owl-mode)
+    )
+  )
+
 (defun merlin-evil/init-evil-smartparens ()
   (use-package evil-smartparens
     :config
     (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
+    )
+  )
+
+(defun merlin-evil/init-evil-space ()
+  (use-package evil-space
+    :config
+    (evil-space-mode)
     )
   )
 
