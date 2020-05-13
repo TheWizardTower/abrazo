@@ -103,6 +103,7 @@ values."
      merlin-scala
      merlin-shell
      merlin-totd
+     merlin-ts
      merlin-writegood
      merlin-yaml
      merlin-yasnippet
@@ -133,7 +134,11 @@ values."
      (syntax-checking
       :variables
       syntax-checking-enable-tooltips t)
-     typescript
+     (typescript :variables
+                 typescript-fmt-on-save t
+                 typescript-fmt-tool 'typescript-formatter
+                 typescript-indent-level 2
+                 )
      version-control
      yaml
      )
