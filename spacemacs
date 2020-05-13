@@ -90,6 +90,7 @@ values."
      merlin-eshell
      merlin-evil
      merlin-flycheck
+     merlin-format-all
      merlin-hacklang
      merlin-helm
      merlin-jq
