@@ -88,6 +88,7 @@ values."
      merlin-dired
      merlin-dotnet
      merlin-double-saber
+     merlin-elisp
      merlin-eshell
      merlin-evil
      merlin-flycheck
