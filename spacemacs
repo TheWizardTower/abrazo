@@ -57,6 +57,7 @@ values."
      cmake
      command-log
      csharp
+     csv
      emacs-lisp
      evernote
      fsharp
