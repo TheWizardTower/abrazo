@@ -71,3 +71,6 @@ compile-cache/
 /fish/conf.d/omf.fish
 /fish/conf.d/fzf_key_bindings.fish
 /stack.yaml.lock
+/fish/conf.d/plugin-sudope_init.fish
+/fish/conf.d/plugin-sudope_key_bindings.fish
+/fish/conf.d/theme-budspencer_key_bindings.fish
