@@ -110,6 +110,7 @@ values."
      merlin-yaml
      merlin-yasnippet
      merlin-xclip
+     nixos
      (org
       :variables
       org-enable-reveal-js-support t
