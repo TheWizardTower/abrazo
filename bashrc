@@ -101,3 +101,5 @@ POWERLINE_BASH_SELECT=1
 . /usr/local/lib/python3.8/site-packages/powerline/bindings/bash/powerline.sh
 
 [ -s "/home/merlin/.jabba/jabba.sh" ] && source "/home/merlin/.jabba/jabba.sh"
+
+. ~/.nix-profile/etc/profile.d/nix.sh
