@@ -1,18 +1,5 @@
 (defconst merlin-helm-packages '(helm-cmd-t helm-describe-modes helm-file-preview helm-flycheck helm-flyspell helm-git-files helm-helm-commands helm-ispell helm-lastpass helm-proc))
 
-(defun merlin-helm/init-helm-ag-r ()
-  (use-package 'helm-ag-r
-    :config
-    ;; Specify your favorite ag's configuration
-    ;; You can change below option by pushing C-o on helm-ag-r's minibuffer.
-    (setq helm-ag-r-option-list '("-S -U --hidden" "-S -U -g")
-          ;; start searching from 3 character
-          helm-ag-r-requires-pattern 3
-          ;; delay searching from input
-          helm-ag-r-input-idle-delay 0.5)
-    )
-  )
-
 (defun merlin-helm/init-helm-cmd-t ()
   (use-package helm-cmd-t)
   )
