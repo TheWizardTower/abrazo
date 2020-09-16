@@ -137,6 +137,7 @@ values."
      (syntax-checking
       :variables
       syntax-checking-enable-tooltips t)
+     terraform
      (typescript :variables
                  typescript-fmt-on-save t
                  typescript-fmt-tool 'typescript-formatter
