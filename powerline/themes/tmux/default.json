@@ -1,0 +1,73 @@
+{
+	"segments": {
+		"right": [
+			{
+				"function": "powerline.segments.common.sys.uptime",
+				"priority": 50
+			},
+			{
+				"function": "powerline.segments.common.wthr.weather",
+				"name": "weather",
+				"args": {
+					"unit": "C",
+					"location_query": "republic, washington"
+				}
+			},
+			{
+				"function": "powerline.segments.common.bat.battery",
+				"priority": 50
+			},
+			{
+				"function": "powerline.segments.common.sys.system_load",
+				"priority": 50
+			},
+			{
+				"function": "powerline_swissarmyknife.execute",
+				"priority": 30,
+				"args": {
+					"preContent": "CPU i/s/u: ",
+					"commandLine": "sparklines $(~/bin/cpuidle.sh) $(~/bin/cpusystem.sh) $(~/bin/cpuuser.sh)",
+					"postContent": ""
+				}
+			},
+			{
+				"function": "powerline_swissarmyknife.execute",
+				"priority": 30,
+				"args": {
+					"preContent": "Mem T/F/U ",
+					"commandLine": "sparklines $(free | sed 3d | sed 1d | awk '{ print $2 }') $(free | sed 3d | sed 1d | awk '{ print $4 }') $(free | sed 3d | sed 1d | awk '{ print $3 }')",
+					"postContent": ""
+				}
+
+			},
+			{
+				"function": "powerline_swissarmyknife.execute",
+				"priority": 30,
+				"args": {
+					"preContent": "Swp T/F/U ",
+					"commandLine": "sparklines $(free | sed 1,2d | awk '{ print $2 }') $(free | sed 3d | sed 1d | awk '{ print $4 }') $(free | sed 3d | sed 1d | awk '{ print $3 }')",
+					"postContent": ""
+				}
+
+			},
+			{
+				"function": "powerline.segments.common.players.mocp",
+				"name": "player"
+			},
+			{
+				"function": "powerline.segments.common.time.date"
+			},
+			{
+				"function": "powerline.segments.common.time.date",
+				"name": "time",
+				"args": {
+					"format": "%H:%M",
+					"istime": true
+				}
+			},
+			{
+				"function": "powerline.segments.common.net.hostname"
+			}
+		]
+	}
+}
