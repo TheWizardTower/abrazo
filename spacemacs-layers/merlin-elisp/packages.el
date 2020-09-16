@@ -1,4 +1,4 @@
-(defconst merlin-elisp-packages '(elpl elsa))
+(defconst merlin-elisp-packages '(elpl))
 
 (defun merlin-elisp/init-elpl ()
   (use-package elpl
@@ -6,8 +6,4 @@
     (define-key elpl-mode-map (kbd "C-c L") 'elpl-clean)
     (define-key elpl-mode-map (kbd "C-c '") 'elpl-edit)
     )
-  )
-
-(defun merlin-elisp/init-elsa ()
-  (use-package elsa)
   )
