@@ -9,7 +9,7 @@ function start_agent
     echo "succeeded"
     chmod 600 $SSH_ENV
     source $SSH_ENV
-    ssh-add ~/.ssh/{github,bitbucket,bitbucket-daisee}
+    ssh-add ~/.ssh/{aws,github,bitbucket,bitbucket-daisee}
     ln -sf $SSH_AUTH_SOCK $SSH_SOCK_LINK
 end
 
