@@ -268,7 +268,7 @@ myKeys =
          , ("r", spawn "xmonad --recompile && pkill xmobar && xmonad --restart")
          , ("s", windows W.swapMaster)
          , ("u", submap . mkKeymap myXConfig $
-                 [("u", spawn "Xdialog --titlle  'Really, dude?' --screencenter --yesno 'Really, dude?' 10 30")
+                 [("u", spawn "Xdialog --title  'Really, dude?' --screencenter --yesno 'Really, dude?' 10 30")
                  ])
          , ("M-u", submap . mkKeymap myXConfig $
              [("M-<Return>",    spawn "systemctl --user restart emacs")])
