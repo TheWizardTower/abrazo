@@ -104,6 +104,7 @@ values."
      merlin-rpn
      merlin-scala
      merlin-shell
+     merlin-terraform
      merlin-totd
      merlin-ts
      merlin-writegood
