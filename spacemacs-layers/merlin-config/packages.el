@@ -1,4 +1,8 @@
-(defconst merlin-config-packages '(cloc doom-themes fortune-cookie modern-fringes))
+(defconst merlin-config-packages '(cheat-sh cloc doom-themes fortune-cookie modern-fringes))
+
+(defun merlin-config/init-cheat-sh ()
+  (use-package cheat-sh)
+  )
 
 (defun merlin-config/init-cloc ()
   (use-package cloc)
