@@ -1,22 +1,22 @@
 [user]
-        name = Adam McCullough
-        umail = merlinfmct87@gmail.com
-        email = merlinfmct87@gmail.com
+  name = Adam McCullough
+  umail = merlinfmct87@gmail.com
+  email = merlinfmct87@gmail.com
 [core]
-        excludesfile = ~/.gitignore
   editor = vim
+  excludesfile = ~/.gitignore
 [color]
-        ui = true
+  ui = true
 [alias]
-    rms = "!f(){ git rm --cached \"$1\";rm -r \"$1\";git config -f .gitmodules --remove-section \"submodule.$1\";git config -f .git/config --remove-section \"submodule.$1\";git add .gitmodules; }; f"
-    st = status -sb
-    ready = rebase -i @{u}
-    lg = log --graph --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
-    purr = pull --rebase
-	ctags = !.git/hooks/ctags
+  rms = "!f(){ git rm --cached \"$1\";rm -r \"$1\";git config -f .gitmodules --remove-section \"submodule.$1\";git config -f .git/config --remove-section \"submodule.$1\";git add .gitmodules; }; f"
+  st = status -sb
+  ready = rebase -i @{u}
+  lg = log --graph --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+  purr = pull --rebase
+  ctags = !.git/hooks/ctags
 [push]
-        default = matching
+  default = matching
 [github]
-	user = TheWizardTower
+  user = TheWizardTower
 [init]
-	templatedir = /home/merlin/.git_template
+  templatedir = /home/merlin/.git_template
