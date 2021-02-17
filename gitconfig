@@ -3,8 +3,8 @@
         umail = merlinfmct87@gmail.com
         email = merlinfmct87@gmail.com
 [core]
-        editor = emacsclient -t -c
         excludesfile = ~/.gitignore
+  editor = vim
 [color]
         ui = true
 [alias]
