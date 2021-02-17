@@ -18,7 +18,8 @@ function start_agent {
   echo succeeded
   chmod 600 ${SSH_ENV}
   . ${SSH_ENV} > /dev/null
-  /usr/bin/ssh-add ~/.ssh/{aws,github,bitbucket,bitbucket-daisee}
+  /usr/bin/ssh-add ~/.ssh/{aws,github}
+  /usr/bin/ssh-add ~/.ssh/merlin*
 }
 
 # Source SSH settings, if applicable
