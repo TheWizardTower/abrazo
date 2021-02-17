@@ -104,3 +104,8 @@ POWERLINE_BASH_SELECT=1
 [ -s "/home/merlin/.jabba/jabba.sh" ] && source "/home/merlin/.jabba/jabba.sh"
 
 . ~/.nix-profile/etc/profile.d/nix.sh
+source ~/git/git-subrepo/.rc
+
+GPG_TTY=$(tty)
+export GPG_TTY
+gpgconf --create-socketdir
