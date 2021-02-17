@@ -318,6 +318,8 @@ myManageHook = scratchpadManageHook (W.RationalRect l t w h) <+>
          ++
          [  className =? "Plasma-desktop" --> doFloat
           , className =? "plasmashell"    --> doFloat
+          , className =? "krunner"        --> doIgnore >> doFloat
+          , isKDETrayWindow               --> doIgnore >> doFloat
           , className =? "plasma-desktop" --> makeMaster <+> doFloat
           , className =? "Plasma"         --> makeMaster <+> doFloat
           , className =? "plasma"         --> makeMaster <+> doFloat
@@ -424,8 +426,7 @@ myXConfig :: XConfig (Awfulness)
 myXConfig = kde4Config
         { modMask            = myModMask
         , terminal           = myTerminal
-        , manageHook         = ((className =? "krunner" <||> className =?
- "Plasma-desktop") >>= return . not --> manageHook kde4Config) <+>
+        , manageHook         = ((className =? "krunner") >>= return . not --> manageHook kde4Config) <+>
  (kdeOverride --> doFloat) <+> myManageHook
         , layoutHook         = myLayout
         , startupHook        = myStartupHook
