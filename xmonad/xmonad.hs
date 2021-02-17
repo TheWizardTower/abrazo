@@ -11,41 +11,30 @@
 ---IMPORTS
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     -- Base
-import           Data.Map                            as M
-import           Data.Maybe                          (isJust)
+import           GHC.IO.Handle.Types                 (Handle)
 import           System.Exit                         (exitSuccess)
 import           System.IO                           (hPutStrLn)
 import           XMonad                              hiding ((|||))
 import           XMonad.Actions.NoBorders
 import           XMonad.Actions.Submap
 import           XMonad.Config.Kde
-import           XMonad.ManageHook
 import qualified XMonad.StackSet                     as W
 
     -- Utilities
 import           XMonad.Util.EZConfig                (additionalKeysP,
                                                       additionalMouseBindings,
                                                       mkKeymap)
--- import XMonad.Util.NamedScratchpad (NamedScratchpad(NS), namedScratchpadManageHook, namedScratchpadAction, customFloating)
 import           XMonad.Util.NamedScratchpad
 import           XMonad.Util.Run                     (runInTerm, safeSpawn,
-                                                      spawnPipe, unsafeSpawn)
-import           XMonad.Util.Scratchpad              (scratchpadFilterOutWorkspace,
-                                                      scratchpadManageHook,
-                                                      scratchpadSpawnAction)
+                                                      spawnPipe)
+import           XMonad.Util.Scratchpad              (scratchpadManageHook)
 import           XMonad.Util.SpawnOnce
 import           XMonad.Util.WindowProperties        (getProp32s)
 
     -- Hooks
-import           XMonad.Hooks.DynamicLog             (PP (..), defaultPP,
-                                                      dynamicLogWithPP,
-                                                      dzenColor, pad, shorten,
-                                                      wrap, xmobarColor,
-                                                      xmobarPP, xmobarStrip)
-import           XMonad.Hooks.EwmhDesktops
-import           XMonad.Hooks.FloatNext              (floatNextHook,
-                                                      toggleFloatAllNew,
-                                                      toggleFloatNext)
+import           XMonad.Hooks.DynamicLog             (PP (..), dynamicLogWithPP,
+                                                      pad, shorten, xmobarColor,
+                                                      xmobarPP)
 import           XMonad.Hooks.InsertPosition
 import           XMonad.Hooks.ManageDocks
 import           XMonad.Hooks.ManageHelpers
@@ -53,126 +42,107 @@ import           XMonad.Hooks.Place
 
     -- Actions
 import qualified XMonad.Actions.ConstrainedResize    as Sqr
-import           XMonad.Actions.CopyWindow           (copyToAll, kill1,
-                                                      killAllOtherCopies,
-                                                      runOrCopy)
+import           XMonad.Actions.CopyWindow           (kill1, runOrCopy)
 import           XMonad.Actions.CycleWS              (WSType (..), moveTo,
                                                       nextScreen, prevScreen,
                                                       shiftNextScreen,
-                                                      shiftPrevScreen, shiftTo)
-import           XMonad.Actions.DynamicWorkspaces    (addWorkspacePrompt,
-                                                      removeEmptyWorkspace)
-import           XMonad.Actions.GridSelect           (GSConfig (..),
-                                                      bringSelected,
-                                                      buildDefaultGSConfig,
-                                                      colorRangeFromClassName,
-                                                      goToSelected)
+                                                      shiftPrevScreen)
 import           XMonad.Actions.MouseResize
-import           XMonad.Actions.Promote
-import           XMonad.Actions.RotSlaves            (rotAllDown, rotSlavesDown)
-import           XMonad.Actions.Warp                 (Corner (LowerRight),
-                                                      banishScreen,
-                                                      warpToWindow)
+import           XMonad.Actions.Warp                 (warpToWindow)
 import           XMonad.Actions.WindowGo             (raiseMaybe, runOrRaise)
 import           XMonad.Actions.WithAll              (killAll, sinkAll)
 
     -- Layouts modifiers
-import           XMonad.Layout.BoringWindows         (boringWindows)
-import           XMonad.Layout.LimitWindows          (decreaseLimit,
-                                                      increaseLimit,
-                                                      limitWindows)
-import           XMonad.Layout.Maximize
-import           XMonad.Layout.Minimize
-import           XMonad.Layout.MultiToggle           (EOT (EOT), Toggle (..),
-                                                      mkToggle, single, (??))
+import           XMonad.Layout.LayoutModifier
+import           XMonad.Layout.MultiToggle           (Toggle (..))
 import           XMonad.Layout.MultiToggle.Instances (StdTransformers (MIRROR, NBFULL, NOBORDERS))
-import           XMonad.Layout.PerWorkspace          (onWorkspace)
-import           XMonad.Layout.Reflect               (REFLECTX (..),
-                                                      REFLECTY (..),
-                                                      reflectHoriz, reflectVert)
-import           XMonad.Layout.Renamed               (Rename (CutWordsLeft, Replace),
-                                                      renamed)
-import           XMonad.Layout.Spacing               (spacing)
-import qualified XMonad.Layout.ToggleLayouts         as T (ToggleLayout (Toggle),
-                                                           toggleLayouts)
-import           XMonad.Layout.WindowArranger        (WindowArrangerMsg (..),
-                                                      windowArrange)
-import           XMonad.Layout.WorkspaceDir
+import           XMonad.Layout.Renamed               (Rename (Replace), renamed)
+import qualified XMonad.Layout.ToggleLayouts         as T (ToggleLayout (Toggle))
 
     -- Layouts
 import           XMonad.Layout.Accordion
 import           XMonad.Layout.Column
 import           XMonad.Layout.Grid
-import           XMonad.Layout.IM                    (Property (Role), withIM)
 import           XMonad.Layout.LayoutCombinators
-import           XMonad.Layout.LayoutHints
-import           XMonad.Layout.NoBorders
-import           XMonad.Layout.OneBig
 import           XMonad.Layout.Reflect
-import           XMonad.Layout.ResizableTile
-import           XMonad.Layout.Simplest
-import           XMonad.Layout.SimplestFloat
-import           XMonad.Layout.Tabbed
 import           XMonad.Layout.ThreeColumns
-import           XMonad.Layout.TwoPane
 import           XMonad.Layout.WindowArranger
-import           XMonad.Layout.ZoomRow               (ZoomMessage (ZoomFullToggle),
-                                                      zoomIn, zoomOut,
-                                                      zoomReset, zoomRow)
-
     -- Prompts
-import           XMonad.Prompt                       (Direction1D (..),
-                                                      XPConfig (..),
-                                                      XPPosition (Top), def,
-                                                      defaultXPConfig)
+import           XMonad.Prompt                       (XPConfig (..),
+                                                      XPPosition (Top))
 import qualified XMonad.Prompt.Window                as WP
 import           XMonad.Prompt.XMonad
 
 
+type NeoAwfulness = ModifiedLayout AvoidStruts
+  (NewSelect (ModifiedLayout Rename Grid)
+   (NewSelect (ModifiedLayout Rename Full)
+    (NewSelect (ModifiedLayout Rename (Mirror Tall))
+     (NewSelect (ModifiedLayout Rename Tall)
+      (NewSelect (ModifiedLayout Rename Column)
+       (NewSelect (ModifiedLayout Rename Accordion)
+        (NewSelect (ModifiedLayout Rename ThreeCol)
+         (ModifiedLayout Rename (Mirror ThreeCol)))))))))
+type Awfulness = ModifiedLayout MouseResize (ModifiedLayout WindowArranger NeoAwfulness)
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ---SETTINGS
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     -- Styles
+myFont :: String
 myFont          = "-artwiz-snap-normal-*-normal-*-10-*-*-*-*-*-*-*"
+myBorderWidth :: Dimension
 myBorderWidth   = 1
+myColorBG :: String
 myColorBG       = "#151515"
+myColorWhite :: String
 myColorWhite    = "#ebebeb"
+myColorRed :: String
 myColorRed      = "#C3143B"
+myColorGray :: String
 myColorGray     = "#545454"
+myColorDarkgray :: String
 myColorDarkgray = "#353535"
 
     -- Settings
+
+myModMask :: KeyMask
 myModMask       = mod4Mask
-myTerminal      = "konsole"
+myTerminal :: String
+myTerminal      = "kitty"
+myOtherTerminal :: String
+myOtherTerminal = "cool-retro-term"
 
     -- Prompts colors
+myPromptConfig :: XPConfig
 myPromptConfig =
-    defaultXPConfig { font                  = myFont
-                    , bgColor               = myColorBG
-                    , fgColor               = myColorRed
-                    , bgHLight              = myColorBG
-                    , fgHLight              = myColorWhite
-                    , borderColor           = myColorBG
-                    , promptBorderWidth     = myBorderWidth
-                    , height                = 20
-                    , position              = Top
-                    , historySize           = 0
-                    }
+    def { font                  = myFont
+        , bgColor               = myColorBG
+        , fgColor               = myColorRed
+        , bgHLight              = myColorBG
+        , fgHLight              = myColorWhite
+        , borderColor           = myColorBG
+        , promptBorderWidth     = myBorderWidth
+        , height                = 20
+        , position              = Top
+        , historySize           = 0
+        }
 
-    -- Grid selector colors
-myGridConfig = colorRangeFromClassName
-    (0x15,0x15,0x15) -- lowest inactive bg
-    (0x15,0x15,0x15) -- highest inactive bg
-    (0xC3,0x14,0x3B) -- active bg
-    (0x54,0x54,0x54) -- inactive fg
-    (0xEB,0xEB,0xEB) -- active fg
+--     -- Grid selector colors
+-- myGridConfig :: Window -> Bool -> X (String, String)
+-- myGridConfig = colorRangeFromClassName
+--     (0x15,0x15,0x15) -- lowest inactive bg
+--     (0x15,0x15,0x15) -- highest inactive bg
+--     (0xC3,0x14,0x3B) -- active bg
+--     (0x54,0x54,0x54) -- inactive fg
+--     (0xEB,0xEB,0xEB) -- active fg
 
-myGSConfig colorizer  = (buildDefaultGSConfig myGridConfig)
-    { gs_cellheight   = 65
-    , gs_cellwidth    = 120
-    , gs_cellpadding  = 10
-    , gs_font         = myFont
-    }
+-- myGSConfig :: p -> GSConfig Window
+-- myGSConfig _  = (buildDefaultGSConfig myGridConfig)
+--     { gs_cellheight   = 65
+--     , gs_cellwidth    = 120
+--     , gs_cellpadding  = 10
+--     , gs_font         = myFont
+--     }
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -181,12 +151,13 @@ myGSConfig colorizer  = (buildDefaultGSConfig myGridConfig)
 
 
 -- If you need to find out X window properties, xprop is the tool you need.
+myScratchpads :: [NamedScratchpad]
 myScratchpads =
-              [ NS "terminal"        "konsole"                                      (className =? "Konsole")        myPosition
-              , NS "music"           "audacious"                                    (className =? "Audacious")      myPosition
-              , NS "spotify"         "/var/lib/snapd/snap/bin/spotify"              (className =? "Spotify")      myPosition
-              , NS "rtorrent"        "urxvtc_mod -name rtorrent -e rtorrent"        (resource =? "rtorrent")        myPosition
-              , NS "calc"            "free42dec"                                    (role =? "Free42 Calculator")   myPosition
+              [ NS "terminal"        myOtherTerminal                                (className =? "cool-retro-term") myPosition
+              , NS "music"           "audacious"                                    (className =? "Audacious")       myPosition
+              , NS "spotify"         "/var/lib/snapd/snap/bin/spotify"              (className =? "Spotify")         myPosition
+              , NS "rtorrent"        "urxvtc_mod -name rtorrent -e rtorrent"        (resource =? "rtorrent")         myPosition
+              , NS "calc"            "free42dec"                                    (role =? "Free42 Calculator")    myPosition
               ] where
                 myPosition = customFloating $ W.RationalRect (1/3) (1/3) (1/3) (1/3)
                 role = stringProperty "WM_WINDOW_ROLE"
@@ -195,6 +166,7 @@ myScratchpads =
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ---KEYBINDINGS
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+myKeys :: [(String, X ())]
 myKeys =
     -- Xmonad
         [ ("M-C-r",             spawn "xmonad --recompile")
@@ -241,12 +213,12 @@ myKeys =
     -- Modal Bindings
         ,  ("M-u",   submap . mkKeymap myXConfig $
            [("c", spawn "krunner")
-         , ("j", WP.windowPromptGoto def)
+         , ("j", WP.windowPrompt def WP.Goto WP.allWindows)
          , ("M-<Return>",    spawn "emacs")
          , ("<Backspace>",   spawn "xscreensaver-command -lock")
          , ("l", submap .  mkKeymap myXConfig $
-                 [  ("1", sendMessage $ JumpToLayout "1: Full")
-                 ,  ("2", sendMessage $ JumpToLayout "2: OneBig")
+                 [  ("1", sendMessage $ JumpToLayout "1: Grid")
+                 ,  ("2", sendMessage $ JumpToLayout "2: Full")
                  ,  ("3", sendMessage $ JumpToLayout "3: MirrorTiled")
                  ,  ("4", sendMessage $ JumpToLayout "4: Tiled")
                  ,  ("5", sendMessage $ JumpToLayout "5: Column1.6")
@@ -254,8 +226,8 @@ myKeys =
                  ,  ("7", sendMessage $ JumpToLayout "7: Three")
                  ,  ("8", sendMessage $ JumpToLayout "8: MirrorThree")
                  -- Prompt to show the list of above layouts.
-                 ,  ("l", xmonadPromptC [  ("1: Full", sendMessage $ JumpToLayout "1: Full")
-                                        ,  ("2: OneBig", sendMessage $ JumpToLayout "2: OneBig")
+                 ,  ("l", xmonadPromptC [  ("1: Full", sendMessage $ JumpToLayout "1: Grid")
+                                        ,  ("2: OneBig", sendMessage $ JumpToLayout "2: Full")
                                         ,  ("3: MirrorTiled", sendMessage $ JumpToLayout "3: MirrorTiled")
                                         ,  ("4: Tiled", sendMessage $ JumpToLayout "4: Tiled")
                                         ,  ("5: Column1.6", sendMessage $ JumpToLayout "5: Column1.6")
@@ -276,7 +248,7 @@ myKeys =
 
     -- Apps
 
-        , ("M-<Return>",        spawn "konsole")
+        , ("M-<Return>",        spawn myTerminal)
         , ("M-S-<Return>",      spawn "emacsclient -c")
         , ("M-c",               spawn "exe=`dmenu_run -nb '#151515' -nf '#545454' -sb '#C3143B' -sf '#ebebeb' -p 'run:' -i` && eval \"exec $exe\"")
         , ("M-f",               raiseMaybe (runInTerm "-name ranger" "ranger") (resource =? "ranger"))
@@ -312,24 +284,29 @@ myKeys =
         , ("<XF86Eject>",       spawn "toggleeject")
         , ("<Print>",           spawn "spectacle")
         ] where nonNSP          = WSIs (return (\ws -> W.tag ws /= "NSP"))
-                nonEmptyNonNSP  = WSIs (return (\ws -> isJust (W.stack ws) && W.tag ws /= "NSP"))
+                -- nonEmptyNonNSP  = WSIs (return (\ws -> isJust (W.stack ws) && W.tag ws /= "NSP"))
 
+myMouseKeys :: [((KeyMask, Button), Window -> X())]
 myMouseKeys = [ ((mod4Mask .|. shiftMask, button3), \w -> focus w >> Sqr.mouseResizeWindow w True) ]
 
 
-myModalKeys = [
-         ]
+-- myModalKeys :: [a]
+-- myModalKeys = [
+--          ]
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ---WORKSPACES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+myWorkspaces :: [String]
 myWorkspaces = ["1.text", "2.web", "3.media", "4.comms", "5.misc", "6", "7", "8", "9.syst"]
 
+namedScratchpads :: [a]
 namedScratchpads =
            [
            ]
 
+myManageHook :: ManageHook
 myManageHook = scratchpadManageHook (W.RationalRect l t w h) <+>
                (composeAll $
          [  className =? "Yakuake"           --> doFloat
@@ -355,7 +332,7 @@ myManageHook = scratchpadManageHook (W.RationalRect l t w h) <+>
          <+> makeMaster
          where
            makeMaster = insertPosition Master Newer
-           role = stringProperty "WM_WINDOW_ROLE"
+           -- role = stringProperty "WM_WINDOW_ROLE"
            h = 0.4
            w = 0.75
            t = 0.85 - h
@@ -366,8 +343,9 @@ myManageHook = scratchpadManageHook (W.RationalRect l t w h) <+>
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ---LAYOUTS
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-mainLayout = avoidStruts $ rename "1: Full" Full
-             ||| rename "2: OneBig" (OneBig (3/4) (3/4))
+mainLayout :: NeoAwfulness Window
+mainLayout = avoidStruts $ rename "1: Grid" Grid
+             ||| rename "2: Full" Full
              ||| rename "3: MirrorTiled" ( Mirror tiled)
              ||| rename "4: Tiled" (tiled)
              ||| rename "5: Column1.6" (Column 1.6)
@@ -390,6 +368,7 @@ mainLayout = avoidStruts $ rename "1: Full" Full
      -- Percent of screen to increment by when resizing panes
      delta = 3/100
 
+myLayout :: Awfulness Window
 myLayout = mouseResize $
            windowArrange mainLayout
 
@@ -398,6 +377,7 @@ myLayout = mouseResize $
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --- myXmonadBarR = "conky -c /home/logan/.xmonad/statusbar/conky_dzen | dzen2 -x '1000' -y '24' -w '680' -h '16' -ta 'r' -bg '"++myColorBG++"' -fg '"++myColorWhite++"' -fn '"++myFont++"'"
 
+myXmobarLogHook :: GHC.IO.Handle.Types.Handle -> X ()
 myXmobarLogHook xmproc = dynamicLogWithPP $ xmobarPP
                       { ppOutput          = hPutStrLn xmproc
                       , ppCurrent         = xmobarColor myColorWhite myColorRed . pad
@@ -414,14 +394,21 @@ myXmobarLogHook xmproc = dynamicLogWithPP $ xmobarPP
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ---AUTOSTART
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+myStartupHook :: X ()
 myStartupHook = do
           spawnOnce "xsetroot -cursor_name left_ptr &"
           spawnOnce "unclutter &"
           spawnOnce "compton -bc -t -8 -l -9 -r 6 -o 0.7 -m 1.0 &"
           spawnOnce "xcompmgr -c &"
-          spawnOnce "redshift -l geoclue2 &"
           spawnOnce "xmodmap ~/.Xmodmap &"
+          spawnOnce "telegram &"
+          spawnOnce "signal &"
+          spawnOnce "elemental &"
+          spawnOnce "discord &"
+          spawnOnce "zoom &"
+          spawnOnce "slack &"
           spawnOnce "systemctl --user start emacs"
+          spawnOnce "pkill redshift && sleep 3 && redshift -l geoclue2 &"
           docksStartupHook
 
 kdeOverride :: Query Bool
@@ -433,6 +420,7 @@ kdeOverride = ask >>= \w -> liftX $ do
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ---CONFIG
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+myXConfig :: XConfig (Awfulness)
 myXConfig = kde4Config
         { modMask            = myModMask
         , terminal           = myTerminal
@@ -450,7 +438,7 @@ myXConfig = kde4Config
 
 
 
-
+main :: IO ()
 main = do
     dzenLeftBar <- spawnPipe "xmobar --dock"
     xmonad       $ myXConfig {

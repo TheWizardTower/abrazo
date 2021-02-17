@@ -74,3 +74,4 @@ compile-cache/
 /fish/conf.d/plugin-sudope_init.fish
 /fish/conf.d/plugin-sudope_key_bindings.fish
 /fish/conf.d/theme-budspencer_key_bindings.fish
+/xmonad/dist-newstyle/

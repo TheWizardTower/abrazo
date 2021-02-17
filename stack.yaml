@@ -7,7 +7,7 @@
 # http://docs.haskellstack.org/en/stable/yaml_configuration/
 #
 packages: []
-resolver: lts-16.11
+resolver: lts-17.3
 
 allow-newer: true
 
@@ -35,4 +35,3 @@ extra-deps:
   - map-syntax-0.3@sha256:ca8b449615fa57419c16a5e98844624a6ac758692b87b3cfae8c74c87c56f1b2,2420
   - pwstore-fast-2.4.4@sha256:9b6a37510d8b9f37f409a8ab3babac9181afcaaa3fce8ba1c131a7ed3de30698,1351
   - xmlhtml-0.2.5.2@sha256:3f0990f725551985d777e8edb5563fe99aee998f1fde6a7633f720f76df54701,46997
-

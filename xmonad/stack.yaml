@@ -1,10 +1,8 @@
-resolver: lts-10.2
+resolver:
+  url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/17/4.yaml
+
 packages:
-        - xmobar-git
-        - xmonad-git
-        - xmonad-contrib-git
-extra-deps: []
-flags:
-  xmobar:
-    all_extensions: true
-extra-package-dbs: []
+- .
+
+ghc-options:
+  "$locals": -Wall
