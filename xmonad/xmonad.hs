@@ -2,7 +2,7 @@
 
 {- | Heavily modified XMonad config derived from the Example.hs file kindly
    supplied by the maintainers.
-  Author: Adam McCullough
+   Author: Adam McCullough
 -}
 module Main (main) where
 
