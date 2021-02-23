@@ -53,7 +53,7 @@ import           XMonad.Prompt.FuzzyMatch     (fuzzyMatch)
 import           XMonad.Prompt.Shell          (shellPrompt)
 import           XMonad.Prompt.Unicode        (unicodePrompt)
 import           XMonad.Prompt.XMonad         (xmonadPrompt)
-import qualified XMonad.StackSet              as W
+import qualified XMonad.StackSet              as W (swapMaster)
 import           XMonad.Util.EZConfig         (additionalKeysP, mkKeymap)
 import           XMonad.Util.NamedScratchpad  (NamedScratchpad (..),
                                                defaultFloating,
