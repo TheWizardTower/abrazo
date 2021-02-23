@@ -4,54 +4,65 @@
    supplied by the maintainers.
   Author: Adam McCullough
 -}
-
-{- | Example.hs
-
- Example configuration file for xmonad using the latest recommended
- features (e.g., 'desktopConfig').
--}
 module Main (main) where
 
 --------------------------------------------------------------------------------
-import           GHC.IO.Handle.Types                (Handle)
-import           System.Exit
-import           System.IO                          (hPutStrLn)
-import           XMonad
-import           XMonad.Actions.CopyWindow          (kill1)
-import           XMonad.Actions.Search
-import           XMonad.Actions.SinkAll             (sinkAll)
-import           XMonad.Actions.Submap              (submap)
-import           XMonad.Config.Desktop
-import           XMonad.Config.Kde
-import           XMonad.Hooks.DynamicLog
-import           XMonad.Hooks.EwmhDesktops
-import           XMonad.Hooks.ManageDocks
-import           XMonad.Hooks.ManageHelpers
-import           XMonad.Layout.BinarySpacePartition (emptyBSP)
-import           XMonad.Layout.Gaps
-import           XMonad.Layout.Grid
-import           XMonad.Layout.LayoutModifier
-import           XMonad.Layout.NoBorders            (noBorders)
-import           XMonad.Layout.ResizableTile        (ResizableTall (..))
-import           XMonad.Layout.Spacing
-import           XMonad.Layout.ThreeColumns
-import           XMonad.Layout.ToggleLayouts        (ToggleLayout (..),
-                                                     toggleLayouts)
-import           XMonad.Prompt                      (XPConfig (..),
-                                                     XPPosition (..))
-import           XMonad.Prompt.ConfirmPrompt
-import           XMonad.Prompt.FuzzyMatch
-import           XMonad.Prompt.Shell
-import           XMonad.Prompt.Unicode
-import           XMonad.Prompt.XMonad
-import qualified XMonad.StackSet                    as W
-import           XMonad.Util.EZConfig
-import           XMonad.Util.NamedScratchpad
-import           XMonad.Util.Run                    (runInTerm, safeSpawn,
-                                                     spawnPipe)
-import           XMonad.Util.SpawnOnce
+import           GHC.IO.Handle.Types          (Handle)
+import           System.Exit                  (exitSuccess)
+import           System.IO                    (hPutStrLn)
+import           XMonad                       (Choose, Full (..), ManageHook,
+                                               Resize (..), Tall (..), Window,
+                                               X, XConfig (..), className, def,
+                                               doFloat, doIgnore, io, logHook,
+                                               mod4Mask, sendMessage, spawn,
+                                               windows, xmonad, (<+>), (<||>),
+                                               (=?), (|||))
+import           XMonad.Actions.CopyWindow    (kill1)
+import           XMonad.Actions.Search        (multi, promptSearch)
+import           XMonad.Actions.SinkAll       (sinkAll)
+import           XMonad.Actions.Submap        (submap)
+import           XMonad.Config.Desktop        (desktopConfig)
+import           XMonad.Config.Kde            (desktopLayoutModifiers,
+                                               kde4Config)
+import           XMonad.Hooks.DynamicLog      (dynamicLogString,
+                                               dynamicLogWithPP, pad, ppCurrent,
+                                               ppHidden, ppHiddenNoWindows,
+                                               ppLayout, ppOrder, ppOutput,
+                                               ppSep, ppTitle, ppWsSep, shorten,
+                                               xmobarColor, xmobarPP,
+                                               xmonadPropLog)
+import           XMonad.Hooks.EwmhDesktops    (ewmh, fullscreenEventHook)
+import           XMonad.Hooks.ManageDocks     (AvoidStruts, ToggleStruts (..),
+                                               avoidStruts, docksStartupHook)
+import           XMonad.Hooks.ManageHelpers   (composeOne, doCenterFloat,
+                                               isDialog, isKDETrayWindow,
+                                               transience, (-?>))
+import           XMonad.Layout.Gaps           (Direction2D (..),
+                                               GapMessage (..), Gaps, gaps')
+import           XMonad.Layout.Grid           (Grid (..))
+import           XMonad.Layout.LayoutModifier (ModifiedLayout (..))
+import           XMonad.Layout.Spacing        (Border (..), Spacing, spacingRaw,
+                                               toggleScreenSpacingEnabled,
+                                               toggleWindowSpacingEnabled)
+import           XMonad.Layout.ThreeColumns   (ThreeCol (..))
+import           XMonad.Layout.ToggleLayouts  (ToggleLayout (..))
+import           XMonad.Prompt                (XPConfig (..), XPPosition (..))
+import           XMonad.Prompt.ConfirmPrompt  (confirmPrompt)
+import           XMonad.Prompt.FuzzyMatch     (fuzzyMatch)
+import           XMonad.Prompt.Shell          (shellPrompt)
+import           XMonad.Prompt.Unicode        (unicodePrompt)
+import           XMonad.Prompt.XMonad         (xmonadPrompt)
+import qualified XMonad.StackSet              as W
+import           XMonad.Util.EZConfig         (additionalKeysP, mkKeymap)
+import           XMonad.Util.NamedScratchpad  (NamedScratchpad (..),
+                                               defaultFloating,
+                                               namedScratchpadAction,
+                                               namedScratchpadManageHook)
+import           XMonad.Util.Run              (spawnPipe)
+import           XMonad.Util.SpawnOnce        (spawnOnce)
 
 --------------------------------------------------------------------------------
+main :: IO ()
 main = do
     dzenLeftBar <- spawnPipe "xmobar --dock"
     -- Start xmonad using the main desktop configuration with a few
@@ -74,8 +85,8 @@ myColorRed = "#C3143B"
 myColorGray :: String
 myColorGray = "#545454"
 
-myColorDarkgray :: String
-myColorDarkgray = "#353535"
+--myColorDarkgray :: String
+--myColorDarkgray = "#353535"
 
 term :: String
 term = "kitty"
@@ -136,7 +147,6 @@ myKeys =
             , ("n", namedScratchpadAction myNamedScratchpads "nethogs")
             ]
         )
-    , ("M-n", namedScratchpadAction myNamedScratchpads "nethogs")
     , ("M-S-v", namedScratchpadAction myNamedScratchpads "volume")
     , ("M-<Backspace>", spawn "/usr/libexec/kscreenlocker_greet")
     , ("M-<Return>", spawn term)
@@ -149,7 +159,8 @@ myKeys =
     ,
         ( "M-u"
         , submap . mkKeymap myXConfig $
-            [ ("g", sendMessage ToggleGaps)
+            [ ("M-c", shellPrompt myFuzzyXPConfig)
+            , ("g", sendMessage ToggleGaps)
             , ("z", sendMessage ToggleStruts)
             , ("S-g", toggleScreenSpacingEnabled >> toggleWindowSpacingEnabled)
             , ("q", kill1)
@@ -203,9 +214,10 @@ myXPConfig =
         , font = "xft:monospace:size=9"
         , position = Top
         , promptBorderWidth = 0
-        , searchPredicate = fuzzyMatch
-        -- , sorter = fuzzySort
         }
+
+myFuzzyXPConfig :: XPConfig
+myFuzzyXPConfig = myXPConfig {searchPredicate = fuzzyMatch}
 
 --------------------------------------------------------------------------------
 
