@@ -114,9 +114,9 @@ myXConfig =
     kde4Config
         { modMask = mod4Mask -- Use the "Win" key for the mod key
         , terminal = term
-        , manageHook = myManageHook <+> (manageHook desktopConfig) <+> (namedScratchpadManageHook myNamedScratchpads)
+        , manageHook = myManageHook <+> manageHook desktopConfig <+> namedScratchpadManageHook myNamedScratchpads
         , handleEventHook = handleEventHook def <+> fullscreenEventHook
-        , layoutHook = desktopLayoutModifiers $ myLayouts
+        , layoutHook = desktopLayoutModifiers myLayouts
         , logHook = dynamicLogString def >>= xmonadPropLog
         , startupHook = myStartupHook
         , XMonad.workspaces = myWorkspaces
