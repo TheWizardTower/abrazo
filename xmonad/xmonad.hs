@@ -18,7 +18,8 @@ import           XMonad                       (Choose, Full (..), ManageHook,
                                                windows, xmonad, (<+>), (<||>),
                                                (=?), (|||))
 import           XMonad.Actions.CopyWindow    (kill1)
-import           XMonad.Actions.Search        (multi, promptSearch)
+import           XMonad.Actions.Search        (SearchEngine, multi, namedEngine,
+                                               promptSearch, searchEngine, (!>))
 import           XMonad.Actions.SinkAll       (sinkAll)
 import           XMonad.Actions.Submap        (submap)
 import           XMonad.Config.Desktop        (desktopConfig)
@@ -125,6 +126,12 @@ myXConfig =
 myWorkspaces :: [String]
 myWorkspaces = ["1.text", "2.web", "3.media", "4.comms", "5.misc", "6", "7", "8", "9.syst"]
 
+github :: SearchEngine
+github = searchEngine "github" "http://github.com/search?q="
+
+myMulti :: SearchEngine
+myMulti = namedEngine "Omni" $ github !> multi
+
 myNamedScratchpads :: [NamedScratchpad]
 myNamedScratchpads =
     [ NS "htop" "kitty htop -c xmonad_htop" (className =? "xmonad_htop") defaultFloating
@@ -139,7 +146,7 @@ myKeys =
     [ ("M-S-q", confirmPrompt myXPConfig "exit" (io exitSuccess)) -- Add some extra key bindings:
     , ("M-c", shellPrompt myXPConfig)
     , ("M-S-c", namedScratchpadAction myNamedScratchpads "free42dec")
-    , ("M-g", promptSearch myXPConfig multi)
+    , ("M-g", promptSearch myXPConfig $ myMulti)
     ,
         ( "M-m"
         , submap . mkKeymap myXConfig $
