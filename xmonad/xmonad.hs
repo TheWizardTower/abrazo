@@ -139,6 +139,7 @@ myNamedScratchpads =
     , NS "nethogs" "kdesu kitty nethogs -c nethogs" (className =? "nethogs") defaultFloating
     , NS "ksysguard" "ksysguard" (className =? "ksysguard") defaultFloating
     , NS "volume" "pavucontrol" (className =? "pavucontrol") defaultFloating
+    , NS "slashtime" "slashtime" (className =? "slashtime" <||> className =? "Slashtime") defaultFloating
     ]
 
 myKeys :: [(String, X ())]
@@ -158,6 +159,7 @@ myKeys =
     , ("M-<Backspace>", spawn "/usr/libexec/kscreenlocker_greet")
     , ("M-<Return>", spawn term)
     , ("M-S-<Esc>", namedScratchpadAction myNamedScratchpads "ksysguard")
+    , ("M-S-s", namedScratchpadAction myNamedScratchpads "slashtime")
     , ("M-S-<Return>", spawn "emacs")
     , ("M-S-;", xmonadPrompt myXPConfig)
     , ("M-S-l", sendMessage $ Expand)
@@ -242,6 +244,7 @@ myManageHook =
         , className =? "XCalc" -?> doFloat
         , className =? "mpv" -?> doFloat
         , className =? "cairo-dock" -?> doIgnore >> doFloat
+        , className =? "slashtime" <||> className =? "Slashtime" -?> doIgnore >> doFloat
         , isDialog -?> doCenterFloat
         , -- Move transient windows to their parent:
           transience

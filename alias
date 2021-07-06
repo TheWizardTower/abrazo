@@ -13,3 +13,5 @@ alias lp='ls --color=yes | less -R'
 alias magit="~/abrazo/magit.sh"
 alias mgc="~/abrazo/mgc.sh"
 alias treer='tree -C | less -R'
+alias Z="echo -en '\e[38;5;108m' ; date -u +%FT%TZ ; echo -en '\e[00m'"
+alias z="echo -en '\e[38;5;108m' ; date -u +%H:%MZ ; echo -en '\e[00m'"
