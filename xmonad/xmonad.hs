@@ -14,7 +14,7 @@ import           XMonad                       (Choose, Full (..), ManageHook,
                                                Resize (..), Tall (..), Window,
                                                X, XConfig (..), className, def,
                                                doFloat, doIgnore, io, logHook,
-                                               mod4Mask, sendMessage, spawn,
+                                               mod4Mask, sendMessage, spawn, withFocused,
                                                windows, xmonad, (<+>), (<||>),
                                                (=?), (|||))
 import           XMonad.Actions.CopyWindow    (kill1)
@@ -53,7 +53,7 @@ import           XMonad.Prompt.FuzzyMatch     (fuzzyMatch)
 import           XMonad.Prompt.Shell          (shellPrompt)
 import           XMonad.Prompt.Unicode        (unicodePrompt)
 import           XMonad.Prompt.XMonad         (xmonadPrompt)
-import qualified XMonad.StackSet              as W (swapMaster)
+import qualified XMonad.StackSet              as W (swapMaster, float, RationalRect (..))
 import           XMonad.Util.EZConfig         (additionalKeysP, mkKeymap)
 import           XMonad.Util.NamedScratchpad  (NamedScratchpad (..),
                                                defaultFloating,
@@ -175,6 +175,8 @@ myKeys =
             , ("q", kill1)
             , ("e", unicodePrompt "/home/merlin/UnicodeData.txt" myXPConfig)
             , ("s", windows W.swapMaster)
+            , ("t", spawn "tzclock")
+            , ("f",  withFocused $ windows . (flip W.float $ W.RationalRect 0 0 1 1))
             ]
         )
     ]
