@@ -7,6 +7,7 @@
 module Main (main) where
 
 --------------------------------------------------------------------------------
+import Data.Tree
 import GHC.IO.Handle.Types (Handle)
 import System.Exit (exitSuccess)
 import System.IO (hPutStrLn)
@@ -37,6 +38,7 @@ import XMonad
       (|||),
     )
 import XMonad.Actions.CopyWindow (kill1)
+import XMonad.Actions.NoBorders (toggleBorder)
 import XMonad.Actions.Search
     ( SearchEngine,
       multi,
@@ -47,6 +49,7 @@ import XMonad.Actions.Search
     )
 import XMonad.Actions.SinkAll (sinkAll)
 import XMonad.Actions.Submap (submap)
+import XMonad.Actions.TreeSelect
 import XMonad.Config.Desktop (desktopConfig)
 import XMonad.Config.Kde
     ( desktopLayoutModifiers,
@@ -75,6 +78,7 @@ import XMonad.Hooks.ManageDocks
     ( AvoidStruts,
       ToggleStruts (..),
       avoidStruts,
+      docks,
       docksStartupHook,
     )
 import XMonad.Hooks.ManageHelpers
@@ -85,14 +89,17 @@ import XMonad.Hooks.ManageHelpers
       transience,
       (-?>),
     )
+import XMonad.Hooks.WorkspaceHistory
 import XMonad.Layout.Gaps
     ( Direction2D (..),
       GapMessage (..),
       Gaps,
       gaps',
     )
+-- import XMonad.Layout.GapsModified ()
 import XMonad.Layout.Grid (Grid (..))
 import XMonad.Layout.LayoutModifier (ModifiedLayout (..))
+import XMonad.Layout.NoBorders (SmartBorder, smartBorders)
 import XMonad.Layout.Spacing
     ( Border (..),
       Spacing,
@@ -102,14 +109,15 @@ import XMonad.Layout.Spacing
     )
 import XMonad.Layout.ThreeColumns (ThreeCol (..))
 import XMonad.Layout.ToggleLayouts (ToggleLayout (..))
+import XMonad.Layout.WindowNavigation (Navigate (..), WindowNavigation, windowNavigation)
 import XMonad.Prompt (XPConfig (..), XPPosition (..))
 import XMonad.Prompt.ConfirmPrompt (confirmPrompt)
 import XMonad.Prompt.FuzzyMatch (fuzzyMatch)
 import XMonad.Prompt.Shell (shellPrompt)
 import XMonad.Prompt.Unicode (unicodePrompt)
 import XMonad.Prompt.XMonad (xmonadPrompt)
-import qualified XMonad.StackSet as W (RationalRect (..), float, swapMaster)
-import XMonad.Util.EZConfig (additionalKeysP, mkKeymap)
+import qualified XMonad.StackSet as W (RationalRect (..), float, greedyView, shift, swapMaster)
+import XMonad.Util.EZConfig (additionalKeysP, checkKeymap, mkKeymap)
 import XMonad.Util.NamedScratchpad
     ( NamedScratchpad (..),
       defaultFloating,
@@ -126,10 +134,11 @@ main = do
     -- Start xmonad using the main desktop configuration with a few
     -- simple overrides:
     xmonad $
-        ewmh
-            myXConfig
-                { logHook = myXmobarLogHook dzenLeftBar
-                }
+        docks $
+            ewmh
+                myXConfig
+                    { logHook = myXmobarLogHook dzenLeftBar
+                    }
 
 myColorBG :: String
 myColorBG = "#151515"
@@ -174,11 +183,43 @@ myXConfig =
         , manageHook = myManageHook <+> manageHook desktopConfig <+> namedScratchpadManageHook myNamedScratchpads
         , handleEventHook = handleEventHook def <+> fullscreenEventHook
         , layoutHook = desktopLayoutModifiers myLayouts
-        , logHook = dynamicLogString def >>= xmonadPropLog
+        , logHook = dynamicLogString def >>= xmonadPropLog >> workspaceHistoryHook
         , startupHook = myStartupHook
-        , XMonad.workspaces = myWorkspaces
+        , -- , XMonad.workspaces = myWorkspaces
+          XMonad.workspaces = toWorkspaces myTreeWorkspaces
         }
         `additionalKeysP` myKeys
+
+myTreeWorkspaces :: Forest String
+myTreeWorkspaces =
+    [ Node "Browser" [] -- a workspace for your browser
+    , Node
+        "Home" -- for everyday activity's
+        [ Node "1" [] --  with 4 extra sub-workspaces, for even more activity's
+        , Node "2" []
+        , Node "3" []
+        , Node "4" []
+        ]
+    , Node
+        "Programming" -- for all your programming needs
+        [ Node "Haskell" []
+        , Node "Docs" [] -- documentation
+        ]
+    ]
+
+-- myTreeWorkspaces = [
+--      Node "Text" []
+--    , Node "Home"
+--      [ Node "1" []
+--      , Node "2" []
+--      , Node "3" []
+--      , Node "4" []
+--      ]
+--    , Node "Programming"
+--        [ Node "Haskell" []
+--        , Node "Docs" []
+--        ]
+-- ]
 
 myWorkspaces :: [String]
 myWorkspaces = ["1.text", "2.web", "3.media", "4.comms", "5.misc", "6", "7", "8", "9.syst"]
@@ -204,7 +245,7 @@ myKeys =
     [ ("M-S-q", confirmPrompt myXPConfig "exit" (io exitSuccess)) -- Add some extra key bindings:
     , ("M-c", shellPrompt myXPConfig)
     , ("M-S-c", namedScratchpadAction myNamedScratchpads "free42dec")
-    , ("M-g", promptSearch myXPConfig $ myMulti)
+    , ("M-g", promptSearch myXPConfig myMulti)
     ,
         ( "M-m"
         , submap . mkKeymap myXConfig $
@@ -212,30 +253,39 @@ myKeys =
             , ("n", namedScratchpadAction myNamedScratchpads "nethogs")
             ]
         )
-    , ("M-S-v", namedScratchpadAction myNamedScratchpads "volume")
+    , -- , ("M-o", selectWindow def >>= (`whenJust` windows . W.focusWindow))
+      ("M-S-v", namedScratchpadAction myNamedScratchpads "volume")
     , ("M-<Backspace>", spawn "/usr/libexec/kscreenlocker_greet")
     , ("M-<Return>", spawn term)
     , ("M-S-<Esc>", namedScratchpadAction myNamedScratchpads "ksysguard")
     , ("M-S-s", namedScratchpadAction myNamedScratchpads "slashtime")
     , ("M-S-<Return>", spawn "emacs")
     , ("M-S-;", xmonadPrompt myXPConfig)
-    , ("M-S-l", sendMessage $ Expand)
+    , ("M-S-l", sendMessage Expand)
     , ("M-S-t", sinkAll)
     , ("M-<Esc>", sendMessage (Toggle "Full"))
+    , ("M-w", treeselectWorkspace (def TSConfig) myTreeWorkspaces W.greedyView)
+    , ("M-S-w", treeselectWorkspace (def TSConfig) myTreeWorkspaces W.shift)
     ,
         ( "M-u"
         , submap . mkKeymap myXConfig $
-            [ ("M-c", shellPrompt myFuzzyXPConfig)
+            [ ("b", withFocused toggleBorder)
+            , ("M-c", shellPrompt myFuzzyXPConfig)
             , ("g", sendMessage ToggleGaps)
             , ("z", sendMessage ToggleStruts)
             , ("S-g", toggleScreenSpacingEnabled >> toggleWindowSpacingEnabled)
             , ("q", kill1)
             , ("e", unicodePrompt "/home/merlin/UnicodeData.txt" myXPConfig)
             , ("s", windows W.swapMaster)
+            , ("S-s", spawnOnce "spectacle")
             , ("t", spawn "tzclock")
-            , ("f", withFocused $ windows . (flip W.float $ W.RationalRect 0 0 1 1))
+            , ("f", withFocused $ windows . flip W.float (W.RationalRect 0 0 1 1))
             ]
         )
+    , ("M-<Up>", sendMessage $ Go U)
+    , ("M-<Down>", sendMessage $ Go D)
+    , ("M-<Left>", sendMessage $ Go L)
+    , ("M-<Right>", sendMessage $ Go R)
     ]
 
 --------------------------------------------------------------------------------
@@ -245,11 +295,26 @@ type LayoutType =
         Spacing
         ( ModifiedLayout
             AvoidStruts
-            ( Choose
-                (ModifiedLayout Gaps Grid)
-                ( Choose
-                    (ModifiedLayout Gaps Full)
-                    (Choose (ModifiedLayout Gaps Tall) (Choose (ModifiedLayout Gaps Tall) (Choose (ModifiedLayout Gaps ThreeCol) (ModifiedLayout Gaps ThreeCol))))
+            ( ModifiedLayout
+                SmartBorder
+                ( ModifiedLayout
+                    WindowNavigation
+                    ( Choose
+                        (ModifiedLayout Gaps Grid)
+                        ( Choose
+                            (ModifiedLayout Gaps Full)
+                            ( Choose
+                                (ModifiedLayout Gaps Tall)
+                                ( Choose
+                                    (ModifiedLayout Gaps Tall)
+                                    ( Choose
+                                        (ModifiedLayout Gaps ThreeCol)
+                                        (ModifiedLayout Gaps ThreeCol)
+                                    )
+                                )
+                            )
+                        )
+                    )
                 )
             )
         )
@@ -258,16 +323,18 @@ myLayouts :: LayoutType Window
 myLayouts =
     spacingRaw True (Border 0 10 10 10) True (Border 10 10 10 10) True $
         avoidStruts $
-            (gap $ Grid)
-                ||| (gap $ Full)
-                ||| (gap $ Tall nmaster delta ratio)
-                ||| (gap $ Tall (nmaster + 1) delta ratio)
-                ||| (gap $ ThreeCol nmaster delta ratio)
-                ||| (gap $ ThreeCol (nmaster + 1) delta ratio)
+            smartBorders $
+                windowNavigation $
+                    gap Grid
+                        ||| gap Full
+                        ||| gap (Tall nmaster delta ratio)
+                        ||| gap (Tall (nmaster + 1) delta ratio)
+                        ||| gap (ThreeCol nmaster delta ratio)
+                        ||| gap (ThreeCol (nmaster + 1) delta ratio)
     where
         nmaster = 1
-        delta = (3 / 100)
-        ratio = (1 / 2)
+        delta = 3 / 100
+        ratio = 1 / 2
         gap = gaps' [((L, 200), False), ((R, 200), False), ((U, 100), False), ((D, 100), False)]
 
 --------------------------------------------------------------------------------
@@ -299,7 +366,12 @@ myFuzzyXPConfig = myXPConfig {searchPredicate = fuzzyMatch}
 myManageHook :: ManageHook
 myManageHook =
     composeOne
-        [ className =? "plasma-desktop" <||> className =? "krunner" <||> isKDETrayWindow -?> doIgnore >> doFloat
+        [ className =? "plasma-desktop"
+            <||> className =? "plasma"
+            <||> className =? "krunner"
+            <||> isDialog
+            <||> isKDETrayWindow -?> doIgnore >> doFloat
+        , className =? "zoom" -?> doFloat
         , className =? "XCalc" -?> doFloat
         , className =? "mpv" -?> doFloat
         , className =? "cairo-dock" -?> doIgnore >> doFloat
@@ -307,10 +379,12 @@ myManageHook =
         , isDialog -?> doCenterFloat
         , -- Move transient windows to their parent:
           transience
+        , resource =? "stalonetray" -?> doIgnore
         ]
 
 myStartupHook :: X ()
 myStartupHook = do
+    checkKeymap myXConfig myKeys
     spawnOnce "xcompmgr -c &"
     spawnOnce "telegram-desktop &"
     spawnOnce "signal &"
