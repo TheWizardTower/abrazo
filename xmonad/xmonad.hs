@@ -21,7 +21,6 @@ import XMonad
       X,
       XConfig (..),
       className,
-      def,
       doFloat,
       doIgnore,
       io,
@@ -30,6 +29,7 @@ import XMonad
       resource,
       sendMessage,
       spawn,
+      whenJust,
       windows,
       withFocused,
       xmonad,
@@ -38,9 +38,8 @@ import XMonad
       (=?),
       (|||),
     )
--- The Fedora package is 0.16, which doesn't have this yet
--- import XMonad.Actions.EasyMotion (selectWindow)
 import XMonad.Actions.CopyWindow (kill1)
+import XMonad.Actions.EasyMotion (selectWindow)
 import XMonad.Actions.NoBorders (toggleBorder)
 import XMonad.Actions.Search
     ( SearchEngine,
@@ -76,13 +75,12 @@ import XMonad.Hooks.DynamicLog
       xmobarPP,
       xmonadPropLog,
     )
-import XMonad.Hooks.EwmhDesktops (ewmh, fullscreenEventHook)
+import XMonad.Hooks.EwmhDesktops (ewmh, ewmhFullscreen)
 import XMonad.Hooks.ManageDocks
     ( AvoidStruts,
       ToggleStruts (..),
       avoidStruts,
       docks,
-      docksStartupHook,
     )
 import XMonad.Hooks.ManageHelpers
     ( composeOne,
@@ -92,6 +90,11 @@ import XMonad.Hooks.ManageHelpers
       transience,
       (-?>),
     )
+-- import XMonad.Layout.GapsModified ()
+
+-- nsHideOnFocusLoss,
+
+import XMonad.Hooks.RefocusLast (refocusLastLogHook)
 import XMonad.Hooks.WorkspaceHistory
 import XMonad.Layout.Gaps
     ( Direction2D (..),
@@ -99,7 +102,6 @@ import XMonad.Layout.Gaps
       Gaps,
       gaps',
     )
--- import XMonad.Layout.GapsModified ()
 import XMonad.Layout.Grid (Grid (..))
 import XMonad.Layout.LayoutModifier (ModifiedLayout (..))
 import XMonad.Layout.NoBorders (SmartBorder, smartBorders)
@@ -119,13 +121,21 @@ import XMonad.Prompt.FuzzyMatch (fuzzyMatch)
 import XMonad.Prompt.Shell (shellPrompt)
 import XMonad.Prompt.Unicode (unicodePrompt)
 import XMonad.Prompt.XMonad (xmonadPrompt)
-import qualified XMonad.StackSet as W (RationalRect (..), float, greedyView, shift, swapMaster)
+import qualified XMonad.StackSet as W
+    ( RationalRect (..),
+      float,
+      focusWindow,
+      greedyView,
+      shift,
+      swapMaster,
+    )
 import XMonad.Util.EZConfig (additionalKeysP, checkKeymap, mkKeymap)
 import XMonad.Util.NamedScratchpad
     ( NamedScratchpad (..),
       defaultFloating,
       namedScratchpadAction,
       namedScratchpadManageHook,
+      nsHideOnFocusLoss,
     )
 import XMonad.Util.Run (spawnPipe)
 import XMonad.Util.SpawnOnce (spawnOnce)
@@ -180,18 +190,23 @@ myXmobarLogHook xmproc =
 
 myXConfig :: XConfig (ModifiedLayout AvoidStruts LayoutType)
 myXConfig =
-    kde4Config
-        { modMask = mod4Mask -- Use the "Win" key for the mod key
-        , terminal = term
-        , manageHook = myManageHook <+> manageHook desktopConfig <+> namedScratchpadManageHook myNamedScratchpads
-        , handleEventHook = handleEventHook def <+> fullscreenEventHook
-        , layoutHook = desktopLayoutModifiers myLayouts
-        , logHook = dynamicLogString def >>= xmonadPropLog >> workspaceHistoryHook
-        , startupHook = myStartupHook
-        , -- , XMonad.workspaces = myWorkspaces
-          XMonad.workspaces = toWorkspaces myTreeWorkspaces
-        }
-        `additionalKeysP` myKeys
+    ewmhFullscreen $
+        kde4Config
+            { modMask = mod4Mask -- Use the "Win" key for the mod key
+            , terminal = term
+            , manageHook = myManageHook <+> manageHook desktopConfig <+> namedScratchpadManageHook myNamedScratchpads
+            , handleEventHook = handleEventHook def
+            , layoutHook = desktopLayoutModifiers myLayouts
+            , logHook =
+                dynamicLogString def >>= xmonadPropLog
+                    >> workspaceHistoryHook
+                    >> refocusLastLogHook
+                    -- does not work right for some reason?
+                    >> nsHideOnFocusLoss myNamedScratchpads
+            , startupHook = myStartupHook
+            , XMonad.workspaces = toWorkspaces myTreeWorkspaces
+            }
+            `additionalKeysP` myKeys
 
 myTreeWorkspaces :: Forest String
 myTreeWorkspaces =
@@ -209,23 +224,6 @@ myTreeWorkspaces =
         , Node "Docs" [] -- documentation
         ]
     ]
-
--- myTreeWorkspaces = [
---      Node "Text" []
---    , Node "Home"
---      [ Node "1" []
---      , Node "2" []
---      , Node "3" []
---      , Node "4" []
---      ]
---    , Node "Programming"
---        [ Node "Haskell" []
---        , Node "Docs" []
---        ]
--- ]
-
-myWorkspaces :: [String]
-myWorkspaces = ["1.text", "2.web", "3.media", "4.comms", "5.misc", "6", "7", "8", "9.syst"]
 
 github :: SearchEngine
 github = searchEngine "github" "http://github.com/search?q="
@@ -256,8 +254,8 @@ myKeys =
             , ("n", namedScratchpadAction myNamedScratchpads "nethogs")
             ]
         )
-    , -- , ("M-o", selectWindow def >>= (`whenJust` windows . W.focusWindow))
-      ("M-S-v", namedScratchpadAction myNamedScratchpads "volume")
+    , ("M-o", selectWindow def >>= (`whenJust` windows . W.focusWindow))
+    , ("M-S-v", namedScratchpadAction myNamedScratchpads "volume")
     , ("M-<Backspace>", spawn "/usr/libexec/kscreenlocker_greet")
     , ("M-<Return>", spawn term)
     , ("M-S-<Esc>", namedScratchpadAction myNamedScratchpads "ksysguard")
@@ -328,7 +326,7 @@ myLayouts =
         avoidStruts $
             smartBorders $
                 windowNavigation $
-                    gap Grid
+                    gap (GridRatio (4/3))
                         ||| gap Full
                         ||| gap (Tall nmaster delta ratio)
                         ||| gap (Tall (nmaster + 1) delta ratio)
@@ -397,4 +395,3 @@ myStartupHook = do
     spawnOnce "slack &"
     spawnOnce "pkill cairo-dock && sleep 3 && cairo-dock &"
     spawnOnce "pkill redshift && sleep 3 && redshift -l geoclue2 &"
-    docksStartupHook
