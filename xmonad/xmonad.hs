@@ -27,6 +27,7 @@ import XMonad
       io,
       logHook,
       mod4Mask,
+      resource,
       sendMessage,
       spawn,
       windows,
@@ -37,6 +38,8 @@ import XMonad
       (=?),
       (|||),
     )
+-- The Fedora package is 0.16, which doesn't have this yet
+-- import XMonad.Actions.EasyMotion (selectWindow)
 import XMonad.Actions.CopyWindow (kill1)
 import XMonad.Actions.NoBorders (toggleBorder)
 import XMonad.Actions.Search
