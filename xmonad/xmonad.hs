@@ -7,60 +7,117 @@
 module Main (main) where
 
 --------------------------------------------------------------------------------
-import           GHC.IO.Handle.Types          (Handle)
-import           System.Exit                  (exitSuccess)
-import           System.IO                    (hPutStrLn)
-import           XMonad                       (Choose, Full (..), ManageHook,
-                                               Resize (..), Tall (..), Window,
-                                               X, XConfig (..), className, def,
-                                               doFloat, doIgnore, io, logHook,
-                                               mod4Mask, sendMessage, spawn, withFocused,
-                                               windows, xmonad, (<+>), (<||>),
-                                               (=?), (|||))
-import           XMonad.Actions.CopyWindow    (kill1)
-import           XMonad.Actions.Search        (SearchEngine, multi, namedEngine,
-                                               promptSearch, searchEngine, (!>))
-import           XMonad.Actions.SinkAll       (sinkAll)
-import           XMonad.Actions.Submap        (submap)
-import           XMonad.Config.Desktop        (desktopConfig)
-import           XMonad.Config.Kde            (desktopLayoutModifiers,
-                                               kde4Config)
-import           XMonad.Hooks.DynamicLog      (dynamicLogString,
-                                               dynamicLogWithPP, pad, ppCurrent,
-                                               ppHidden, ppHiddenNoWindows,
-                                               ppLayout, ppOrder, ppOutput,
-                                               ppSep, ppTitle, ppWsSep, shorten,
-                                               xmobarColor, xmobarPP,
-                                               xmonadPropLog)
-import           XMonad.Hooks.EwmhDesktops    (ewmh, fullscreenEventHook)
-import           XMonad.Hooks.ManageDocks     (AvoidStruts, ToggleStruts (..),
-                                               avoidStruts, docksStartupHook)
-import           XMonad.Hooks.ManageHelpers   (composeOne, doCenterFloat,
-                                               isDialog, isKDETrayWindow,
-                                               transience, (-?>))
-import           XMonad.Layout.Gaps           (Direction2D (..),
-                                               GapMessage (..), Gaps, gaps')
-import           XMonad.Layout.Grid           (Grid (..))
-import           XMonad.Layout.LayoutModifier (ModifiedLayout (..))
-import           XMonad.Layout.Spacing        (Border (..), Spacing, spacingRaw,
-                                               toggleScreenSpacingEnabled,
-                                               toggleWindowSpacingEnabled)
-import           XMonad.Layout.ThreeColumns   (ThreeCol (..))
-import           XMonad.Layout.ToggleLayouts  (ToggleLayout (..))
-import           XMonad.Prompt                (XPConfig (..), XPPosition (..))
-import           XMonad.Prompt.ConfirmPrompt  (confirmPrompt)
-import           XMonad.Prompt.FuzzyMatch     (fuzzyMatch)
-import           XMonad.Prompt.Shell          (shellPrompt)
-import           XMonad.Prompt.Unicode        (unicodePrompt)
-import           XMonad.Prompt.XMonad         (xmonadPrompt)
-import qualified XMonad.StackSet              as W (swapMaster, float, RationalRect (..))
-import           XMonad.Util.EZConfig         (additionalKeysP, mkKeymap)
-import           XMonad.Util.NamedScratchpad  (NamedScratchpad (..),
-                                               defaultFloating,
-                                               namedScratchpadAction,
-                                               namedScratchpadManageHook)
-import           XMonad.Util.Run              (spawnPipe)
-import           XMonad.Util.SpawnOnce        (spawnOnce)
+import GHC.IO.Handle.Types (Handle)
+import System.Exit (exitSuccess)
+import System.IO (hPutStrLn)
+import XMonad
+    ( Choose,
+      Full (..),
+      ManageHook,
+      Resize (..),
+      Tall (..),
+      Window,
+      X,
+      XConfig (..),
+      className,
+      def,
+      doFloat,
+      doIgnore,
+      io,
+      logHook,
+      mod4Mask,
+      sendMessage,
+      spawn,
+      windows,
+      withFocused,
+      xmonad,
+      (<+>),
+      (<||>),
+      (=?),
+      (|||),
+    )
+import XMonad.Actions.CopyWindow (kill1)
+import XMonad.Actions.Search
+    ( SearchEngine,
+      multi,
+      namedEngine,
+      promptSearch,
+      searchEngine,
+      (!>),
+    )
+import XMonad.Actions.SinkAll (sinkAll)
+import XMonad.Actions.Submap (submap)
+import XMonad.Config.Desktop (desktopConfig)
+import XMonad.Config.Kde
+    ( desktopLayoutModifiers,
+      kde4Config,
+    )
+import XMonad.Hooks.DynamicLog
+    ( dynamicLogString,
+      dynamicLogWithPP,
+      pad,
+      ppCurrent,
+      ppHidden,
+      ppHiddenNoWindows,
+      ppLayout,
+      ppOrder,
+      ppOutput,
+      ppSep,
+      ppTitle,
+      ppWsSep,
+      shorten,
+      xmobarColor,
+      xmobarPP,
+      xmonadPropLog,
+    )
+import XMonad.Hooks.EwmhDesktops (ewmh, fullscreenEventHook)
+import XMonad.Hooks.ManageDocks
+    ( AvoidStruts,
+      ToggleStruts (..),
+      avoidStruts,
+      docksStartupHook,
+    )
+import XMonad.Hooks.ManageHelpers
+    ( composeOne,
+      doCenterFloat,
+      isDialog,
+      isKDETrayWindow,
+      transience,
+      (-?>),
+    )
+import XMonad.Layout.Gaps
+    ( Direction2D (..),
+      GapMessage (..),
+      Gaps,
+      gaps',
+    )
+import XMonad.Layout.Grid (Grid (..))
+import XMonad.Layout.LayoutModifier (ModifiedLayout (..))
+import XMonad.Layout.Spacing
+    ( Border (..),
+      Spacing,
+      spacingRaw,
+      toggleScreenSpacingEnabled,
+      toggleWindowSpacingEnabled,
+    )
+import XMonad.Layout.ThreeColumns (ThreeCol (..))
+import XMonad.Layout.ToggleLayouts (ToggleLayout (..))
+import XMonad.Prompt (XPConfig (..), XPPosition (..))
+import XMonad.Prompt.ConfirmPrompt (confirmPrompt)
+import XMonad.Prompt.FuzzyMatch (fuzzyMatch)
+import XMonad.Prompt.Shell (shellPrompt)
+import XMonad.Prompt.Unicode (unicodePrompt)
+import XMonad.Prompt.XMonad (xmonadPrompt)
+import qualified XMonad.StackSet as W (RationalRect (..), float, swapMaster)
+import XMonad.Util.EZConfig (additionalKeysP, mkKeymap)
+import XMonad.Util.NamedScratchpad
+    ( NamedScratchpad (..),
+      defaultFloating,
+      namedScratchpadAction,
+      namedScratchpadManageHook,
+    )
+import XMonad.Util.Run (spawnPipe)
+import XMonad.Util.SpawnOnce (spawnOnce)
 
 --------------------------------------------------------------------------------
 main :: IO ()
@@ -176,7 +233,7 @@ myKeys =
             , ("e", unicodePrompt "/home/merlin/UnicodeData.txt" myXPConfig)
             , ("s", windows W.swapMaster)
             , ("t", spawn "tzclock")
-            , ("f",  withFocused $ windows . (flip W.float $ W.RationalRect 0 0 1 1))
+            , ("f", withFocused $ windows . (flip W.float $ W.RationalRect 0 0 1 1))
             ]
         )
     ]
