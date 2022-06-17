@@ -316,7 +316,7 @@ myLayouts =
         avoidStruts $
             smartBorders $
                 windowNavigation $
-                    gap (GridRatio (4/3))
+                    gap (GridRatio gridRatio)
                         ||| gap Full
                         ||| gap (Tall nmaster delta ratio)
                         ||| gap (Tall (nmaster + 1) delta ratio)
@@ -325,6 +325,7 @@ myLayouts =
     where
         nmaster = 1
         delta = 3 / 100
+        gridRatio = 4 / 3 -- 3 columns, 4 rows
         ratio = 1 / 2
         gap = gaps' [((L, 200), False), ((R, 200), False), ((U, 100), False), ((D, 100), False)]
 
