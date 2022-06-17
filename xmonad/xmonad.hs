@@ -143,10 +143,11 @@ main = do
     -- simple overrides:
     xmonad $
         docks $
-            ewmh
-                myXConfig
-                    { logHook = myXmobarLogHook dzenLeftBar
-                    }
+            ewmh $
+                ewmhFullscreen $
+                    myXConfig
+                        { logHook = myXmobarLogHook dzenLeftBar
+                        }
 
 myColorBG :: String
 myColorBG = "#151515"
@@ -185,23 +186,17 @@ myXmobarLogHook xmproc =
 
 myXConfig :: XConfig (ModifiedLayout AvoidStruts LayoutType)
 myXConfig =
-    ewmhFullscreen $
-        kde4Config
-            { modMask = mod4Mask -- Use the "Win" key for the mod key
-            , terminal = term
-            , manageHook = myManageHook <+> manageHook desktopConfig <+> namedScratchpadManageHook myNamedScratchpads
-            , handleEventHook = handleEventHook def
-            , layoutHook = desktopLayoutModifiers myLayouts
-            , logHook =
-                dynamicLogString def >>= xmonadPropLog
-                    >> workspaceHistoryHook
-                    >> refocusLastLogHook
-                    -- does not work right for some reason?
-                    >> nsHideOnFocusLoss myNamedScratchpads
-            , startupHook = myStartupHook
-            , XMonad.workspaces = toWorkspaces myTreeWorkspaces
-            }
-            `additionalKeysP` myKeys
+    kde4Config
+        { modMask = mod4Mask -- Use the "Win" key for the mod key
+        , terminal = term
+        , manageHook = myManageHook <+> manageHook desktopConfig <+> namedScratchpadManageHook myNamedScratchpads
+        , handleEventHook = handleEventHook def
+        , layoutHook = desktopLayoutModifiers myLayouts
+        , logHook = pure () -- This gets overridden later on anyway, so just make it void for now
+        , startupHook = myStartupHook
+        , XMonad.workspaces = toWorkspaces myTreeWorkspaces
+        }
+        `additionalKeysP` myKeys
 
 myTreeWorkspaces :: Forest String
 myTreeWorkspaces =
