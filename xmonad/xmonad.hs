@@ -168,9 +168,10 @@ term :: String
 term = "kitty"
 
 myXmobarLogHook :: GHC.IO.Handle.Types.Handle -> X ()
-myXmobarLogHook xmproc =
-    dynamicLogWithPP $
-        xmobarPP
+myXmobarLogHook xmproc = do
+    dynamicLogString def >>= xmonadPropLog
+    dynamicLogWithPP
+        ( xmobarPP
             { ppOutput = hPutStrLn xmproc
             , ppCurrent = xmobarColor myColorWhite myColorRed . pad
             , ppHidden = xmobarColor myColorWhite myColorBG . noScratchPad
@@ -181,6 +182,9 @@ myXmobarLogHook xmproc =
             , ppOrder = \(ws : l : t : _) -> [ws, l, t]
             , ppLayout = xmobarColor myColorWhite myColorBG
             }
+        )
+        >> refocusLastLogHook
+        >> nsHideOnFocusLoss myNamedScratchpads
     where
         noScratchPad ws = if ws == "NSP" then "" else pad ws
 
