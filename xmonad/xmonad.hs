@@ -90,12 +90,7 @@ import XMonad.Hooks.ManageHelpers
       transience,
       (-?>),
     )
--- import XMonad.Layout.GapsModified ()
-
--- nsHideOnFocusLoss,
-
 import XMonad.Hooks.RefocusLast (refocusLastLogHook)
-import XMonad.Hooks.WorkspaceHistory
 import XMonad.Layout.Gaps
     ( Direction2D (..),
       GapMessage (..),
