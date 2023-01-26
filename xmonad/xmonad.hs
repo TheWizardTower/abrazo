@@ -39,6 +39,7 @@ import XMonad
       (|||),
     )
 import XMonad.Actions.CopyWindow (kill1)
+import XMonad.Actions.CycleWS (nextWS, prevWS)
 import XMonad.Actions.EasyMotion (selectWindow)
 import XMonad.Actions.NoBorders (toggleBorder)
 import XMonad.Actions.Search
@@ -252,6 +253,8 @@ myKeys =
     , ("M-S-v", namedScratchpadAction myNamedScratchpads "volume")
     , ("M-<Backspace>", spawn "/usr/libexec/kscreenlocker_greet")
     , ("M-<Return>", spawn term)
+    , ("M-S-n", nextWS )
+    , ("M-S-p", prevWS )
     , ("M-S-<Esc>", namedScratchpadAction myNamedScratchpads "ksysguard")
     , ("M-S-s", namedScratchpadAction myNamedScratchpads "slashtime")
     , ("M-S-<Return>", spawn "emacs")
