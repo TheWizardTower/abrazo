@@ -18,7 +18,15 @@
     ~/.mypy.ini:                            mypy.ini
     ~/.screenrc:                            screenrc
     ~/.shellrc:                             shellrc
-    ~/.spacemacs:                           spacemacs
+    ~/.emacs.d/early-init.el:
+            path: early-init.el
+            create: true
+    ~/.emacs.d/init.el:
+            path: init.el
+            create: true
+    ~/.emacs.d/extras:
+            path: extras
+            create: true
     ~/.stack/config.yaml:
             path: config.yaml
             create: true
