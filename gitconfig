@@ -3,7 +3,7 @@
   umail = merlinfmct87@gmail.com
   email = merlinfmct87@gmail.com
 [core]
-  editor = vim
+  editor = nvim
   excludesfile = ~/.gitignore
 [color]
   ui = true
