@@ -40,6 +40,7 @@
           (typescript-mode . typescript-ts-mode)
           (json-mode . json-ts-mode)
           (css-mode . css-ts-mode)
+          (rust-mode . rust-ts-mode)
           (python-mode . python-ts-mode)))
   :hook
   ;; Auto parenthesis matching
@@ -99,8 +100,6 @@
   )
 
 (use-package ace-window
-
-  :ensure t
   :config
   (global-set-key (kbd "M-o") 'ace-window)
   )
@@ -114,6 +113,10 @@
 ;; Helm configuration
 (load-file (expand-file-name "extras/helm.el" user-emacs-directory))
 
-(dirvish-override-dired-mode)
+(use-package dirvish
+  :init
+  (dirvish-override-dired-mode)
+  )
+
 
 ;; (xhair-mode)

@@ -39,3 +39,5 @@
                             (ns-appearance . dark)
                             (ns-transparent-titlebar . t)))
 
+
+(setq use-package-always-ensure t)
