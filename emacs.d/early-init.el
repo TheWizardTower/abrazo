@@ -41,3 +41,4 @@
 
 
 (setq use-package-always-ensure t)
+(setq visible-bell t)
