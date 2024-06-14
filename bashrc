@@ -35,7 +35,7 @@ else
 fi
 
 export GOPATH="$HOME/gocode:$HOME/code/golang:$GOPATH"
-export EDITOR=vim
+export EDITOR=nvim
 
 # don't put duplicate lines in the history. See bash(1) for more options
 # ... or force ignoredups and ignorespace
@@ -111,3 +111,6 @@ GPG_TTY=$(tty)
 export GPG_TTY
 gpgconf --create-socketdir
 export PATH="$PATH:$HOME/.local/bin"
+. "$HOME/.cargo/env"
+
+eval "$(mcfly init bash)"
