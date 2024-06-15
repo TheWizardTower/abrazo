@@ -14,8 +14,10 @@
 	helm-use-frame-when-more-than-two-windows t
 	helm-frame-background-color               "DarkSlateGrey"
 	)
-  :hook (evil-mode . helm-evil-markers-toggle)
   )
+
+(use-package helm-evil-markers
+  :hook (evil-mode . helm-evil-markers-toggle))
 
 ;; (add-to-list 'helm-completion-styles-alist '(switch-to-buffer . helm-fuzzy))
 
@@ -26,7 +28,6 @@
 
 ;; (helm-top-poll-mode 1)
 
-
-(require 'helm-dictionary)
-(require 'helm-descbinds)
+(use-package helm-dictionary)
+(use-package helm-descbinds)
 (helm-descbinds-mode)

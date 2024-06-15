@@ -81,6 +81,7 @@
 
 (use-package vertico-directory
   :after vertico
+  :ensure f ;; it's a sub-library of the vertico package
   :bind (:map vertico-map
               ("M-DEL" . vertico-directory-delete-word)))
 
@@ -103,6 +104,7 @@
 
 ;; Part of corfu
 (use-package corfu-popupinfo
+  :ensure f ;; Sub-library of the corfu package.
   :after corfu
   :hook (corfu-mode . corfu-popupinfo-mode)
   :custom

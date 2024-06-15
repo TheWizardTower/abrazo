@@ -33,11 +33,7 @@
   ;; Configuring initial major mode for some modes
   (evil-set-initial-state 'vterm-mode 'emacs))
 
-  (beacon-mode 1)
-
-    ;; locate and load the package
-    (add-to-list 'load-path "path/to/evil-args")
-    (require 'evil-args)
+    (use-package evil-args)
 
     ;; bind evil-args text objects
     (define-key evil-inner-text-objects-map "a" 'evil-inner-arg)
@@ -55,6 +51,10 @@
 ;;; evil-escape configuration
 (setq-default evil-escape-key-sequence "hl")
 
+(use-package beacon
+  :init
+  (beacon-mode 1))
+
 (use-package evil-better-visual-line
   :ensure t
   :config
@@ -66,24 +66,56 @@
   :config
   (evil-collection-init))
 
-(evil-commentary-mode)
+(use-package evil-commentary
+  :init
+  (evil-commentary-mode)
+  )
 
-(evilem-default-keybindings "SPC")
 
-(global-evil-extra-operator-mode 1)
+(use-package evil-easymotion
+  :init
+  (evilem-default-keybindings "SPC")
+  )
 
-(require 'evil-expat)
+(use-package evil-extra-operator
+  :init
+  (global-evil-extra-operator-mode 1)
+  )
 
-(global-evil-fringe-mark-mode)
+(use-package evil-expat)
 
-(evil-goggles-mode)
+(use-package evil-fringe-mark
+  :init
+  (setq-default left-fringe-width 16)
+  (setq-default left-margin-width 2)
+  (setq-default evil-fringe-mark-side 'left-fringe)
+  (setq-default evil-fringe-mark-margin 'left-margin)
+  (setq evil-fringe-mark-show-special t)
+  (global-evil-fringe-mark-mode)
+  )
 
-(evil-indent-plus-default-bindings)
+(use-package evil-goggles
+  :init
+  (evil-goggles-mode)
+  )
 
-(global-evil-leader-mode)
+(use-package evil-indent-plus
+  :init
+  (evil-indent-plus-default-bindings)
+  )
 
-(evil-lion-mode)
+(use-package evil-leader
+  :init
+  (global-evil-leader-mode)
+  )
 
+(use-package evil-lion
+  :init
+  (evil-lion-mode)
+  )
 ;;; (evil-lisp-state-leader ", l")
 
-(global-evil-matchit-mode 1)
+(use-package evil-matchit
+  :init
+  (global-evil-matchit-mode 1)
+  )

@@ -54,3 +54,5 @@
   :config
   (add-hook 'lsp-mode-hook 'lsp-ui-mode))
 
+
+(use-package toml-mode)
