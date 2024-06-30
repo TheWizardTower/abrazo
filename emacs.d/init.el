@@ -224,6 +224,14 @@ If the new path's directories does not exist, create them."
 ;; Tools for academic researchers
 (load-file (expand-file-name "extras/researcher.el" user-emacs-directory))
 
+;; inhibit startup message
+(setq inhibit-startup-message t)
+
+(use-package fortune-cookie
+  :config
+  (setq fortune-cookie-cowsay-args  "-f tux -s")
+  (fortune-cookie-mode))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;   Built-in customization framework
