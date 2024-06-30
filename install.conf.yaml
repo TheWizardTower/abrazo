@@ -19,13 +19,13 @@
     ~/.screenrc:                            screenrc
     ~/.shellrc:                             shellrc
     ~/.emacs.d/early-init.el:
-            path: early-init.el
+            path: emacs.d/early-init.el
             create: true
     ~/.emacs.d/init.el:
-            path: init.el
+            path: emacs.d/init.el
             create: true
     ~/.emacs.d/extras:
-            path: extras
+            path: emacs.d/extras
             create: true
     ~/.stack/config.yaml:
             path: config.yaml
