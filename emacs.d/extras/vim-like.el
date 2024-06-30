@@ -119,3 +119,21 @@
   :init
   (global-evil-matchit-mode 1)
   )
+
+(use-package evil-traces
+  :config
+  (evil-traces-use-diff-faces) ; if you want to use diff's faces
+  (evil-traces-mode))
+
+(use-package evil-space
+  :config
+  (evil-space-mode))
+
+(use-package evil-smartparens
+  :config
+  (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
+  )
+
+(use-package evil-quickscope
+  :config
+  (global-evil-quickscope-always-mode 1))
