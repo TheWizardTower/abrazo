@@ -113,6 +113,9 @@
 ;; Helm configuration
 (load-file (expand-file-name "extras/helm.el" user-emacs-directory))
 
+;; Typescript. Because life isn't hard enough, right?
+(load-file (expand-file-name "extras/typescript.el" user-emacs-directory))
+
 (use-package dirvish
   :init
   (dirvish-override-dired-mode)
