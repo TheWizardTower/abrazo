@@ -111,3 +111,5 @@ GPG_TTY=$(tty)
 export GPG_TTY
 gpgconf --create-socketdir
 export PATH="$PATH:$HOME/.local/bin"
+eval "$(direnv hook bash)"
+eval "$(mcfly init bash)"
