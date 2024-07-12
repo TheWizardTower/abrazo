@@ -57,6 +57,16 @@
   :ensure t
   :bind (("C-x g" . magit-status)))
 
+(use-package magit-file-icons)
+(use-package magit-diff-flycheck)
+(use-package magit-filenotify)
+(use-package magit-todos)
+(use-package magit-find-file
+  :config
+  (require 'magit-find-file) ;; if not using the ELPA package
+  (global-set-key (kbd "C-c g") 'magit-find-file-completing-read)
+  )
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;   Common file types
@@ -127,8 +137,37 @@
   (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   )
+
 (use-package projectile-codesearch)
-
 (use-package projectile-ripgrep)
+(use-package projectile-sift)
+(use-package projectile-speedbar)
+(use-package projectile-variable)
 
+(use-package line-reminder
+  :config
+  (global-line-reminder-mode)
+  )
+(use-package watch-buffer)
+
+(use-package shfmt
+  :config
+  (add-hook 'sh-mode-hook 'shfmt-on-save-mode)
+  )
+
+(use-package undo-tree
+  :config
+  (global-undo-tree-mode)
+  )
+
+(use-package ssh-agency)
+
+(use-package ssh-config-mode
+  :config
+  (add-to-list 'auto-mode-alist '("/\\.ssh/config\\(\\.d/.*\\.conf\\)?\\'" . ssh-config-mode))
+  (add-to-list 'auto-mode-alist '("/sshd?_config\\(\\.d/.*\\.conf\\)?\\'"  . ssh-config-mode))
+  (add-to-list 'auto-mode-alist '("/known_hosts\\'"       . ssh-known-hosts-mode))
+  (add-to-list 'auto-mode-alist '("/authorized_keys2?\\'" . ssh-authorized-keys-mode))
+  (add-hook 'ssh-config-mode-hook 'turn-on-font-lock)
+  )
 ;; (xhair-mode)
