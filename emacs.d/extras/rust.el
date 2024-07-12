@@ -56,3 +56,5 @@
 
 
 (use-package toml-mode)
+
+(use-package rust-playground)
