@@ -43,7 +43,7 @@
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
 
 ;; If you want to turn off the welcome screen, uncomment this
-;(setq inhibit-splash-screen t)
+;;(setq inhibit-splash-screen t)
 
 (setq initial-major-mode 'fundamental-mode)  ; default mode for the *scratch* buffer
 (setq display-time-default-load-average nil) ; this information is useless for most
@@ -114,14 +114,14 @@ If the new path's directories does not exist, create them."
 (setq completions-format 'one-column)
 (setq completions-group t)
 (setq completion-auto-select 'second-tab)            ; Much more eager
-;(setq completion-auto-select t)                     ; See `C-h v completion-auto-select' for more possible values
+;;(setq completion-auto-select t)                     ; See `C-h v completion-auto-select' for more possible values
 
 (keymap-set minibuffer-mode-map "TAB" 'minibuffer-complete) ; TAB acts more like how it does in the shell
 
 ;; For a fancier built-in completion option, try ido-mode or fido-mode. See also
 ;; the file extras/base.el
-;(fido-vertical-mode)
-;(setq icomplete-delay-completions-threshold 4000)
+;;(fido-vertical-mode)
+;;(setq icomplete-delay-completions-threshold 4000)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -214,12 +214,12 @@ If the new path's directories does not exist, create them."
 ;; Org-mode configuration
 ;; WARNING: need to customize things inside the elisp file before use! See
 ;; the file extras/org-intro.txt for help.
-;(load-file (expand-file-name "extras/org.el" user-emacs-directory))
+;;(load-file (expand-file-name "extras/org.el" user-emacs-directory))
 
 ;; Email configuration in Emacs
 ;; WARNING: needs the `mu' program installed; see the elisp file for more
 ;; details.
-;(load-file (expand-file-name "extras/email.el" user-emacs-directory))
+;;(load-file (expand-file-name "extras/email.el" user-emacs-directory))
 
 ;; Tools for academic researchers
 (load-file (expand-file-name "extras/researcher.el" user-emacs-directory))
@@ -253,7 +253,7 @@ If the new path's directories does not exist, create them."
  '(haskell-stylish-on-save t)
  '(helm-minibuffer-history-key "M-p")
  '(package-selected-packages
-   '(color-theme color-theme-modern color-theme-sanityinc-solarized color-theme-sanityinc-tomorrow embark-consult abyss-theme ancient-one-dark-theme apache-mode projectile projectile-codesearch projectile-git-autofetch projectile-ripgrep projectile-sift projectile-speedbar projectile-variable apheleia find-file-in-project find-file-in-repository find-file-rg find-things-fast fortune-cookie evil-embrace evil-exchange know-your-http-well line-reminder llm lsp-ui magit magit-diff-flycheck magit-file-icons magit-filenotify magit-find-file magit-gptcommit magit-patch-changelog magit-todos nix-haskell-mode nix-mode nix-modeline nix-sandbox nix-ts-mode nixos-options nixpkgs-fmt ewal evil evil-args evil-better-visual-line evil-cleverparens evil-collection evil-commentary evil-easymotion evil-escape evil-ex-shell-command evil-expat evil-extra-operator evil-fringe-mark evil-god-state evil-goggles evil-indent-plus evil-indent-textobject evil-leader evil-lion evil-lisp-state evil-mark-replace evil-matchit evil-nerd-commenter evil-quickscope evil-search-highlight-persist evil-smartparens evil-snipe evil-space evil-string-inflection evil-surround evil-tabs evil-terminal-cursor-changer evil-test-helpers evil-traces evil-tutor evil-vimish-fold evil-visual-mark-mode evil-visualstar org-evil xhair beacon cursor-flash all all-ext all-the-icons all-the-icons-completion all-the-icons-dired all-the-icons-nerd-fonts dirvish evalator f3 flyspell-correct-helm helm-atoms helm-backup helm-books helm-c-moccur helm-c-yasnippet helm-charinfo helm-codesearch helm-commandlinefu helm-company helm-descbinds helm-describe-modes helm-dictionary helm-dired-recent-dirs helm-dogears helm-evil-markers helm-ext helm-file-preview helm-filesets helm-fish-completion helm-flycheck helm-flyspell helm-frame helm-fuzzier helm-fuzzy helm-fuzzy-find helm-git helm-git-grep helm-gitignore helm-google helm-helm-commands helm-hoogle helm-hunks helm-icons helm-idris helm-img helm-img-tiqav helm-ispell helm-ls-git helm-lsp helm-make helm-org helm-org-multi-wiki helm-project helm-projectile helm-pt helm-rage helm-rg helm-searcher helm-sheet helm-shell-history helm-switch-shell helm-switch-to-repl helm-tail helm-taskswitch helm-themes helm-tree-sitter helm-unicode helm-w3m helm-z highlight-escape-sequences highlight-indent-guides highlight-leading-spaces highlight-numbers highlight-operators highlight-parentheses highlight-quoted highlight-refontification highlight2clipboard historian helm lsp-haskell dap-mode smlfmt lsp-mode flymd markdown-mode markdown-preview-eww markdown-preview-mode markdown-soma markdown-toc markdownfmt flycheck-haskell ghc-imported-from ghci-completion haskell-mode haskell-snippets haskell-tng-mode ormolu which-key))
+   '(relint roguel-ike rpn-calc rust-playground scopeline shfmt sort-words ssh ssh-agency ssh-config-mode ssh-tunnels surround term-projectile tmux-mode tmux-pane typo-suggest ue undo-tree watch-buffer color-theme color-theme-modern color-theme-sanityinc-solarized color-theme-sanityinc-tomorrow embark-consult abyss-theme ancient-one-dark-theme apache-mode projectile projectile-codesearch projectile-git-autofetch projectile-ripgrep projectile-sift projectile-speedbar projectile-variable apheleia find-file-in-project find-file-in-repository find-file-rg find-things-fast fortune-cookie evil-embrace evil-exchange know-your-http-well line-reminder llm lsp-ui magit magit-diff-flycheck magit-file-icons magit-filenotify magit-find-file magit-gptcommit magit-patch-changelog magit-todos nix-haskell-mode nix-mode nix-modeline nix-sandbox nix-ts-mode nixos-options nixpkgs-fmt ewal evil evil-args evil-better-visual-line evil-cleverparens evil-collection evil-commentary evil-easymotion evil-escape evil-ex-shell-command evil-expat evil-extra-operator evil-fringe-mark evil-god-state evil-goggles evil-indent-plus evil-indent-textobject evil-leader evil-lion evil-lisp-state evil-mark-replace evil-matchit evil-nerd-commenter evil-quickscope evil-search-highlight-persist evil-smartparens evil-snipe evil-space evil-string-inflection evil-surround evil-tabs evil-terminal-cursor-changer evil-test-helpers evil-traces evil-tutor evil-vimish-fold evil-visual-mark-mode evil-visualstar org-evil xhair beacon cursor-flash all all-ext all-the-icons all-the-icons-completion all-the-icons-dired all-the-icons-nerd-fonts dirvish evalator f3 flyspell-correct-helm helm-atoms helm-backup helm-books helm-c-moccur helm-c-yasnippet helm-charinfo helm-codesearch helm-commandlinefu helm-company helm-descbinds helm-describe-modes helm-dictionary helm-dired-recent-dirs helm-dogears helm-evil-markers helm-ext helm-file-preview helm-filesets helm-fish-completion helm-flycheck helm-flyspell helm-frame helm-fuzzier helm-fuzzy helm-fuzzy-find helm-git helm-git-grep helm-gitignore helm-google helm-helm-commands helm-hoogle helm-hunks helm-icons helm-idris helm-img helm-img-tiqav helm-ispell helm-ls-git helm-lsp helm-make helm-org helm-org-multi-wiki helm-project helm-projectile helm-pt helm-rage helm-rg helm-searcher helm-sheet helm-shell-history helm-switch-shell helm-switch-to-repl helm-tail helm-taskswitch helm-themes helm-tree-sitter helm-unicode helm-w3m helm-z highlight-escape-sequences highlight-indent-guides highlight-leading-spaces highlight-numbers highlight-operators highlight-parentheses highlight-quoted highlight-refontification highlight2clipboard historian helm lsp-haskell dap-mode smlfmt lsp-mode flymd markdown-mode markdown-preview-eww markdown-preview-mode markdown-soma markdown-toc markdownfmt flycheck-haskell ghc-imported-from ghci-completion haskell-mode haskell-snippets haskell-tng-mode ormolu which-key))
  '(xhair-face '(:foreground "White" :background "DarkSlateGrey")))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
