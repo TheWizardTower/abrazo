@@ -25,7 +25,7 @@
   (setq evil-undo-system 'undo-redo)
 
   ;; Enable this if you want C-u to scroll up, more like pure Vim
-  ;(setq evil-want-C-u-scroll t)
+  ;; (setq evil-want-C-u-scroll t)
 
   :config
   (evil-mode)
@@ -33,20 +33,20 @@
   ;; Configuring initial major mode for some modes
   (evil-set-initial-state 'vterm-mode 'emacs))
 
-    (use-package evil-args)
+(use-package evil-args)
 
-    ;; bind evil-args text objects
-    (define-key evil-inner-text-objects-map "a" 'evil-inner-arg)
-    (define-key evil-outer-text-objects-map "a" 'evil-outer-arg)
+;; bind evil-args text objects
+(define-key evil-inner-text-objects-map "a" 'evil-inner-arg)
+(define-key evil-outer-text-objects-map "a" 'evil-outer-arg)
 
-    ;; bind evil-forward/backward-args
-    (define-key evil-normal-state-map "L" 'evil-forward-arg)
-    (define-key evil-normal-state-map "H" 'evil-backward-arg)
-    (define-key evil-motion-state-map "L" 'evil-forward-arg)
-    (define-key evil-motion-state-map "H" 'evil-backward-arg)
+;; bind evil-forward/backward-args
+(define-key evil-normal-state-map "L" 'evil-forward-arg)
+(define-key evil-normal-state-map "H" 'evil-backward-arg)
+(define-key evil-motion-state-map "L" 'evil-forward-arg)
+(define-key evil-motion-state-map "H" 'evil-backward-arg)
 
-    ;; bind evil-jump-out-args
-    (define-key evil-normal-state-map "K" 'evil-jump-out-args)
+;; bind evil-jump-out-args
+(define-key evil-normal-state-map "K" 'evil-jump-out-args)
 
 ;;; evil-escape configuration
 (setq-default evil-escape-key-sequence "hl")
@@ -137,3 +137,8 @@
 (use-package evil-quickscope
   :config
   (global-evil-quickscope-always-mode 1))
+
+(use-package evil-surround
+  :config
+  (global-evil-surround-mode 1)
+  )
