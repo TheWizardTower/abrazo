@@ -58,3 +58,9 @@
 (use-package toml-mode)
 
 (use-package rust-playground)
+
+(use-package flycheck-rust
+  :config
+  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
+  )
+
