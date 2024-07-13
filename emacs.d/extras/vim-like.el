@@ -49,7 +49,14 @@
 (define-key evil-normal-state-map "K" 'evil-jump-out-args)
 
 ;;; evil-escape configuration
-(setq-default evil-escape-key-sequence "hl")
+
+(use-package evil-escape
+  :config
+  (global-set-key (kbd "C-c C-g") 'evil-escape)
+  (setq-default evil-escape-key-sequence "hu")
+  (setq-default evil-escape-delay "0.1")
+  (evil-escape-mode)
+  )
 
 (use-package beacon
   :init
@@ -149,3 +156,26 @@
   )
 
 (use-package evil-string-inflection)
+
+(use-package evil-ex-shell-command)
+
+(use-package evil-terminal-cursor-changer
+  :config
+  (unless (display-graphic-p)
+    (evil-terminal-cursor-changer-activate))
+  )
+
+(use-package evil-vimish-fold
+  :config
+  (global-evil-vimish-fold-mode)
+  )
+
+(use-package evil-visual-mark-mode
+  :config
+  (evil-visual-mark-mode)
+  )
+
+(use-package evil-visual-replace
+  :config
+  (evil-visual-replace-visual-bindings)
+  )
