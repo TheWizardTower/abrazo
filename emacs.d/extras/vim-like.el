@@ -142,3 +142,10 @@
   :config
   (global-evil-surround-mode 1)
   )
+
+(use-package evil-visualstar
+  :config
+  (global-evil-visualstar-mode t)
+  )
+
+(use-package evil-string-inflection)
