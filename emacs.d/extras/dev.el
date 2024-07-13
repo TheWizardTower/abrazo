@@ -155,11 +155,6 @@
   (add-hook 'sh-mode-hook 'shfmt-on-save-mode)
   )
 
-(use-package undo-tree
-  :config
-  (global-undo-tree-mode)
-  )
-
 (use-package ssh-agency)
 
 (use-package ssh-config-mode
@@ -171,3 +166,8 @@
   (add-hook 'ssh-config-mode-hook 'turn-on-font-lock)
   )
 ;; (xhair-mode)
+(use-package yasnippet
+  :init
+  (yas-global-mode 1)
+  (define-key yas-minor-mode-map (kbd "C-c C-t") 'yas-expand)
+  )
