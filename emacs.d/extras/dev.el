@@ -170,37 +170,6 @@
 ;; (xhair-mode)
 
 
-;; Enable rich annotations using the Marginalia package
-(use-package marginalia
-  ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
-  ;; available in the *Completions* buffer, add it to the
-  ;; `completion-list-mode-map'.
-  :config
-  (defun marginalia-toggle ()
-    (interactive)
-    (mapc
-     (lambda (x)
-       (setcdr x (append (reverse (remq 'none
-					(remq 'builtin (cdr x))))
-			 '(builtin none))))
-     marginalia-annotator-registry))
-  (defun marginalia-use-builtin ()
-    (interactive)
-    (mapc
-     (lambda (x)
-       (setcdr x (cons 'builtin (remq 'builtin (cdr x)))))
-     marginalia-annotator-registry))
-  :bind (:map minibuffer-local-map
-              ("M-A" . marginalia-cycle))
-
-  ;; The :init section is always executed.
-  :init
-
-  ;; Marginalia must be activated in the :init section of use-package such that
-  ;; the mode gets enabled right away. Note that this forces loading the
-  ;; package.
-  (marginalia-mode))
-
 (use-package yasnippet
   :init
   (yas-global-mode 1)
@@ -211,6 +180,22 @@
   (add-hook 'after-init-hook 'global-company-mode)
   )
 
+(use-package company-dict)
+(use-package company-emacs-eclim)
+(use-package company-irony)
+(use-package company-irony-c-headers)
+(use-package company-prescient
+  :config
+  (company-prescient-mode)
+  )
+(use-package company-quickhelp
+  :config
+  (company-quickhelp-mode)
+  )
+(use-package company-quickhelp-terminal)
+(use-package company-shell)
+(use-package company-spell)
+
 (use-package company-fuzzy
   :hook (company-mode . company-fuzzy-mode)
   :init
@@ -219,3 +204,48 @@
         company-fuzzy-reset-selection t
         company-fuzzy-prefix-on-top nil
         company-fuzzy-trigger-symbols '("." "->" "<" "\"" "'" "@")))
+
+(use-package discover
+  :config
+  (global-discover-mode)
+  )
+
+(use-package discover-my-major)
+
+(use-package flycheck-aspell
+  :config
+  ;; If you want to check TeX/LaTeX/ConTeXt buffers
+  (add-to-list 'flycheck-checkers 'tex-aspell-dynamic)
+  ;; If you want to check Markdown/GFM buffers
+  (add-to-list 'flycheck-checkers 'markdown-aspell-dynamic)
+  ;; If you want to check HTML buffers
+  (add-to-list 'flycheck-checkers 'html-aspell-dynamic)
+  ;; If you want to check XML/SGML buffers
+  (add-to-list 'flycheck-checkers 'xml-aspell-dynamic)
+  ;; If you want to check Nroff/Troff/Groff buffers
+  (add-to-list 'flycheck-checkers 'nroff-aspell-dynamic)
+  ;; If you want to check Texinfo buffers
+  (add-to-list 'flycheck-checkers 'texinfo-aspell-dynamic)
+  ;; If you want to check comments and strings for C-like languages
+  (add-to-list 'flycheck-checkers 'c-aspell-dynamic)
+  ;; If you want to check message buffers
+  (add-to-list 'flycheck-checkers 'mail-aspell-dynamic)
+  )
+
+(use-package flycheck-popup-tip
+  :config
+  (add-hook 'flycheck-mode-hook 'flycheck-popup-tip-mode)
+  (flycheck-pos-tip-mode)
+  )
+
+(use-package flycheck-status-emoji
+  :config
+  (flycheck-status-emoji-mode)
+  )
+
+(use-package flycheck-yamllint
+  :config
+  (flycheck-yamllint-setup)
+  )
+
+(use-package flyspell-correct)

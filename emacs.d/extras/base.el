@@ -36,12 +36,64 @@
   ;; Other good things to bind: consult-line-multi, consult-history,
   ;; consult-outline, consult-org-agenda, etc.
   :bind (("C-x b" . consult-buffer)  ; orig. switch-to-buffer
-         ("M-y" . consult-yank-pop)  ; orig. yank-pop
+         ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
+         ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
+         ("C-x t b" . consult-buffer-other-tab)    ;; orig. switch-to-buffer-other-tab
+         ;; C-x bindings in `ctl-x-map'
+         ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
          ("M-s r" . consult-ripgrep)
-         ("C-s" . consult-line))     ; orig. isearch
+         ("C-s" . consult-line)     ; orig. isearch
+	 ("C-c h" . consult-history)
+	 ("C-c k" . consult-kmacro)
+	 ("C-c m" . consult-man)
+	 ("C-c i" . consult-info)
+         ;; Custom M-# bindings for fast register access
+         ("M-#" . consult-register-load)
+         ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
+         ("C-M-#" . consult-register)
+         ;; Other custom bindings
+         ("M-y" . consult-yank-pop)                ;; orig. yank-pop
+         ;; M-g bindings in `goto-map'
+         ("M-g e" . consult-compile-error)
+         ("M-g f" . consult-flycheck)               ;; Alternative: consult-flycheck
+         ("M-g g" . consult-goto-line)             ;; orig. goto-line
+         ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
+         ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
+         ("M-g m" . consult-mark)
+         ("M-g k" . consult-global-mark)
+         ("M-g i" . consult-imenu)
+         ("M-g I" . consult-imenu-multi)
+         ;; M-s bindings in `search-map'
+	 ;; For some reason, the functions in this block respond with
+	 ;; "wrong argument type: overlayp, nil". There's a github
+	 ;; issue about this, but the fix doesn't work on my machine.
+         ("M-S d" . consult-fd)                  ;; Alternative: consult-find
+         ("M-S c" . consult-locate)
+         ("M-S g" . consult-grep)
+         ("M-S G" . consult-git-grep)
+         ("M-S r" . consult-ripgrep)
+         ("M-S l" . consult-line)
+         ("M-S L" . consult-line-multi)
+         ("M-S k" . consult-keep-lines)
+         ("M-S u" . consult-focus-lines)
+         ;; Isearch integration
+         ("M-S e" . consult-isearch-history)
+         :map isearch-mode-map
+         ;; ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
+         ("M-S e" . consult-isearch-history)       ;; orig. isearch-edit-string
+         ("M-S l" . consult-line)                  ;; needed by consult-line to detect isearch
+         ("M-S L" . consult-line-multi)            ;; needed by consult-line to detect isearch
+         ;; Minibuffer history
+         :map minibuffer-local-map
+         ;; ("M-s" . consult-history)                 ;; orig. next-matching-history-element
+         ;; ("M-r" . consult-history)                ;; orig. previous-matching-history-element
+	 )
   :config
   ;; Narrowing lets you restrict results to certain groups of candidates
-  (setq consult-narrow-key "<"))
+  (setq consult-narrow-key "<")
+  (autoload 'projectile-project-root "projectile")
+  (setq consult-project-function (lambda (_) (projectile-project-root)))
+  )
 
 (use-package embark
   :ensure t
@@ -83,12 +135,38 @@
   :after vertico
   :ensure f ;; it's a sub-library of the vertico package
   :bind (:map vertico-map
-              ("M-DEL" . vertico-directory-delete-word)))
+	      ("M-DEL" . vertico-directory-delete-word)))
 
 ;; Marginalia: annotations for minibuffer
+;; Enable rich annotations using the Marginalia package
 (use-package marginalia
-  :ensure t
+  ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
+  ;; available in the *Completions* buffer, add it to the
+  ;; `completion-list-mode-map'.
   :config
+  (defun marginalia-toggle ()
+    (interactive)
+    (mapc
+     (lambda (x)
+       (setcdr x (append (reverse (remq 'none
+					(remq 'builtin (cdr x))))
+			 '(builtin none))))
+     marginalia-annotator-registry))
+  (defun marginalia-use-builtin ()
+    (interactive)
+    (mapc
+     (lambda (x)
+       (setcdr x (cons 'builtin (remq 'builtin (cdr x)))))
+     marginalia-annotator-registry))
+  :bind (:map minibuffer-local-map
+              ("M-A" . marginalia-cycle))
+
+  ;; The :init section is always executed.
+  :init
+
+  ;; Marginalia must be activated in the :init section of use-package such that
+  ;; the mode gets enabled right away. Note that this forces loading the
+  ;; package.
   (marginalia-mode))
 
 ;; Popup completion-at-point
@@ -118,7 +196,8 @@
   :if (not (display-graphic-p))
   :ensure t
   :config
-  (corfu-terminal-mode))
+  (corfu-terminal-mode)
+  )
 
 ;; Fancy completion-at-point functions; there's too much in the cape package to
 ;; configure here; dive in when you're comfortable!
