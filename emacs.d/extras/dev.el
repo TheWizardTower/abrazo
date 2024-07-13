@@ -67,6 +67,8 @@
   (global-set-key (kbd "C-c g") 'magit-find-file-completing-read)
   )
 
+(use-package magit-commit-mark)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;   Common file types
@@ -166,8 +168,54 @@
   (add-hook 'ssh-config-mode-hook 'turn-on-font-lock)
   )
 ;; (xhair-mode)
+
+
+;; Enable rich annotations using the Marginalia package
+(use-package marginalia
+  ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
+  ;; available in the *Completions* buffer, add it to the
+  ;; `completion-list-mode-map'.
+  :config
+  (defun marginalia-toggle ()
+    (interactive)
+    (mapc
+     (lambda (x)
+       (setcdr x (append (reverse (remq 'none
+					(remq 'builtin (cdr x))))
+			 '(builtin none))))
+     marginalia-annotator-registry))
+  (defun marginalia-use-builtin ()
+    (interactive)
+    (mapc
+     (lambda (x)
+       (setcdr x (cons 'builtin (remq 'builtin (cdr x)))))
+     marginalia-annotator-registry))
+  :bind (:map minibuffer-local-map
+              ("M-A" . marginalia-cycle))
+
+  ;; The :init section is always executed.
+  :init
+
+  ;; Marginalia must be activated in the :init section of use-package such that
+  ;; the mode gets enabled right away. Note that this forces loading the
+  ;; package.
+  (marginalia-mode))
+
 (use-package yasnippet
   :init
   (yas-global-mode 1)
-  (define-key yas-minor-mode-map (kbd "C-c C-t") 'yas-expand)
   )
+
+(use-package company
+  :config
+  (add-hook 'after-init-hook 'global-company-mode)
+  )
+
+(use-package company-fuzzy
+  :hook (company-mode . company-fuzzy-mode)
+  :init
+  (global-company-fuzzy-mode 1)
+  (setq company-fuzzy-sorting-backend 'flx
+        company-fuzzy-reset-selection t
+        company-fuzzy-prefix-on-top nil
+        company-fuzzy-trigger-symbols '("." "->" "<" "\"" "'" "@")))
