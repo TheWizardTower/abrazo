@@ -1,5 +1,5 @@
 (use-package helm
-;;  :straight t
+  ;;  :straight t
   :config
   (helm-mode 1)
   (global-set-key (kbd "M-x") 'helm-M-x)
@@ -29,5 +29,5 @@
 ;; (helm-top-poll-mode 1)
 
 (use-package helm-dictionary)
-(use-package helm-descbinds)
-(helm-descbinds-mode)
+;; (use-package helm-descbinds)
+;; (helm-descbinds-mode)
