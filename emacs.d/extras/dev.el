@@ -67,6 +67,8 @@
   (global-set-key (kbd "C-c g") 'magit-find-file-completing-read)
   )
 
+(use-package magit-commit-mark)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;   Common file types
@@ -155,11 +157,6 @@
   (add-hook 'sh-mode-hook 'shfmt-on-save-mode)
   )
 
-(use-package undo-tree
-  :config
-  (global-undo-tree-mode)
-  )
-
 (use-package ssh-agency)
 
 (use-package ssh-config-mode
@@ -171,3 +168,84 @@
   (add-hook 'ssh-config-mode-hook 'turn-on-font-lock)
   )
 ;; (xhair-mode)
+
+
+(use-package yasnippet
+  :init
+  (yas-global-mode 1)
+  )
+
+(use-package company
+  :config
+  (add-hook 'after-init-hook 'global-company-mode)
+  )
+
+(use-package company-dict)
+(use-package company-emacs-eclim)
+(use-package company-irony)
+(use-package company-irony-c-headers)
+(use-package company-prescient
+  :config
+  (company-prescient-mode)
+  )
+(use-package company-quickhelp
+  :config
+  (company-quickhelp-mode)
+  )
+(use-package company-quickhelp-terminal)
+(use-package company-shell)
+(use-package company-spell)
+
+(use-package company-fuzzy
+  :hook (company-mode . company-fuzzy-mode)
+  :init
+  (global-company-fuzzy-mode 1)
+  (setq company-fuzzy-sorting-backend 'flx
+        company-fuzzy-reset-selection t
+        company-fuzzy-prefix-on-top nil
+        company-fuzzy-trigger-symbols '("." "->" "<" "\"" "'" "@")))
+
+(use-package discover
+  :config
+  (global-discover-mode)
+  )
+
+(use-package discover-my-major)
+
+(use-package flycheck-aspell
+  :config
+  ;; If you want to check TeX/LaTeX/ConTeXt buffers
+  (add-to-list 'flycheck-checkers 'tex-aspell-dynamic)
+  ;; If you want to check Markdown/GFM buffers
+  (add-to-list 'flycheck-checkers 'markdown-aspell-dynamic)
+  ;; If you want to check HTML buffers
+  (add-to-list 'flycheck-checkers 'html-aspell-dynamic)
+  ;; If you want to check XML/SGML buffers
+  (add-to-list 'flycheck-checkers 'xml-aspell-dynamic)
+  ;; If you want to check Nroff/Troff/Groff buffers
+  (add-to-list 'flycheck-checkers 'nroff-aspell-dynamic)
+  ;; If you want to check Texinfo buffers
+  (add-to-list 'flycheck-checkers 'texinfo-aspell-dynamic)
+  ;; If you want to check comments and strings for C-like languages
+  (add-to-list 'flycheck-checkers 'c-aspell-dynamic)
+  ;; If you want to check message buffers
+  (add-to-list 'flycheck-checkers 'mail-aspell-dynamic)
+  )
+
+(use-package flycheck-popup-tip
+  :config
+  (add-hook 'flycheck-mode-hook 'flycheck-popup-tip-mode)
+  (flycheck-pos-tip-mode)
+  )
+
+(use-package flycheck-status-emoji
+  :config
+  (flycheck-status-emoji-mode)
+  )
+
+(use-package flycheck-yamllint
+  :config
+  (flycheck-yamllint-setup)
+  )
+
+(use-package flyspell-correct)
