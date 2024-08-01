@@ -156,3 +156,8 @@
   :ensure t
   :config
   (setq wgrep-auto-save-buffer t))
+
+(use-package telephone-line
+  :config
+  (telephone-line-mode 1)
+  )
