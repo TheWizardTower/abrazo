@@ -134,3 +134,8 @@ if [ "$TERM" = "linux" ]; then
     echo -en "\e]PFdedede" #white
     clear #for background artifacting
 fi
+
+export LANG="en_US.UTF-8"
+export LC_CTYPE="en_US.UTF-8"
+
+source ~/.bash-powerline.sh
