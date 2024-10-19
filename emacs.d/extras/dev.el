@@ -116,17 +116,6 @@
   (global-set-key (kbd "M-o") 'ace-window)
   )
 
-;; Rust configuration
-(load-file (expand-file-name "extras/rust.el" user-emacs-directory))
-
-;; Haskell configuration
-(load-file (expand-file-name "extras/haskell.el" user-emacs-directory))
-
-;; Helm configuration
-(load-file (expand-file-name "extras/helm.el" user-emacs-directory))
-
-;; Typescript. Because life isn't hard enough, right?
-(load-file (expand-file-name "extras/typescript.el" user-emacs-directory))
 
 (use-package dirvish
   :init
@@ -249,3 +238,94 @@
   )
 
 (use-package flyspell-correct)
+
+
+(use-package lsp-mode
+  :init
+  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  (setq lsp-keymap-prefix "C-c l")
+  :commands lsp
+  :custom
+  ;; Sometimes you need to tell Eglot where to find the language server
+  (add-to-list 'eglot-server-programs
+               '(haskell-mode . ("haskell-language-server-wrapper" "--lsp")))
+  ;; what to use when checking-on-save. "check" is default, I prefer clippy
+  (lsp-rust-analyzer-cargo-watch-command "clippy")
+  (lsp-eldoc-render-all t)
+  (lsp-idle-delay 0.6)
+  ;; enable / disable the hints you prefer:
+  (lsp-inlay-hint-enable t)
+  ;; these are optional configurations. See https://emacs-lsp.github.io/lsp-mode/page/lsp-rust-analyzer/#lsp-rust-analyzer-display-chaining-hints for a full list
+  (lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
+  (lsp-rust-analyzer-display-chaining-hints t)
+  (lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
+  (lsp-rust-analyzer-display-closure-return-type-hints t)
+  (lsp-rust-analyzer-display-parameter-hints nil)
+  (lsp-rust-analyzer-display-reborrow-hints nil)
+  :hook
+  (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+   ;; (XXX-mode . lsp)
+   (haskell-mode . lsp)
+   ;; if you want which-key integration
+   (lsp-mode . lsp-enable-which-key-integration))
+  ;; Optional - enable lsp-mode automatically in scala files
+  ;; You could also swap out lsp for lsp-deffered in order to defer loading
+  (scala-mode . lsp)
+  (lsp-mode . lsp-lens-mode)
+  :config
+  ;; Uncomment following section if you would like to tune lsp-mode performance according to
+  ;; https://emacs-lsp.github.io/lsp-mode/page/performance/
+  ;; (setq gc-cons-threshold 100000000) ;; 100mb
+  ;; (setq read-process-output-max (* 1024 1024)) ;; 1mb
+  ;; (setq lsp-idle-delay 0.500)
+  ;; (setq lsp-log-io nil)
+  ;; (setq lsp-completion-provider :capf)
+  (setq lsp-prefer-flymake nil)
+  ;; Makes LSP shutdown the metals server when all buffers in the project are closed.
+  ;; https://emacs-lsp.github.io/lsp-mode/page/settings/mode/#lsp-keep-workspace-alive
+  (setq lsp-keep-workspace-alive nil)
+  (add-hook 'lsp-mode-hook 'lsp-ui-mode)
+  )
+
+;; optionally
+;; (use-package lsp-ui :commands lsp-ui-mode)
+;; if you are helm user
+;; (use-package helm-lsp :commands helm-lsp-workspace-symbol)
+;; if you are ivy user
+;; (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+;; (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+
+;; optionally if you want to use debugger
+;; (use-package dap-mode)
+;; (use-package dap-haskell) ;; to load the dap adapter for your language
+
+
+(use-package format-all
+  :commands format-all-mode
+  :hook (prog-mode . format-all-mode)
+  :config
+  (setq-default format-all-formatters
+                '(("C"     (astyle "--mode=c"))
+                  ("Shell" (shfmt "-i" "4" "-ci"))
+		  ("Rust" (cargo "fmt"))
+		  ("Terraform" (terraform "fmt"))
+		  ("Scala" (scalafmt))
+		  ("Haskell" (fourmolu))
+		  )))
+
+;; ;; ;; Put the language configurations after lsp-mode setup.
+
+;; Rust configuration
+(load-file (expand-file-name "extras/rust.el" user-emacs-directory))
+
+;; Haskell configuration
+(load-file (expand-file-name "extras/haskell.el" user-emacs-directory))
+
+;; Helm configuration
+(load-file (expand-file-name "extras/helm.el" user-emacs-directory))
+
+;; Typescript. Because life isn't hard enough, right?
+(load-file (expand-file-name "extras/typescript.el" user-emacs-directory))
+
+;; Scala
+(load-file (expand-file-name "extras/scala.el" user-emacs-directory))
