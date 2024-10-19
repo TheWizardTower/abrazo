@@ -34,7 +34,6 @@ else
     start_agent;
 fi
 
-export GOPATH="$HOME/gocode:$HOME/code/golang:$GOPATH"
 export EDITOR=nvim
 
 # don't put duplicate lines in the history. See bash(1) for more options
@@ -94,7 +93,6 @@ function mymytop() {
 [[ -s "$HOME/.local/share/marker/marker.sh" ]] && source "$HOME/.local/share/marker/marker.sh"
 
 
-export PATH="$PATH:$HOME/local/bin"
 
 powerline-daemon -q
 POWERLINE_BASH_CONTINUATION=1
@@ -111,7 +109,8 @@ GPG_TTY=$(tty)
 export GPG_TTY
 gpgconf --create-socketdir
 export PATH="$PATH:$HOME/.local/bin"
-eval "$(direnv hook bash)"
+export PATH="$PATH:$HOME/local/bin"
+export PATH="$PATH:$HOME/.local/share/coursier/bin"
 . "$HOME/.cargo/env"
 eval "$(mcfly init bash)"
 
