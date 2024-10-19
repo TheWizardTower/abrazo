@@ -200,7 +200,7 @@
   :hook (company-mode . company-fuzzy-mode)
   :init
   (global-company-fuzzy-mode 1)
-  (setq company-fuzzy-sorting-backend 'flx
+  (setq ;; company-fuzzy-sorting-backend 'flx
         company-fuzzy-reset-selection t
         company-fuzzy-prefix-on-top nil
         company-fuzzy-trigger-symbols '("." "->" "<" "\"" "'" "@")))
