@@ -329,3 +329,6 @@
 
 ;; Scala
 (load-file (expand-file-name "extras/scala.el" user-emacs-directory))
+
+;; Terraform. Hold my beer.
+(load-file (expand-file-name "extras/terraform.el" user-emacs-directory))
