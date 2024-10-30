@@ -17,6 +17,8 @@
 
 ;; Startup speed, annoyance suppression
 (setq gc-cons-threshold 10000000)
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
+(setenv "LSP_USE_PLISTS" "true")
 (setq byte-compile-warnings '(not obsolete))
 (setq warning-suppress-log-types '((comp) (bytecomp)))
 (setq native-comp-async-report-warnings-errors 'silent)
