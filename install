@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-set -e
+mkdir -p ~/.config/tmux-powerline
+if [ ! -e ~/.config/tmux-powerline/config.sh ]; then
+	ln -s ./tmux/config.sh ~/.config/tmux-powerline/config.sh
+fi
+mkdir -p ~/.tmux/plugins/tmux-powerline/themes
+if [ ! -e ~/.tmux/plugins/tmux-powerline/themes/merlin.sh ]; then
+	ln -s ./tmux/merlin.sh ~/.tmux/plugins/tmux-powerline/themes/merlin.sh
+fi
 
-CONFIG="install.conf.yaml"
-DOTBOT_DIR="dotbot"
-
-DOTBOT_BIN="bin/dotbot"
-BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-cd "${BASEDIR}"
-git submodule update --init --recursive "${DOTBOT_DIR}"
-
-"${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -v -d "${BASEDIR}" -c "${CONFIG}" "${@}"
+pushd fish
+./fish_install.fish
+popd
