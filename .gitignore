@@ -76,3 +76,5 @@ compile-cache/
 /fish/conf.d/theme-budspencer_key_bindings.fish
 /xmonad/dist-newstyle/
 /xmonad/build-x86_64-linux/
+
+nvim/pack
