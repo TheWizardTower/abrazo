@@ -45,3 +45,6 @@
   (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
   )
 
+(use-package cargo)
+(use-package cargo-mode)
+(use-package cargo-transient)
