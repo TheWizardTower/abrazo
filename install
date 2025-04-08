@@ -1,15 +1,39 @@
 #!/usr/bin/env bash
+# vim: ft=bash
 set -euo pipefail
 
-mkdir -p ~/.config/tmux-powerline
-if [ ! -e ~/.config/tmux-powerline/config.sh ]; then
-	ln -s ./tmux/config.sh ~/.config/tmux-powerline/config.sh
-fi
-mkdir -p ~/.tmux/plugins/tmux-powerline/themes
-if [ ! -e ~/.tmux/plugins/tmux-powerline/themes/merlin.sh ]; then
-	ln -s ./tmux/merlin.sh ~/.tmux/plugins/tmux-powerline/themes/merlin.sh
-fi
+function link_file() {
+	SRC="${1}"; shift
+	DEST="${1}"; shift
+
+	mkdir -p $(dirname "${DEST}")
+
+	if [ -L "${DEST}" ]; then
+		echo "File ${DEST} already linked; skipping"
+	elif [ -e "${DEST}" ]; then
+		mv "${DEST}" "${DEST}_$(date +%s)"
+		ln -s "${SRC}" "${DEST}"
+	else
+		# Neither already linked, nor a concrete file.
+		ln -s "${SRC}" "${DEST}"
+	fi
+}
+
+link_file "${HOME}/abrazo/alias.sh" "${HOME}/.alias.sh"
+link_file "${HOME}/abrazo/tmux.conf" "${HOME}/.tmux.conf"
+link_file "${HOME}/abrazo/tmux/config.sh" "${HOME}/.config/tmux-powerline/config.sh"
+link_file "${HOME}/abrazo/tmux/merlin.sh" "${HOME}/.config/tmux-powerline/themes/merlin.sh"
+link_file "${HOME}/abrazo/bashrc" "${HOME}/.bashrc"
+link_file "${HOME}/abrazo/bash_profile" "${HOME}/.bash_profile"
 
 pushd fish
 ./fish_install.fish
+popd
+
+pushd emacs.d
+./emacs_install.sh
+popd
+
+pushd nvim
+./vim_install.sh
 popd
