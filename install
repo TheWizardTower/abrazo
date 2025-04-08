@@ -19,6 +19,7 @@ function link_file() {
 	fi
 }
 
+link_file "${HOME}/abrazo/alias" "${HOME}/.alias"
 link_file "${HOME}/abrazo/alias.sh" "${HOME}/.alias.sh"
 link_file "${HOME}/abrazo/tmux.conf" "${HOME}/.tmux.conf"
 link_file "${HOME}/abrazo/tmux/config.sh" "${HOME}/.config/tmux-powerline/config.sh"
@@ -26,14 +27,15 @@ link_file "${HOME}/abrazo/tmux/merlin.sh" "${HOME}/.config/tmux-powerline/themes
 link_file "${HOME}/abrazo/bashrc" "${HOME}/.bashrc"
 link_file "${HOME}/abrazo/bash_profile" "${HOME}/.bash_profile"
 
+link_file "${HOME}/abrazo/emacs.d" "${HOME}/.emacs.d"
+
+link_file "${HOME}/abrazo/nvim" "${HOME}/.config/nvim"
+link_file "${HOME}/abrazo/nvim" "${HOME}/.var/app/io.neovim.nvim/config/nvim"
+
 pushd fish
 ./fish_install.fish
 popd
 
-pushd emacs.d
-./emacs_install.sh
-popd
-
-pushd nvim
-./vim_install.sh
+pushd kitty
+./install_kitty.sh
 popd
