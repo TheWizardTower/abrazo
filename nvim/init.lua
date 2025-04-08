@@ -74,21 +74,6 @@ require("CopilotChat").setup {
 	-- See Configuration section for options
 }
 
--- require('bad-practices.nvim').setup({
---     most_splits = 3, -- how many splits are considered a good practice(default: 3)
---     most_tabs = 3, -- how many tabs are considered a good practice(default: 3)
---     max_hjkl = 10, -- how many times you can spam hjkl keys in a row(default: 10)
--- })
-
-require('bad_practices').setup({
-	most_splits = 3, -- how many splits are considered a good practice(default: 3)
-	most_tabs = 3, -- how many tabs are considered a good practice(default: 3)
-	max_hjkl = 10, -- how many times you can spam hjkl keys in a row(default: 10)
-})
-
-require("hardtime").setup()
-
-
 local wk = require("which-key")
 wk.add({
 	{ "<leader>f",  group = "file" }, -- group
@@ -119,6 +104,7 @@ vim.cmd([[
   filetype on
   filetype plugin on
   filetype indent on
+  syntax on
 ]])
 
 vim.wo.number = true
