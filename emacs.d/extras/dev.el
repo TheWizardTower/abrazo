@@ -79,6 +79,10 @@
   :hook ((markdown-mode . visual-line-mode)))
 
 (use-package yaml-mode
+  :hook
+  ((yaml-mode . prog-mode-hook))
+  :config
+  (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode)
   :ensure t)
 
 (use-package json-mode
@@ -93,6 +97,8 @@
 ;;;   Eglot, the built-in LSP client for Emacs
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(add-to-list 'prog-mode-hook (display-line-numbers-mode))
 
 (use-package eglot
   ;; no :ensure t here because it's built-in
@@ -336,3 +342,24 @@
 
 ;; Terraform. Hold my beer.
 (load-file (expand-file-name "extras/terraform.el" user-emacs-directory))
+
+;; Copilot.
+(load-file (expand-file-name "extras/copilot.el" user-emacs-directory))
+
+(use-package dashboard
+  :config
+  (dashboard-setup-starting-hook))
+
+(use-package highlight-indent-guides
+  :hook
+  (('prog-mode-hook . 'highlight-indent-guides-mode)))
+
+;;; This is a builtin, so we don't need to use use-package to install
+;;; it.
+(require 'whitespace)
+(add-hook 'prog-mode-hook 'whitespace-mode)
+
+(use-package sideline
+  :init
+  (setq sideline-backends-left '(sideline-flycheck))
+  (setq sideline-backends-right '(sideline-lsp)))
