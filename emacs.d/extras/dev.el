@@ -83,7 +83,7 @@
   ((yaml-mode . prog-mode-hook))
   :config
   (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode)
-  :ensure t)
+  :ensure t))
 
 (use-package json-mode
   :ensure t)
