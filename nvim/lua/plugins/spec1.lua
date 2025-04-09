@@ -15,6 +15,7 @@ return {
 		dependencies = {
 			'neovim/nvim-lspconfig',
 			'williamboman/mason.nvim', -- optional
+			'WhoIsSethDaniel/mason-tool-installer.nvim', -- optional
 			'williamboman/mason-lspconfig.nvim', -- optional
 		},
 	},
@@ -58,7 +59,6 @@ return {
 	{
 		"williamboman/mason.nvim"
 	},
-	{ 'antonk52/bad-practices.nvim' },
 	{ "zbirenbaum/copilot.lua" },
 	{
 		"CopilotC-Nvim/CopilotChat.nvim",
@@ -74,11 +74,6 @@ return {
 	},
 	{ 'gennaro-tedesco/nvim-peekup' },
 	-- lazy.nvim
-	{
-		"m4xshen/hardtime.nvim",
-		dependencies = { "MunifTanjim/nui.nvim" },
-		opts = {}
-	},
 	-- { "/HiPhish/rainbow-delimiters.nvim" },
 	{
 		"folke/which-key.nvim",
@@ -108,7 +103,6 @@ return {
 		}
 	},
 
-	{ 'Th3Whit3Wolf/space-nvim' },
 	-- Lua
 	{
 		"folke/twilight.nvim",

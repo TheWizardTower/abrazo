@@ -1,5 +1,62 @@
 require("config.lazy")
 require("mason").setup()
+require("mason-tool-installer").setup {
+	ensure_installed = {
+		"ast-grep",
+		"bacon",
+		"bacon-ls",
+		"basedpyright",
+		"bash-language-server",
+		"beautysh",
+		"cbfmt",
+		"codespell",
+		"colorgen-nvim",
+		"commitlint",
+		"contextive",
+		"copilot-language-server",
+		"dotenv-linter",
+		"fourmolu",
+		"gh",
+		"gitleaks",
+		"gitlint",
+		"gitui",
+		"harper-ls",
+		"hlint",
+		"html-lsp",
+		"hydra-lsp",
+		"jq",
+		"json-lsp",
+		"jsonlint",
+		"lua-language-server",
+		"luacheck",
+		"luaformatter",
+		"markdown-oxide",
+		"markdown-toc",
+		"mdformat",
+		"pylint",
+		"pymarkdownlnt",
+		"rust-analyzer",
+		"semgrep",
+		"shellcheck",
+		"shellharden",
+		"shfmt",
+		"snyk",
+		"snyk-ls",
+		"sourcery",
+		"terraform-ls",
+		"tflint",
+		"tfsec",
+		"trivy",
+		"typos",
+		"typos-lsp",
+		"vint",
+		"yaml-language-server",
+		"yamlfix",
+		"yamlfmt",
+		"yamllint",
+		"yq",
+	}
+}
 
 require('lsp-setup').setup({
 	servers = {
@@ -100,7 +157,6 @@ wk.add({
 })
 
 vim.cmd([[
-  colorscheme space-nvim
   filetype on
   filetype plugin on
   filetype indent on
