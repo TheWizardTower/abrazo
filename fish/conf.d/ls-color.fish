@@ -1,2 +1,2 @@
 alias ls="ls --color=auto"
-eval (dircolors -c ~/.dircolors)
+eval (dircolors -c ~/git/LS_COLORS/lscolors.csh)
