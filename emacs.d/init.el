@@ -253,7 +253,36 @@ If the new path's directories does not exist, create them."
  '(haskell-stylish-on-save t)
  '(helm-minibuffer-history-key "M-p")
  '(package-selected-packages
-   '(flycheck-pos-tip flycheck-projectile company-flx sbt-mode scala-mode telephone-line powerline powerline-evil relint roguel-ike rpn-calc rust-playground scopeline shfmt sort-words ssh ssh-agency ssh-config-mode ssh-tunnels surround term-projectile tmux-mode tmux-pane typo-suggest ue undo-tree watch-buffer color-theme color-theme-modern color-theme-sanityinc-solarized color-theme-sanityinc-tomorrow embark-consult abyss-theme ancient-one-dark-theme apache-mode projectile projectile-codesearch projectile-git-autofetch projectile-ripgrep projectile-sift projectile-speedbar projectile-variable apheleia find-file-in-project find-file-in-repository find-file-rg find-things-fast fortune-cookie evil-embrace evil-exchange know-your-http-well line-reminder llm lsp-ui magit magit-diff-flycheck magit-file-icons magit-filenotify magit-find-file magit-gptcommit magit-patch-changelog magit-todos nix-haskell-mode nix-mode nix-modeline nix-sandbox nix-ts-mode nixos-options nixpkgs-fmt ewal evil evil-args evil-better-visual-line evil-cleverparens evil-collection evil-commentary evil-easymotion evil-escape evil-ex-shell-command evil-expat evil-extra-operator evil-fringe-mark evil-god-state evil-goggles evil-indent-plus evil-indent-textobject evil-leader evil-lion evil-lisp-state evil-mark-replace evil-matchit evil-nerd-commenter evil-quickscope evil-search-highlight-persist evil-smartparens evil-snipe evil-space evil-string-inflection evil-surround evil-tabs evil-terminal-cursor-changer evil-test-helpers evil-traces evil-tutor evil-vimish-fold evil-visual-mark-mode evil-visualstar org-evil xhair beacon cursor-flash all all-ext all-the-icons all-the-icons-completion all-the-icons-dired all-the-icons-nerd-fonts dirvish evalator f3 flyspell-correct-helm helm-atoms helm-backup helm-books helm-c-moccur helm-c-yasnippet helm-charinfo helm-codesearch helm-commandlinefu helm-company helm-descbinds helm-describe-modes helm-dictionary helm-dired-recent-dirs helm-dogears helm-evil-markers helm-ext helm-file-preview helm-filesets helm-fish-completion helm-flycheck helm-flyspell helm-frame helm-fuzzier helm-fuzzy helm-fuzzy-find helm-git helm-git-grep helm-gitignore helm-google helm-helm-commands helm-hoogle helm-hunks helm-icons helm-idris helm-img helm-img-tiqav helm-ispell helm-ls-git helm-lsp helm-make helm-org helm-org-multi-wiki helm-project helm-projectile helm-pt helm-rage helm-rg helm-searcher helm-sheet helm-shell-history helm-switch-shell helm-switch-to-repl helm-tail helm-taskswitch helm-themes helm-tree-sitter helm-unicode helm-w3m helm-z highlight-escape-sequences highlight-indent-guides highlight-leading-spaces highlight-numbers highlight-operators highlight-parentheses highlight-quoted highlight-refontification highlight2clipboard historian helm lsp-haskell dap-mode smlfmt lsp-mode flymd markdown-mode markdown-preview-eww markdown-preview-mode markdown-soma markdown-toc markdownfmt flycheck-haskell ghc-imported-from ghci-completion haskell-mode haskell-snippets haskell-tng-mode ormolu which-key))
+   '(apheleia bank-buddy beacon cape cargo cargo-mode cargo-transient
+	      citar-org-roam company-dict company-fuzzy company-irony
+	      company-irony-c-headers company-prescient
+	      company-quickhelp-terminal company-shell company-spell
+	      copilot copilot-chat corfu-terminal dashboard dirvish
+	      discover discover-my-major eat embark-consult evil-args
+	      evil-better-visual-line evil-collection evil-commentary
+	      evil-easymotion evil-escape evil-ex-shell-command
+	      evil-expat evil-extra-operator evil-fringe-mark
+	      evil-goggles evil-indent-plus evil-leader evil-lion
+	      evil-matchit evil-quickscope evil-smartparens evil-space
+	      evil-string-inflection evil-surround
+	      evil-terminal-cursor-changer evil-traces
+	      evil-vimish-fold evil-visual-mark-mode
+	      evil-visual-replace evil-visualstar flycheck-aspell
+	      flycheck-haskell flycheck-popup-tip flycheck-rust
+	      flycheck-status-emoji flycheck-yamllint flyspell-correct
+	      format-all fortune-cookie helm-dictionary
+	      helm-evil-markers highlight-indent-guides json-mode
+	      kind-icon line-reminder lsp-haskell lsp-metals lsp-ui
+	      magit-commit-mark magit-diff-flycheck magit-filenotify
+	      magit-find-file magit-todos marginalia multi-web-mode
+	      orderless projectile-codesearch projectile-ripgrep
+	      projectile-sift projectile-speedbar projectile-variable
+	      quelpa-use-package rust-playground rustic sbt-mode shfmt
+	      sideline ssh-agency ssh-config-mode stripspace
+	      telephone-line termint terraform-mode toml-mode
+	      treesit-auto vertico watch-buffer web-mode
+	      weyland-yutani-theme wgrep-helm which-key yaml-mode
+	      yasnippet))
  '(package-vc-selected-packages
    '((copilot :url "https://github.com/copilot-emacs/copilot.el" :branch
 	      "main")))
