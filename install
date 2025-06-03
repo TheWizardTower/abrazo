@@ -36,6 +36,20 @@ pushd fish
 ./fish_install.fish
 popd
 
-pushd kitty
-./install_kitty.sh
-popd
+OS=$(uname | tr 'A-Z' 'a-z')
+
+link_file "${HOME}/kitty/font-${OS}.conf" "${HOME}/.config/kitty/font.conf"
+
+export fileList=("current-theme" "kitty" "ligatures")
+
+for file in ${fileList[@]}; do
+	link_file "${HOME}/abrazo/kitty/${file}.conf" "${HOME}/.config/kitty/${file}.conf"
+done
+
+if [ -d "${HOME}/.tmux/plugins/tpm" ]; then
+	pushd "${HOME}/.tmux/plugins/tpm"
+	git pull
+	popd
+else
+	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
