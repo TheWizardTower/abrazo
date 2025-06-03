@@ -176,7 +176,7 @@
   )
 
 (use-package company-dict)
-(use-package company-emacs-eclim)
+;; (use-package company-emacs-eclim)
 (use-package company-irony)
 (use-package company-irony-c-headers)
 (use-package company-prescient
@@ -363,3 +363,33 @@
   :init
   (setq sideline-backends-left '(sideline-flycheck))
   (setq sideline-backends-right '(sideline-lsp)))
+
+(use-package web-mode
+  :ensure t
+  :mode
+  (("\\.phtml\\'" . web-mode)
+   ("\\.php\\'" . web-mode)
+   ("\\.tpl\\'" . web-mode)
+   ("\\.[agj]sp\\'" . web-mode)
+   ("\\.as[cp]x\\'" . web-mode)
+   ("\\.erb\\'" . web-mode)
+   ("\\.mustache\\'" . web-mode)
+   ("\\.djhtml\\'" . web-mode)))
+
+(quelpa '(eat :fetcher git
+              :url "https://codeberg.org/akib/emacs-eat"
+              :files ("*.el" ("term" "term/*.el") "*.texi"
+                      "*.ti" ("terminfo/e" "terminfo/e/*")
+                      ("terminfo/65" "terminfo/65/*")
+                      ("integration" "integration/*")
+                      (:exclude ".dir-locals.el" "*-tests.el"))))
+
+(use-package termint
+  :init
+  ;; Choose one: 'term, 'vterm, or 'eat
+  (setq termint-backend 'eat)
+  )
+
+(use-package bank-buddy)
+(with-eval-after-load 'bank-buddy
+  (add-hook 'org-mode-hook 'bank-buddy-cat-maybe-enable))
