@@ -33,6 +33,8 @@ return {
 	},
 	-- your lsp config or other stuff
 
+	"junegunn/fzf",
+	"junegunn/fzf.vim",
 	"gfanto/fzf-lsp.nvim",
 	"nvim-lua/plenary.nvim",
 	'RishabhRD/popfix',
@@ -63,10 +65,10 @@ return {
 	{
 		"CopilotC-Nvim/CopilotChat.nvim",
 		dependencies = {
-			{ "github/copilot.vim" },     -- or zbirenbaum/copilot.lua
+			{ "github/copilot.vim" },  -- or zbirenbaum/copilot.lua
 			{ "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
 		},
-		build = "make tiktoken",              -- Only on MacOS or Linux
+		build = "make tiktoken",           -- Only on MacOS or Linux
 		opts = {
 			-- See Configuration section for options
 		},
@@ -143,6 +145,8 @@ return {
 		},
 		config = true
 	},
+
+	{ 'mhartington/formatter.nvim' },
 
 	{
 		"tris203/precognition.nvim",
