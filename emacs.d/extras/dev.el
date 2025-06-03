@@ -57,7 +57,7 @@
   :ensure t
   :bind (("C-x g" . magit-status)))
 
-(use-package magit-file-icons)
+;; (use-package magit-file-icons)
 (use-package magit-diff-flycheck)
 (use-package magit-filenotify)
 (use-package magit-todos)
@@ -230,7 +230,7 @@
 (use-package flycheck-popup-tip
   :config
   (add-hook 'flycheck-mode-hook 'flycheck-popup-tip-mode)
-  (flycheck-pos-tip-mode)
+  ;; (flycheck-pos-tip-mode)
   )
 
 (use-package flycheck-status-emoji
