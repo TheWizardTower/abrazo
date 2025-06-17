@@ -162,6 +162,10 @@ vim.cmd([[
   filetype plugin on
   filetype indent on
   syntax on
+  set tabstop=8
+  set shiftwidth=4
+  set expandtab
+  set softtabstop=8
 ]])
 
 vim.wo.number = true
