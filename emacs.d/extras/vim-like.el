@@ -70,6 +70,8 @@
 
 (use-package evil-collection
   :after evil
+  :preface
+  (setq evil-want-keybinding nil)
   :ensure t
   :config
   (evil-collection-init))

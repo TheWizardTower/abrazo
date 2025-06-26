@@ -46,6 +46,14 @@
   ;; Auto parenthesis matching
   ((prog-mode . electric-pair-mode)))
 
+(use-package treesit-auto
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (treesit-auto-add-to-auto-mode-list 'all)
+  (global-treesit-auto-mode))
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;   Version Control
@@ -348,7 +356,7 @@
 
 (use-package dashboard
   :config
-  (dashboard-setup-starting-hook))
+  (dashboard-open))
 
 (use-package highlight-indent-guides
   :hook
