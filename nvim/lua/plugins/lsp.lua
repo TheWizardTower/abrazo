@@ -1,5 +1,4 @@
 return {
-
     {
         'junnplus/lsp-setup.nvim',
         dependencies = {
@@ -19,6 +18,7 @@ return {
             "SmiteshP/nvim-navbuddy",
             dependencies = {
                 "SmiteshP/nvim-navic",
+                "nvimdev/lspsaga.nvim",
                 "MunifTanjim/nui.nvim"
             },
             opts = { lsp = { auto_attach = true } }
@@ -54,4 +54,15 @@ return {
     {
         "williamboman/mason.nvim"
     },
+    { "neoclide/coc.nvim" },
+    {
+        'nvimdev/lspsaga.nvim',
+        config = function()
+            require('lspsaga').setup({})
+        end,
+        dependencies = {
+            'nvim-treesitter/nvim-treesitter', -- optional
+            'nvim-tree/nvim-web-devicons',     -- optional
+        },
+    }
 }

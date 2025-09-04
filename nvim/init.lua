@@ -7,6 +7,8 @@ vim.cmd([[
   set shiftwidth=4
   set expandtab
   set softtabstop=8
+  autocmd BufRead Tiltfile setf=tiltfile
+  autocmd BufRead infra-Tiltfile setf=tiltfile
 ]])
 
 vim.wo.number = true
