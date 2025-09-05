@@ -11,7 +11,6 @@ require('lsp-setup').setup({
     end,
     servers = {
         ts_ls = {},
-        deno = {},
         lua_ls = {
             settings = {
                 Lua = {
@@ -67,6 +66,7 @@ require('lsp-setup').setup({
                 }
             }
         },
+        bashls = {},
 
     },
     inlay_hints = {
@@ -86,7 +86,6 @@ vim.lsp.enable("bzl") -- bazel, which is the origin for starlark.
 vim.lsp.enable("clangd")
 vim.lsp.enable("cmake")
 vim.lsp.enable("cspell_ls")
-vim.lsp.enable("deno")
 vim.lsp.enable("docker_compose_language_service")
 vim.lsp.enable("docker_language_server")
 vim.lsp.enable("dockerls")
