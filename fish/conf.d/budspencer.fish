@@ -5,7 +5,7 @@ function fish_hybrid_key_bindings --description \
     end
     fish_vi_key_bindings --no-erase
 end
-set -g fish_key_bindings fish_hybrid_key_bindings
+set --universal fish_key_bindings fish_hybrid_key_bindings
 
 bind '#' __budspencer_toggle_symbols
 bind -M visual '#' __budspencer_toggle_symbols
