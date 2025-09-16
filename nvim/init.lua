@@ -23,6 +23,7 @@ require("config.telescope")
 require("config.which-key")
 require("config.conform")
 require("config.neogit")
+require("config.lualine")
 
 
 vim.opt.completeopt = { "menuone", "noselect", "popup" }
