@@ -22,12 +22,16 @@ require("config.lazy")
 require("autorun")
 require("config.mason")
 require("config.lsp")
+require("config.dap")
 require("config.cmp")
 require("config.telescope")
 require("config.which-key")
 require("config.conform")
 require("config.neogit")
 require("config.lualine")
+require("config.gitsigns")
+require("config.comment")
+require("config.autopairs")
 
 
 -- Set completeopt for nvim-cmp
