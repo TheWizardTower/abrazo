@@ -273,13 +273,14 @@ If the new path's directories does not exist, create them."
 	      helm-evil-markers highlight-indent-guides json-mode
 	      kind-icon line-reminder lsp-haskell lsp-metals lsp-ui
 	      magit-commit-mark magit-diff-flycheck magit-filenotify
-	      magit-find-file magit-todos marginalia nethack orderless
-	      projectile-codesearch projectile-ripgrep projectile-sift
-	      projectile-speedbar projectile-variable quelpa
-	      rust-playground rustic sbt-mode shfmt sideline
-	      ssh-agency ssh-config-mode stripspace telephone-line
-	      termint terraform-mode toml-mode treesit-auto verse-mode
-	      vertico watch-buffer web-mode wgrep yaml-mode yasnippet))
+	      magit-find-file magit-todos marginalia mason nethack
+	      orderless projectile-codesearch projectile-ripgrep
+	      projectile-sift projectile-speedbar projectile-variable
+	      quelpa quotient rust-playground rustic sbt-mode shfmt
+	      sideline ssh-agency ssh-config-mode stripspace
+	      telephone-line termint terraform-mode time-zones
+	      toml-mode treesit-auto verse-mode vertico watch-buffer
+	      web-mode wgrep yaml-mode yasnippet))
  '(package-vc-selected-packages
    '((copilot :url "https://github.com/copilot-emacs/copilot.el" :branch
 	      "main"))))
