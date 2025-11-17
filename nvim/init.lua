@@ -4,11 +4,15 @@ vim.cmd([[
   filetype indent on
   syntax on
   set tabstop=8
-  set shiftwidth=4
+  set shiftwidth=2
   set expandtab
   set softtabstop=8
   autocmd BufRead Tiltfile set filetype=bzl
   autocmd BufRead infra-Tiltfile set filetype=bzl
+
+
+  set list
+  set listchars=space:·,trail:·
 
 ]])
 
