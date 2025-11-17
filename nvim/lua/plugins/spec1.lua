@@ -93,7 +93,6 @@ return {
         config = true
     },
 
-    { 'mhartington/formatter.nvim' },
     { 'hrsh7th/cmp-nvim-lsp',
               dependencies = {'hrsh7th/nvim-cmp'},
               event = { "InsertEnter", "CmdlineEnter" }
