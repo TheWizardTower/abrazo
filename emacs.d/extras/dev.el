@@ -178,36 +178,6 @@
   (yas-global-mode 1)
   )
 
-(use-package company
-  :config
-  (add-hook 'after-init-hook 'global-company-mode)
-  )
-
-(use-package company-dict)
-;; (use-package company-emacs-eclim)
-(use-package company-irony)
-(use-package company-irony-c-headers)
-(use-package company-prescient
-  :config
-  (company-prescient-mode)
-  )
-(use-package company-quickhelp
-  :config
-  (company-quickhelp-mode)
-  )
-(use-package company-quickhelp-terminal)
-(use-package company-shell)
-(use-package company-spell)
-
-(use-package company-fuzzy
-  :hook (company-mode . company-fuzzy-mode)
-  :init
-  (global-company-fuzzy-mode 1)
-  (setq ;; company-fuzzy-sorting-backend 'flx
-        company-fuzzy-reset-selection t
-        company-fuzzy-prefix-on-top nil
-        company-fuzzy-trigger-symbols '("." "->" "<" "\"" "'" "@")))
-
 (use-package discover
   :config
   (global-discover-mode)

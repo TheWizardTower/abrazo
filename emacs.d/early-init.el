@@ -16,22 +16,24 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Startup speed, annoyance suppression
-(setq gc-cons-threshold 10000000)
+(setq gc-cons-threshold 100000000) ; 100mb - increased from 10mb
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
-(setenv "LSP_USE_PLISTS" "true")
 (setq byte-compile-warnings '(not obsolete))
 (setq warning-suppress-log-types '((comp) (bytecomp)))
-(setq native-comp-async-report-warnings-errors 'silent)
+(setq native-comp-async-report-warnings-errors nil)
 (setq max-lisp-eval-depth 1000)
+
+;; Native compilation settings
+(setq native-comp-speed 2)
+(setq native-comp-deferred-compilation t)
 
 ;; Silence stupid startup message
 (setq inhibit-startup-echo-area-message (user-login-name))
 
 ;; Default frame configuration: full screen, good-looking title bar on macOS
 (setq frame-resize-pixelwise t)
-;;; (tool-bar-mode -1)                      ; All these tools are in the menu-bar anyway
+(tool-bar-mode -1)                      ; All these tools are in the menu-bar anyway
 (setq default-frame-alist '((fullscreen . maximized)
-
                             ;; You can turn off scroll bars by uncommenting these lines:
                             ;; (vertical-scroll-bars . nil)
                             ;; (horizontal-scroll-bars . nil)
@@ -42,6 +44,8 @@
                             (ns-appearance . dark)
                             (ns-transparent-titlebar . t)))
 
-
+;; use-package defaults
 (setq use-package-always-ensure t)
+(setq use-package-always-defer t) ;; Global defer - load packages lazily by default
+
 (setq visible-bell t)
