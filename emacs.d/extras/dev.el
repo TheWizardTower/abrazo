@@ -50,7 +50,7 @@
   :custom
   (treesit-auto-install 'prompt)
   :config
-  (treesit-auto-add-to-auto-mode-list 'all)
+  ;; (treesit-auto-add-to-auto-mode-list 'all)
   (global-treesit-auto-mode))
 
 
