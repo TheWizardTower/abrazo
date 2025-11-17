@@ -17,8 +17,8 @@ vim.wo.number = true
 require("config.lazy")
 require("autorun")
 require("config.mason")
-require("config.formatter")
 require("config.lsp")
+require("config.cmp")
 require("config.telescope")
 require("config.which-key")
 require("config.conform")
@@ -26,4 +26,17 @@ require("config.neogit")
 require("config.lualine")
 
 
-vim.opt.completeopt = { "menuone", "noselect", "popup" }
+-- Set completeopt for nvim-cmp
+vim.opt.completeopt = { "menu", "menuone", "noselect" }
+
+
+-- -- Set the highlight for trailing whitespace
+-- vim.api.nvim_set_hl(0, "ExtraWhitespace", { ctermbg = "darkred", bg = "darkred" })
+--
+-- -- Autocommand to highlight trailing whitespace in all buffers
+-- vim.api.nvim_create_autocmd("BufWinEnter", {
+--     pattern = "*",
+--     callback = function()
+--         vim.fn.matchadd("ExtraWhitespace", [[\s+$]])
+--     end,
+-- })
