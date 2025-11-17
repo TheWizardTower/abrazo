@@ -7,6 +7,15 @@
 \#*\#
 /.emacs.desktop
 /.emacs.desktop.lock
+emacs.d/elpa
+emacs.d/quelpa
+emacs.d/projects
+emacs.d/history
+emacs.d/recentf
+emacs.d/org-roam.db
+emacs.d/transient/
+emacs.d/eln-cache/
+emacs.d/projectile-bookmarks.eld
 *.elc
 auto-save-list
 tramp
@@ -78,3 +87,4 @@ compile-cache/
 /xmonad/build-x86_64-linux/
 
 nvim/pack
+nvim/lazy-lock.json
