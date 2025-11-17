@@ -327,10 +327,6 @@
 		  ("Haskell" (fourmolu))
 		  )))
 
-(use-package treesit-auto
-  :config
-  (global-treesit-auto-mode))
-
 ;; ;; ;; Put the language configurations after lsp-mode setup.
 
 ;; Rust configuration
