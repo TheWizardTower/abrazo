@@ -250,7 +250,6 @@ If the new path's directories does not exist, create them."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(haskell-stylish-on-save t)
  '(helm-minibuffer-history-key "M-p")
  '(package-selected-packages
    '(apheleia bank-buddy beacon cape cargo cargo-mode cargo-transient
@@ -274,37 +273,19 @@ If the new path's directories does not exist, create them."
 	      helm-evil-markers highlight-indent-guides json-mode
 	      kind-icon line-reminder lsp-haskell lsp-metals lsp-ui
 	      magit-commit-mark magit-diff-flycheck magit-filenotify
-	      magit-find-file magit-todos marginalia multi-web-mode
-	      orderless projectile-codesearch projectile-ripgrep
-	      projectile-sift projectile-speedbar projectile-variable
-	      quelpa-use-package rust-playground rustic sbt-mode shfmt
-	      sideline ssh-agency ssh-config-mode stripspace
-	      telephone-line termint terraform-mode toml-mode
-	      treesit-auto vertico watch-buffer web-mode
-	      weyland-yutani-theme wgrep-helm which-key yaml-mode
-	      yasnippet))
+	      magit-find-file magit-todos marginalia nethack orderless
+	      projectile-codesearch projectile-ripgrep projectile-sift
+	      projectile-speedbar projectile-variable quelpa
+	      rust-playground rustic sbt-mode shfmt sideline
+	      ssh-agency ssh-config-mode stripspace telephone-line
+	      termint terraform-mode toml-mode treesit-auto verse-mode
+	      vertico watch-buffer web-mode wgrep yaml-mode yasnippet))
  '(package-vc-selected-packages
    '((copilot :url "https://github.com/copilot-emacs/copilot.el" :branch
-	      "main")))
- '(xhair-face '(:foreground "White" :background "DarkSlateGrey")))
+	      "main"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(evil-ex-substitute-matches ((t (:inherit diff-removed :foreground unspecified :background unspecified))))
- '(evil-ex-substitute-replacement ((t (:inherit diff-added :foreground unspecified :background unspecified))))
- '(evil-traces-change ((t (:inherit diff-removed))))
- '(evil-traces-copy-preview ((t (:inherit diff-added))))
- '(evil-traces-copy-range ((t (:inherit diff-changed))))
- '(evil-traces-delete ((t (:inherit diff-removed))))
- '(evil-traces-global-match ((t (:inherit diff-added))))
- '(evil-traces-global-range ((t (:inherit diff-changed))))
- '(evil-traces-join-indicator ((t (:inherit diff-added))) t)
- '(evil-traces-join-range ((t (:inherit diff-changed))))
- '(evil-traces-move-preview ((t (:inherit diff-added))))
- '(evil-traces-move-range ((t (:inherit diff-removed))))
- '(evil-traces-normal ((t (:inherit diff-changed))))
- '(evil-traces-shell-command ((t (:inherit diff-changed))))
- '(evil-traces-substitute-range ((t (:inherit diff-changed))))
- '(evil-traces-yank ((t (:inherit diff-changed)))))
+ )
