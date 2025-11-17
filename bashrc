@@ -78,10 +78,10 @@ function mymytop() {
     echo $0
     echo $1
     if [ "$1" != "" ]; then
-        if ( echo $1 | grep -qiE '^AF00' ); then
+        if (echo $1 | grep -qiE '^AF00'); then
             mytop -u$(imvucredentials DB_PS_LIST_USER) -p$(imvucredentials DB_PS_LIST_PASSWORD) -s 1 -h $1
         fi
-        if ( echo $1 | grep -qE '^[0-9]{4}$' ); then
+        if (echo $1 | grep -qE '^[0-9]{4}$'); then
             mytop -u$(imvucredentials DB_PS_LIST_USER) -p$(imvucredentials DB_PS_LIST_PASSWORD) -s 1 -h AF00$1
         fi
     else
@@ -91,14 +91,6 @@ function mymytop() {
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 [[ -s "$HOME/.local/share/marker/marker.sh" ]] && source "$HOME/.local/share/marker/marker.sh"
-
-
-
-powerline-daemon -q
-POWERLINE_BASH_CONTINUATION=1
-POWERLINE_BASH_SELECT=1
-
-# . /usr/local/lib/python3.8/site-packages/powerline/bindings/bash/powerline.sh
 
 [ -s "/home/merlin/.jabba/jabba.sh" ] && source "/home/merlin/.jabba/jabba.sh"
 
@@ -131,13 +123,22 @@ if [ "$TERM" = "linux" ]; then
     echo -en "\e]PEa1cdcd" #cyan
     echo -en "\e]P7ffffff" #lightgrey
     echo -en "\e]PFdedede" #white
-    clear #for background artifacting
+    clear                  #for background artifacting
 fi
 
 export LANG="en_US.UTF-8"
 export LC_CTYPE="en_US.UTF-8"
 
-source ~/.bash-powerline.sh
+# source ~/.bash-powerline.sh
+# Powerline configuration
+if [ -f /usr/lib/python3.8/site-packages/powerline/bindings/bash/powerline.sh ]; then
+    $HOME/.local/bin/powerline-daemon -q
+    POWERLINE_BASH_CONTINUATION=1
+    POWERLINE_BASH_SELECT=1
+    source /usr/lib/python3.8/site-packages/powerline/bindings/bash/powerline.sh
+fi
+
+source ~/.local/share/blesh/ble.sh
 
 . "$HOME/.atuin/bin/env"
 
