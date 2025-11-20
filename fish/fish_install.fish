@@ -1,6 +1,6 @@
 #!/usr/bin/env fish
 
-set -l conf_files alias budspencer direnv ls-color mcfly ssh-agent zz_fortune
+set -l conf_files alias budspencer direnv ls-color ssh-agent zz_fortune
 for file in $conf_files
 	echo $file
 	if test ! -e ~/.config/fish/conf.d/$file.fish
