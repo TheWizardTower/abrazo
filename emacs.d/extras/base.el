@@ -29,44 +29,32 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Consult: Misc. enhanced commands
 (use-package consult
-  :ensure t
-  ;; Other good things to bind: consult-line-multi, consult-history,
-  ;; consult-outline, consult-org-agenda, etc.
-  :bind (("C-x b" . consult-buffer)  ; orig. switch-to-buffer
-         ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
-         ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
-         ("C-x t b" . consult-buffer-other-tab)    ;; orig. switch-to-buffer-other-tab
-         ;; C-x bindings in `ctl-x-map'
-         ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
+  :bind (("C-x b" . consult-buffer)
+         ("C-x 4 b" . consult-buffer-other-window)
+         ("C-x 5 b" . consult-buffer-other-frame)
+         ("C-x t b" . consult-buffer-other-tab)
+         ("C-x M-:" . consult-complex-command)
          ("M-s r" . consult-ripgrep)
-         ("C-s" . consult-line)     ; orig. isearch
-	 ("C-c h" . consult-history)
-	 ("C-c k" . consult-kmacro)
-	 ("C-c m" . consult-man)
-	 ("C-c i" . consult-info)
-         ;; Custom M-# bindings for fast register access
+         ("C-s" . consult-line)
+         ("C-c h" . consult-history)
+         ("C-c k" . consult-kmacro)
+         ("C-c m" . consult-man)
+         ("C-c i" . consult-info)
          ("M-#" . consult-register-load)
-         ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
+         ("M-'" . consult-register-store)
          ("C-M-#" . consult-register)
-         ;; Other custom bindings
-         ("M-y" . consult-yank-pop)                ;; orig. yank-pop
-         ;; M-g bindings in `goto-map'
+         ("M-y" . consult-yank-pop)
          ("M-g e" . consult-compile-error)
-         ("M-g f" . consult-flycheck)               ;; Alternative: consult-flycheck
-         ("M-g g" . consult-goto-line)             ;; orig. goto-line
-         ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
-         ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
+         ("M-g f" . consult-flycheck)
+         ("M-g g" . consult-goto-line)
+         ("M-g M-g" . consult-goto-line)
+         ("M-g o" . consult-outline)
          ("M-g m" . consult-mark)
          ("M-g k" . consult-global-mark)
          ("M-g i" . consult-imenu)
          ("M-g I" . consult-imenu-multi)
-         ;; M-s bindings in `search-map'
-	 ;; For some reason, the functions in this block respond with
-	 ;; "wrong argument type: overlayp, nil". There's a github
-	 ;; issue about this, but the fix doesn't work on my machine.
-         ("M-S d" . consult-fd)                  ;; Alternative: consult-find
+         ("M-S d" . consult-fd)
          ("M-S c" . consult-locate)
          ("M-S g" . consult-grep)
          ("M-S G" . consult-git-grep)
@@ -78,21 +66,15 @@
          ;; Isearch integration
          ("M-S e" . consult-isearch-history)
          :map isearch-mode-map
-         ;; ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
-         ("M-S e" . consult-isearch-history)       ;; orig. isearch-edit-string
-         ("M-S l" . consult-line)                  ;; needed by consult-line to detect isearch
-         ("M-S L" . consult-line-multi)            ;; needed by consult-line to detect isearch
-         ;; Minibuffer history
-         :map minibuffer-local-map
-         ;; ("M-s" . consult-history)                 ;; orig. next-matching-history-element
-         ;; ("M-r" . consult-history)                ;; orig. previous-matching-history-element
-	 )
+         ("M-S e" . consult-isearch-history)
+         ("M-S l" . consult-line)
+         ("M-S L" . consult-line-multi)
+         :map minibuffer-local-map)
   :config
   ;; Narrowing lets you restrict results to certain groups of candidates
   (setq consult-narrow-key "<")
   (autoload 'projectile-project-root "projectile")
-  (setq consult-project-function (lambda (_) (projectile-project-root)))
-  )
+  (setq consult-project-function (lambda (_) (projectile-project-root))))
 
 (use-package embark
   :ensure t
