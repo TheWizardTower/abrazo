@@ -77,7 +77,6 @@
   (setq consult-project-function (lambda (_) (projectile-project-root))))
 
 (use-package embark
-  :ensure t
   :demand t
   :after avy
   :bind (("C-c a" . embark-act))        ; bind this to an easy key to hit
@@ -96,8 +95,7 @@
   ;; candidate you select
   (setf (alist-get ?. avy-dispatch-alist) 'bedrock/avy-action-embark))
 
-(use-package embark-consult
-  :ensure t)
+(use-package embark-consult)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -107,7 +105,7 @@
 
 ;; Vertico: better vertical completion for minibuffer commands
 (use-package vertico
-  :ensure t
+  :demand t
   :init
   ;; You'll want to make sure that e.g. fido-mode isn't enabled
   (vertico-mode))
@@ -116,7 +114,7 @@
   :after vertico
   :ensure f ;; it's a sub-library of the vertico package
   :bind (:map vertico-map
-	      ("M-DEL" . vertico-directory-delete-word)))
+              ("M-DEL" . vertico-directory-delete-word)))
 
 ;; Marginalia: annotations for minibuffer
 ;; Enable rich annotations using the Marginalia package
@@ -130,8 +128,8 @@
     (mapc
      (lambda (x)
        (setcdr x (append (reverse (remq 'none
-					(remq 'builtin (cdr x))))
-			 '(builtin none))))
+                                        (remq 'builtin (cdr x))))
+                         '(builtin none))))
      marginalia-annotator-registry))
   (defun marginalia-use-builtin ()
     (interactive)
