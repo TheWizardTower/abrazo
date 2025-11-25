@@ -2,24 +2,16 @@
 ;;;
 ;;; Extra config: Development tools
 
-;;; Usage: Append or require this file from init.el for some software
-;;; development-focused packages.
-;;;
-;;; It is **STRONGLY** recommended that you use the base.el config if you want to
-;;; use Eglot. Lots of completion things will work better.
-;;;
-;;; This will try to use tree-sitter modes for many languages. Please run
-;;;
-;;;   M-x treesit-install-language-grammar
-;;;
-;;; Before trying to use a treesit mode.
+;;; Usage: Append or require this file from init.el for software development packages.
 
 ;;; Contents:
 ;;;
 ;;;  - Built-in config for developers
 ;;;  - Version Control
 ;;;  - Common file types
-;;;  - Eglot, the built-in LSP client for Emacs
+;;;  - LSP Mode (Language Server Protocol)
+;;;  - Project Management
+;;;  - Development Utilities
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -28,11 +20,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package emacs
+  :demand t
   :config
-  ;; Treesitter config
-
-  ;; Tell Emacs to prefer the treesitter mode
-  ;; You'll want to run the command `M-x treesit-install-language-grammar' before editing.
+  ;; Treesitter config - prefer treesitter modes
   (setq major-mode-remap-alist
         '((yaml-mode . yaml-ts-mode)
           (bash-mode . bash-ts-mode)
@@ -44,15 +34,15 @@
           (python-mode . python-ts-mode)))
   :hook
   ;; Auto parenthesis matching
-  ((prog-mode . electric-pair-mode)))
+  (prog-mode . electric-pair-mode))
 
 (use-package treesit-auto
+  :demand t
   :custom
   (treesit-auto-install 'prompt)
   :config
-  ;; (treesit-auto-add-to-auto-mode-list 'all)
+  (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -62,14 +52,15 @@
 
 ;; Magit: best Git client to ever exist
 (use-package magit
-  :ensure t
-  :bind (("C-x g" . magit-status)))
+  :bind (("C-x g" . magit-status)
+         ("C-x M-g" . magit-dispatch)
+         ("C-c M-g" . magit-file-dispatch)))
 
-;; (use-package magit-file-icons)
 (use-package magit-diff-flycheck)
 (use-package magit-filenotify)
 (use-package magit-todos)
 (use-package magit-find-file
+  :demand t
   :config
   (require 'magit-find-file) ;; if not using the ELPA package
   (global-set-key (kbd "C-c g") 'magit-find-file-completing-read)
@@ -84,272 +75,177 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package markdown-mode
-  :hook ((markdown-mode . visual-line-mode)))
+  :hook (markdown-mode . visual-line-mode))
 
 (use-package yaml-mode
-  :hook
-  ((yaml-mode . prog-mode-hook))
+  :hook (yaml-mode . prog-mode)
   :config
-  (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode)
-  :ensure t))
+  (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode)))
 
-(use-package json-mode
-  :ensure t)
+(use-package json-mode)
 
-;; Emacs ships with a lot of popular programming language modes. If it's not
-;; built in, you're almost certain to find a mode for the language you're
-;; looking for with a quick Internet search.
+(use-package web-mode
+  :mode (("\\.phtml\\'" . web-mode)
+         ("\\.php\\'" . web-mode)
+         ("\\.tpl\\'" . web-mode)
+         ("\\.[agj]sp\\'" . web-mode)
+         ("\\.as[cp]x\\'" . web-mode)
+         ("\\.erb\\'" . web-mode)
+         ("\\.mustache\\'" . web-mode)
+         ("\\.djhtml\\'" . web-mode)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
-;;;   Eglot, the built-in LSP client for Emacs
+;;;   LSP Mode (Language Server Protocol)
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(add-to-list 'prog-mode-hook (display-line-numbers-mode))
-
-(use-package eglot
-  ;; no :ensure t here because it's built-in
-
-  ;; Configure hooks to automatically turn-on eglot for selected modes
-  ;; :hook
-  ;; (((python-mode ruby-mode elixir-mode) . eglot))
-
-  :custom
-  (eglot-send-changes-idle-time 0.1)
-
-  :config
-  (fset #'jsonrpc--log-event #'ignore)  ; massive perf boost---don't log every event
-  ;; Sometimes you need to tell Eglot where to find the language server
-  (add-to-list 'eglot-server-programs
-               '(haskell-mode . ("haskell-language-server-wrapper" "--lsp")))
-  )
-
-(use-package ace-window
-  :config
-  (global-set-key (kbd "M-o") 'ace-window)
-  )
-
-
-(use-package dirvish
-  :init
-  (dirvish-override-dired-mode)
-  )
-
-(use-package projectile
-  :config
-  (projectile-mode +1)
-  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-  )
-
-(use-package projectile-codesearch)
-(use-package projectile-ripgrep)
-(use-package projectile-sift)
-(use-package projectile-speedbar)
-(use-package projectile-variable)
-
-(use-package line-reminder
-  :config
-  (global-line-reminder-mode)
-  )
-(use-package watch-buffer)
-
-(use-package shfmt
-  :config
-  (add-hook 'sh-mode-hook 'shfmt-on-save-mode)
-  )
-
-(use-package ssh-agency)
-
-(use-package ssh-config-mode
-  :config
-  (add-to-list 'auto-mode-alist '("/\\.ssh/config\\(\\.d/.*\\.conf\\)?\\'" . ssh-config-mode))
-  (add-to-list 'auto-mode-alist '("/sshd?_config\\(\\.d/.*\\.conf\\)?\\'"  . ssh-config-mode))
-  (add-to-list 'auto-mode-alist '("/known_hosts\\'"       . ssh-known-hosts-mode))
-  (add-to-list 'auto-mode-alist '("/authorized_keys2?\\'" . ssh-authorized-keys-mode))
-  (add-hook 'ssh-config-mode-hook 'turn-on-font-lock)
-  )
-;; (xhair-mode)
-
-
-(use-package yasnippet
-  :init
-  (yas-global-mode 1)
-  )
-
-(use-package discover
-  :config
-  (global-discover-mode)
-  )
-
-(use-package discover-my-major)
-
-(use-package flycheck-aspell
-  :config
-  ;; If you want to check TeX/LaTeX/ConTeXt buffers
-  (add-to-list 'flycheck-checkers 'tex-aspell-dynamic)
-  ;; If you want to check Markdown/GFM buffers
-  (add-to-list 'flycheck-checkers 'markdown-aspell-dynamic)
-  ;; If you want to check HTML buffers
-  (add-to-list 'flycheck-checkers 'html-aspell-dynamic)
-  ;; If you want to check XML/SGML buffers
-  (add-to-list 'flycheck-checkers 'xml-aspell-dynamic)
-  ;; If you want to check Nroff/Troff/Groff buffers
-  (add-to-list 'flycheck-checkers 'nroff-aspell-dynamic)
-  ;; If you want to check Texinfo buffers
-  (add-to-list 'flycheck-checkers 'texinfo-aspell-dynamic)
-  ;; If you want to check comments and strings for C-like languages
-  (add-to-list 'flycheck-checkers 'c-aspell-dynamic)
-  ;; If you want to check message buffers
-  (add-to-list 'flycheck-checkers 'mail-aspell-dynamic)
-  )
-
-(use-package flycheck-popup-tip
-  :config
-  (add-hook 'flycheck-mode-hook 'flycheck-popup-tip-mode)
-  ;; (flycheck-pos-tip-mode)
-  )
-
-(use-package flycheck-status-emoji
-  :config
-  (flycheck-status-emoji-mode)
-  )
-
-(use-package flycheck-yamllint
-  :config
-  (flycheck-yamllint-setup)
-  )
-
-(use-package flyspell-correct)
-
 
 (use-package lsp-mode
-  :init
-  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-  (setq lsp-keymap-prefix "C-c l")
   :commands lsp
+  :init
+  (setq lsp-keymap-prefix "C-c l")
   :custom
-  ;; Sometimes you need to tell Eglot where to find the language server
-  (add-to-list 'eglot-server-programs
-               '(haskell-mode . ("haskell-language-server-wrapper" "--lsp")))
-  ;; what to use when checking-on-save. "check" is default, I prefer clippy
+  ;; Performance tuning
+  (lsp-idle-delay 0.500)
+  (lsp-log-io nil)
+  (lsp-completion-provider :capf)
+  (lsp-prefer-flymake nil)
+  (lsp-keep-workspace-alive nil)
+
+  ;; Rust-specific settings
   (lsp-rust-analyzer-cargo-watch-command "clippy")
   (lsp-eldoc-render-all t)
-  (lsp-idle-delay 0.6)
-  ;; enable / disable the hints you prefer:
   (lsp-inlay-hint-enable t)
-  ;; these are optional configurations. See https://emacs-lsp.github.io/lsp-mode/page/lsp-rust-analyzer/#lsp-rust-analyzer-display-chaining-hints for a full list
   (lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
   (lsp-rust-analyzer-display-chaining-hints t)
   (lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
   (lsp-rust-analyzer-display-closure-return-type-hints t)
   (lsp-rust-analyzer-display-parameter-hints nil)
   (lsp-rust-analyzer-display-reborrow-hints nil)
-  :hook
-  (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
-   ;; (XXX-mode . lsp)
-   (haskell-mode . lsp)
-   ;; if you want which-key integration
-   (lsp-mode . lsp-enable-which-key-integration))
-  ;; Optional - enable lsp-mode automatically in scala files
-  ;; You could also swap out lsp for lsp-deffered in order to defer loading
-  (scala-mode . lsp)
-  (lsp-mode . lsp-lens-mode)
+
+  :hook ((haskell-mode . lsp)
+         (scala-mode . lsp)
+         (lsp-mode . lsp-enable-which-key-integration)
+         (lsp-mode . lsp-lens-mode))
+
   :config
-  ;; Uncomment following section if you would like to tune lsp-mode performance according to
-  ;; https://emacs-lsp.github.io/lsp-mode/page/performance/
-  ;; (setq gc-cons-threshold 100000000) ;; 100mb
-  ;; (setq read-process-output-max (* 1024 1024)) ;; 1mb
-  ;; (setq lsp-idle-delay 0.500)
-  ;; (setq lsp-log-io nil)
-  ;; (setq lsp-completion-provider :capf)
-  (setq lsp-prefer-flymake nil)
-  ;; Makes LSP shutdown the metals server when all buffers in the project are closed.
-  ;; https://emacs-lsp.github.io/lsp-mode/page/settings/mode/#lsp-keep-workspace-alive
-  (setq lsp-keep-workspace-alive nil)
-  (add-hook 'lsp-mode-hook 'lsp-ui-mode)
-  )
+  ;; Haskell server config
+  (add-to-list 'lsp-server-programs
+               '(haskell-mode . ("haskell-language-server-wrapper" "--lsp"))))
 
-;; optionally
-;; (use-package lsp-ui :commands lsp-ui-mode)
-;; if you are helm user
-;; (use-package helm-lsp :commands helm-lsp-workspace-symbol)
-;; if you are ivy user
-;; (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
-;; (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+(use-package lsp-ui
+  :commands lsp-ui-mode
+  :hook (lsp-mode . lsp-ui-mode)
+  :custom
+  (lsp-ui-doc-position 'at-point)
+  (lsp-ui-sideline-show-hover t))
 
-;; optionally if you want to use debugger
-;; (use-package dap-mode)
-;; (use-package dap-haskell) ;; to load the dap adapter for your language
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;;   Project Management
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(use-package projectile
+  :demand t
+  :config
+  (projectile-mode +1)
+  (setq projectile-completion-system 'default)
+  (setq projectile-enable-caching t)
+  (setq projectile-indexing-method 'alien)
+  :bind-keymap
+  (("s-p" . projectile-command-map)
+   ("C-c p" . projectile-command-map)))
+
+(use-package projectile-ripgrep)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;;   Development Utilities
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package ace-window
+  :bind (("M-o" . ace-window)))
+
+(use-package dirvish
+  :demand t
+  :init
+  (dirvish-override-dired-mode))
+
+(use-package yasnippet
+  :hook ((prog-mode . yas-minor-mode)
+         (text-mode . yas-minor-mode))
+  :config
+  (yas-reload-all))
+
+(use-package flycheck
+  :hook (prog-mode . flycheck-mode)
+  :custom
+  (flycheck-check-syntax-automatically '(save mode-enabled)))
+
+(use-package flycheck-inline
+  :hook (flycheck-mode . flycheck-inline-mode))
 
 (use-package format-all
   :commands format-all-mode
   :hook (prog-mode . format-all-mode)
   :config
   (setq-default format-all-formatters
-                '(("C"     (astyle "--mode=c"))
+                '(("C" (astyle "--mode=c"))
                   ("Shell" (shfmt "-i" "4" "-ci"))
-		  ("Rust" (cargo "fmt"))
-		  ("Terraform" (terraform "fmt"))
-		  ("Scala" (scalafmt))
-		  ("Haskell" (fourmolu))
-		  )))
+                  ("Rust" (rustfmt))
+                  ("Terraform" (terraform-fmt))
+                  ("Scala" (scalafmt))
+                  ("Haskell" (fourmolu))
+                  ("Python" (black))
+                  ("JavaScript" (prettier))
+                  ("TypeScript" (prettier))
+                  ("Go" (gofmt)))))
 
-;; ;; ;; Put the language configurations after lsp-mode setup.
+(use-package shfmt
+  :hook (sh-mode . shfmt-on-save-mode))
 
-;; Rust configuration
-(load-file (expand-file-name "extras/rust.el" user-emacs-directory))
+(use-package ssh-config-mode
+  :config
+  (add-to-list 'auto-mode-alist '("/\\.ssh/config\\(\\.d/.*\\.conf\\)?\\'" . ssh-config-mode))
+  (add-to-list 'auto-mode-alist '("/sshd?_config\\(\\.d/.*\\.conf\\)?\\'" . ssh-config-mode))
+  (add-to-list 'auto-mode-alist '("/known_hosts\\'" . ssh-known-hosts-mode))
+  (add-to-list 'auto-mode-alist '("/authorized_keys2?\\'" . ssh-authorized-keys-mode))
+  (add-hook 'ssh-config-mode-hook 'turn-on-font-lock))
 
-;; Haskell configuration
-(load-file (expand-file-name "extras/haskell.el" user-emacs-directory))
+(use-package line-reminder
+  :demand t
+  :config
+  (global-line-reminder-mode))
 
-;; Helm configuration
-(load-file (expand-file-name "extras/helm.el" user-emacs-directory))
+(use-package watch-buffer)
 
-;; Typescript. Because life isn't hard enough, right?
-(load-file (expand-file-name "extras/typescript.el" user-emacs-directory))
+(use-package discover
+  :demand t
+  :config
+  (global-discover-mode))
 
-;; Scala
-(load-file (expand-file-name "extras/scala.el" user-emacs-directory))
-
-;; Terraform. Hold my beer.
-(load-file (expand-file-name "extras/terraform.el" user-emacs-directory))
-
-;; Copilot.
-(load-file (expand-file-name "extras/copilot.el" user-emacs-directory))
+(use-package discover-my-major)
 
 (use-package dashboard
+  :demand t
   :config
-  (dashboard-open))
+  (dashboard-setup-startup-hook))
 
 (use-package highlight-indent-guides
-  :hook
-  (('prog-mode-hook . 'highlight-indent-guides-mode)))
+  :hook (prog-mode . highlight-indent-guides-mode))
 
-;;; This is a builtin, so we don't need to use use-package to install
-;;; it.
+;; Builtin whitespace mode
 (require 'whitespace)
 (add-hook 'prog-mode-hook 'whitespace-mode)
 
-(use-package sideline
-  :init
-  (setq sideline-backends-left '(sideline-flycheck))
-  (setq sideline-backends-right '(sideline-lsp)))
+(use-package smartparens
+  :hook (prog-mode . smartparens-mode)
+  :config
+  (require 'smartparens-config))
 
-(use-package web-mode
-  :ensure t
-  :mode
-  (("\\.phtml\\'" . web-mode)
-   ("\\.php\\'" . web-mode)
-   ("\\.tpl\\'" . web-mode)
-   ("\\.[agj]sp\\'" . web-mode)
-   ("\\.as[cp]x\\'" . web-mode)
-   ("\\.erb\\'" . web-mode)
-   ("\\.mustache\\'" . web-mode)
-   ("\\.djhtml\\'" . web-mode)))
-
+;; Eat terminal emulator
 (quelpa '(eat :fetcher git
               :url "https://codeberg.org/akib/emacs-eat"
               :files ("*.el" ("term" "term/*.el") "*.texi"
@@ -358,12 +254,20 @@
                       ("integration" "integration/*")
                       (:exclude ".dir-locals.el" "*-tests.el"))))
 
-(use-package termint
-  :init
-  ;; Choose one: 'term, 'vterm, or 'eat
-  (setq termint-backend 'eat)
-  )
-
 (use-package bank-buddy)
 (with-eval-after-load 'bank-buddy
   (add-hook 'org-mode-hook 'bank-buddy-cat-maybe-enable))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;;   Language-specific configurations
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Load language-specific configs
+(load-file (expand-file-name "extras/rust.el" user-emacs-directory))
+(load-file (expand-file-name "extras/haskell.el" user-emacs-directory))
+(load-file (expand-file-name "extras/typescript.el" user-emacs-directory))
+(load-file (expand-file-name "extras/scala.el" user-emacs-directory))
+(load-file (expand-file-name "extras/terraform.el" user-emacs-directory))
+(load-file (expand-file-name "extras/copilot.el" user-emacs-directory))
