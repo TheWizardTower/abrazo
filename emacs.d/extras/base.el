@@ -112,7 +112,7 @@
 
 (use-package vertico-directory
   :after vertico
-  :ensure f ;; it's a sub-library of the vertico package
+  :ensure nil ;; it's a sub-library of the vertico package
   :bind (:map vertico-map
               ("M-DEL" . vertico-directory-delete-word)))
 
@@ -122,6 +122,7 @@
   ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
   ;; available in the *Completions* buffer, add it to the
   ;; `completion-list-mode-map'.
+  :demand t
   :config
   (defun marginalia-toggle ()
     (interactive)
