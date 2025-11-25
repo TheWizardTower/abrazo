@@ -19,7 +19,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package avy
-  :ensure t
   :demand t
   :bind (("C-c j" . avy-goto-line)
          ("s-j"   . avy-goto-char-timer)))
