@@ -148,60 +148,49 @@
   ;; package.
   (marginalia-mode))
 
-;; Popup completion-at-point
-(use-package corfu
-  :ensure t
-  :init
-  (global-corfu-mode)
-  :bind
-  (:map corfu-map
-        ("SPC" . corfu-insert-separator)
-        ("C-n" . corfu-next)
-        ("C-p" . corfu-previous)))
-
-;; Part of corfu
-(use-package corfu-popupinfo
-  :ensure f ;; Sub-library of the corfu package.
-  :after corfu
-  :hook (corfu-mode . corfu-popupinfo-mode)
-  :custom
-  (corfu-popupinfo-delay '(0.25 . 0.1))
-  (corfu-popupinfo-hide nil)
+;; Company for completion-at-point
+(use-package company
+  :hook ((prog-mode . company-mode)
+         (text-mode . company-mode))
+  :bind (:map company-active-map
+              ("C-n" . company-select-next)
+              ("C-p" . company-select-previous))
   :config
-  (corfu-popupinfo-mode))
+  (setq company-idle-delay 0.1)
+  (setq company-minimum-prefix-length 2)
+  (setq company-selection-wrap-around t))
 
-;; Make corfu popup come up in terminal overlay
-(use-package corfu-terminal
-  :if (not (display-graphic-p))
-  :ensure t
+(use-package company-prescient
+  :after company
   :config
-  (corfu-terminal-mode)
-  )
+  (company-prescient-mode))
+
+(use-package company-quickhelp
+  :after company
+  :config
+  (company-quickhelp-mode))
 
 ;; Fancy completion-at-point functions; there's too much in the cape package to
 ;; configure here; dive in when you're comfortable!
 (use-package cape
-  :ensure t
   :init
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-file))
 
-;; Pretty icons for corfu
 (use-package kind-icon
   :if (display-graphic-p)
-  :ensure t
-  :after corfu
+  :after company
   :config
-  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+  (add-to-list 'company-format-margin-function #'kind-icon-margin-formatter))
 
 (use-package eshell
   :bind (("C-r" . consult-history)))
 
 ;; Orderless: powerful completion style
 (use-package orderless
-  :ensure t
+  :demand t
   :config
-  (setq completion-styles '(orderless)))
+  (setq completion-styles '(orderless basic)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -211,22 +200,20 @@
 
 ;; Modify search results en masse
 (use-package wgrep
-  :ensure t
   :config
   (setq wgrep-auto-save-buffer t))
 
 (use-package telephone-line
+  :demand t
   :config
-  (telephone-line-mode 1)
-  )
+  (telephone-line-mode 1))
 
 (use-package stripspace
   :ensure t
   ;; enable for prog-mode-hook, text-mode-hook, conf-mode-hook
   :hook ((prog-mode . stripspace-local-mode)
-	 (text-mode . stripspace-local-mode)
-	(conf-mode . stripspace-local-mode))
-
+         (text-mode . stripspace-local-mode)
+         (conf-mode . stripspace-local-mode))
   :custom
   ;; the `stripspaceonly-if-initially-clean' option:
   ;; - nil to always delete trailing whitespace
@@ -234,6 +221,18 @@
   ;; (The initial cleanliness check is performed when `stripspace-local-mode'
   ;; is enabled)
   (stripspace-only-if-initially-clean nil)
+  (stripspace-restore-column t))
+
+;; Rainbow delimiters for better parenthesis matching
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+;; Show git changes in fringe
+(use-package diff-hl
+  :hook ((prog-mode . diff-hl-mode)
+         (magit-post-refresh . diff-hl-magit-post-refresh))
+  :config
+  (diff-hl-flydiff-mode))
 
   ;; Enabling `stripspace-restore-column' preserves the cursor's column position
   ;; even after stripping spaces. This is useful in scenarios where you add
