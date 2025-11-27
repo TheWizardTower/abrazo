@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-
 if ! which cargo; then
-	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 else
-        echo "Cargo is already installed."
-        rustup upgrade
+  echo "Cargo is already installed."
+  rustup upgrade
 fi
 
 export PACKAGE_LIST="
@@ -14,6 +13,7 @@ export PACKAGE_LIST="
   erdtree \
   exa \
   fd-find \
+  leadr \
   nu \
   procs \
   ripgrep \
@@ -25,5 +25,5 @@ export PACKAGE_LIST="
   "
 
 for package in $PACKAGE_LIST; do
-	cargo install $package
+  cargo install $package
 done
