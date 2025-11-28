@@ -95,7 +95,6 @@ export LC_CTYPE="en_US.UTF-8"
 source ~/.local/share/blesh/ble.sh
 source ~/.bash-powerline.sh
 
-# . "$HOME/.atuin/bin/env"
 source <(leadr --bash)
 
 [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
