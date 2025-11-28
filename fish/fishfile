@@ -1,6 +1,4 @@
 TheWizardTower/paths
-fisherman/gitignore
-fisherman/spin
 fishpkg/fish-humanize-duration
 fishpkg/fish-prompt-metro
 kralewitz/ansible-completion
@@ -8,7 +6,6 @@ laughedelic/pisces
 oh-my-fish/plugin-functional
 oh-my-fish/plugin-gi
 oh-my-fish/plugin-peco
-oh-my-fish/plugin-php
 oh-my-fish/plugin-python
 oh-my-fish/plugin-sudope
 oh-my-fish/plugin-theme
