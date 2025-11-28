@@ -222,7 +222,8 @@
   ;; (The initial cleanliness check is performed when `stripspace-local-mode'
   ;; is enabled)
   (stripspace-only-if-initially-clean nil)
-  (stripspace-restore-column t))
+  ;; (stripspace-restore-column t)
+  )
 
 ;; Rainbow delimiters for better parenthesis matching
 (use-package rainbow-delimiters
@@ -240,5 +241,3 @@
   ;; extra spaces and save the file. Although the spaces are removed in the
   ;; saved file, the cursor remains in the same position, ensuring a consistent
   ;; editing experience without affecting cursor position.
-  (stripspace-restore-column t)
-  )
