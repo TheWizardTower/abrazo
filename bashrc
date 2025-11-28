@@ -76,21 +76,6 @@ source ~/.shellrc
 source ~/.alias
 source ~/.alias.sh
 
-function mymytop() {
-  echo $0
-  echo $1
-  if [ "$1" != "" ]; then
-    if (echo $1 | grep -qiE '^AF00'); then
-      mytop -u$(imvucredentials DB_PS_LIST_USER) -p$(imvucredentials DB_PS_LIST_PASSWORD) -s 1 -h $1
-    fi
-    if (echo $1 | grep -qE '^[0-9]{4}$'); then
-      mytop -u$(imvucredentials DB_PS_LIST_USER) -p$(imvucredentials DB_PS_LIST_PASSWORD) -s 1 -h AF00$1
-    fi
-  else
-    echo "ABORT: needs a hostname as parameter. ie: mymytop AF001478"
-  fi
-}
-
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 [[ -s "$HOME/.local/share/marker/marker.sh" ]] && source "$HOME/.local/share/marker/marker.sh"
 
