@@ -26,7 +26,6 @@ function start_agent {
 
 # Source SSH settings, if applicable
 
-hostname=$(hostname)
 if [ -f "${SSH_ENV}" ]; then
   . ${SSH_ENV} >/dev/null
   ps ${SSH_AGENT_PID} | grep ssh-agent$ >/dev/null || {
