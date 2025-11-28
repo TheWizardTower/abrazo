@@ -11,41 +11,57 @@
  '(helm-minibuffer-history-key "M-p")
  '(package-selected-packages
    '(apheleia bank-buddy beacon cape cargo cargo-mode cargo-transient
-             citar-org-roam company-dict company-fuzzy company-irony
-             company-irony-c-headers company-prescient
-             company-quickhelp-terminal company-shell company-spell
-             copilot copilot-chat dashboard dirvish
-             discover discover-my-major eat embark-consult evil-args
-             evil-better-visual-line evil-collection evil-commentary
-             evil-easymotion evil-escape evil-ex-shell-command
-             evil-expat evil-extra-operator evil-fringe-mark
-             evil-goggles evil-indent-plus evil-leader evil-lion
-             evil-matchit evil-quickscope evil-smartparens evil-space
-             evil-string-inflection evil-surround
-             evil-terminal-cursor-changer evil-traces
-             evil-vimish-fold evil-visual-mark-mode
-             evil-visual-replace evil-visualstar flycheck-aspell
-             flycheck-haskell flycheck-inline flycheck-popup-tip flycheck-rust
-             flycheck-status-emoji flycheck-yamllint flyspell-correct
-             format-all fortune-cookie
-             highlight-indent-guides json-mode
-             kind-icon line-reminder lsp-haskell lsp-metals lsp-ui
-             magit-commit-mark magit-diff-flycheck magit-filenotify
-             magit-find-file magit-todos marginalia orderless
-             projectile-ripgrep quelpa rainbow-delimiters
-             rust-playground rustic sbt-mode shfmt smartparens
-             ssh-agency ssh-config-mode stripspace telephone-line
-             terraform-mode toml-mode treesit-auto
-             vertico watch-buffer web-mode wgrep yaml-mode yasnippet
-             diff-hl company-quickhelp))
+	      citar-org-roam company-dict company-fuzzy company-irony
+	      company-irony-c-headers company-prescient
+	      company-quickhelp company-quickhelp-terminal
+	      company-shell company-spell copilot copilot-chat
+	      dashboard diff-hl dirvish discover discover-my-major eat
+	      embark-consult evil-args evil-better-visual-line
+	      evil-collection evil-commentary evil-easymotion
+	      evil-escape evil-ex-shell-command evil-expat
+	      evil-extra-operator evil-fringe-mark evil-goggles
+	      evil-indent-plus evil-leader evil-lion evil-matchit
+	      evil-quickscope evil-smartparens evil-space
+	      evil-string-inflection evil-surround
+	      evil-terminal-cursor-changer evil-traces
+	      evil-vimish-fold evil-visual-mark-mode
+	      evil-visual-replace evil-visualstar flycheck-aspell
+	      flycheck-haskell flycheck-inline flycheck-popup-tip
+	      flycheck-rust flycheck-status-emoji flycheck-yamllint
+	      flyspell-correct format-all fortune-cookie
+	      highlight-indent-guides json-mode kind-icon
+	      line-reminder lsp-haskell lsp-metals lsp-ui
+	      magit-commit-mark magit-diff-flycheck magit-filenotify
+	      magit-find-file magit-todos marginalia orderless
+	      projectile-ripgrep quelpa rainbow-delimiters
+	      rust-playground rustic sbt-mode shfmt smartparens
+	      ssh-agency ssh-config-mode stripspace telephone-line
+	      terraform-mode toml-mode treesit-auto vertico
+	      watch-buffer web-mode wgrep yaml-mode yasnippet))
  '(package-vc-selected-packages
-   '((copilot :url "https://github.com/copilot-emacs/copilot.el" :branch "main"))))
+   '((copilot :url "https://github.com/copilot-emacs/copilot.el" :branch
+	      "main"))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(evil-ex-substitute-matches ((t (:inherit diff-removed :foreground unspecified :background unspecified))))
+ '(evil-ex-substitute-replacement ((t (:inherit diff-added :foreground unspecified :background unspecified))))
+ '(evil-traces-change ((t (:inherit diff-removed))))
+ '(evil-traces-copy-preview ((t (:inherit diff-added))))
+ '(evil-traces-copy-range ((t (:inherit diff-changed))))
+ '(evil-traces-delete ((t (:inherit diff-removed))))
+ '(evil-traces-global-match ((t (:inherit diff-added))))
+ '(evil-traces-global-range ((t (:inherit diff-changed))))
+ '(evil-traces-join-indicator ((t (:inherit diff-added))) t)
+ '(evil-traces-join-range ((t (:inherit diff-changed))))
+ '(evil-traces-move-preview ((t (:inherit diff-added))))
+ '(evil-traces-move-range ((t (:inherit diff-removed))))
+ '(evil-traces-normal ((t (:inherit diff-changed))))
+ '(evil-traces-shell-command ((t (:inherit diff-changed))))
+ '(evil-traces-substitute-range ((t (:inherit diff-changed))))
+ '(evil-traces-yank ((t (:inherit diff-changed)))))
 
 ;;; custom.el ends here
