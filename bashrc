@@ -18,8 +18,10 @@ function start_agent {
   echo succeeded
   chmod 600 ${SSH_ENV}
   . ${SSH_ENV} >/dev/null
-  /usr/bin/ssh-add ~/.ssh/{golem,github,gitlab-home-lab-merlin}
-  /usr/bin/ssh-add ~/.ssh/merlin*
+
+  for key in ~/.ssh/{golem,github,gitlab-home-lab-merlin} ~/.ssh/merlin*; do
+    [ -f "$key" ] && ssh-add "$key"
+  done
 }
 
 # Source SSH settings, if applicable
