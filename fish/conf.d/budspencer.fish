@@ -1,9 +1,15 @@
 function fish_hybrid_key_bindings --description \
-"Vi-style bindings that inherit emacs-style bindings in all modes"
+    "Vi-style bindings that inherit emacs-style bindings in all modes"
     for mode in default insert visual
         fish_default_key_bindings -M $mode
     end
     fish_vi_key_bindings --no-erase
+    bind -M insert ctrl-p up-or-search
+    bind -M insert ctrl-n down-or-search
+    bind -M insert ctrl-f forward-char
+    bind -M insert ctrl-b backward-char
+    bind -M insert ctrl-a beginning-of-line
+    bind -M insert ctrl-e end-of-line
 end
 set --universal fish_key_bindings fish_hybrid_key_bindings
 

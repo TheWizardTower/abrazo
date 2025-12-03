@@ -19,7 +19,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package avy
-  :ensure t
   :demand t
   :bind (("C-c j" . avy-goto-line)
          ("s-j"   . avy-goto-char-timer)))
@@ -30,44 +29,32 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Consult: Misc. enhanced commands
 (use-package consult
-  :ensure t
-  ;; Other good things to bind: consult-line-multi, consult-history,
-  ;; consult-outline, consult-org-agenda, etc.
-  :bind (("C-x b" . consult-buffer)  ; orig. switch-to-buffer
-         ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
-         ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
-         ("C-x t b" . consult-buffer-other-tab)    ;; orig. switch-to-buffer-other-tab
-         ;; C-x bindings in `ctl-x-map'
-         ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
+  :bind (("C-x b" . consult-buffer)
+         ("C-x 4 b" . consult-buffer-other-window)
+         ("C-x 5 b" . consult-buffer-other-frame)
+         ("C-x t b" . consult-buffer-other-tab)
+         ("C-x M-:" . consult-complex-command)
          ("M-s r" . consult-ripgrep)
-         ("C-s" . consult-line)     ; orig. isearch
-	 ("C-c h" . consult-history)
-	 ("C-c k" . consult-kmacro)
-	 ("C-c m" . consult-man)
-	 ("C-c i" . consult-info)
-         ;; Custom M-# bindings for fast register access
+         ("C-s" . consult-line)
+         ("C-c h" . consult-history)
+         ("C-c k" . consult-kmacro)
+         ("C-c m" . consult-man)
+         ("C-c i" . consult-info)
          ("M-#" . consult-register-load)
-         ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
+         ("M-'" . consult-register-store)
          ("C-M-#" . consult-register)
-         ;; Other custom bindings
-         ("M-y" . consult-yank-pop)                ;; orig. yank-pop
-         ;; M-g bindings in `goto-map'
+         ("M-y" . consult-yank-pop)
          ("M-g e" . consult-compile-error)
-         ("M-g f" . consult-flycheck)               ;; Alternative: consult-flycheck
-         ("M-g g" . consult-goto-line)             ;; orig. goto-line
-         ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
-         ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
+         ("M-g f" . consult-flycheck)
+         ("M-g g" . consult-goto-line)
+         ("M-g M-g" . consult-goto-line)
+         ("M-g o" . consult-outline)
          ("M-g m" . consult-mark)
          ("M-g k" . consult-global-mark)
          ("M-g i" . consult-imenu)
          ("M-g I" . consult-imenu-multi)
-         ;; M-s bindings in `search-map'
-	 ;; For some reason, the functions in this block respond with
-	 ;; "wrong argument type: overlayp, nil". There's a github
-	 ;; issue about this, but the fix doesn't work on my machine.
-         ("M-S d" . consult-fd)                  ;; Alternative: consult-find
+         ("M-S d" . consult-fd)
          ("M-S c" . consult-locate)
          ("M-S g" . consult-grep)
          ("M-S G" . consult-git-grep)
@@ -79,24 +66,17 @@
          ;; Isearch integration
          ("M-S e" . consult-isearch-history)
          :map isearch-mode-map
-         ;; ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
-         ("M-S e" . consult-isearch-history)       ;; orig. isearch-edit-string
-         ("M-S l" . consult-line)                  ;; needed by consult-line to detect isearch
-         ("M-S L" . consult-line-multi)            ;; needed by consult-line to detect isearch
-         ;; Minibuffer history
-         :map minibuffer-local-map
-         ;; ("M-s" . consult-history)                 ;; orig. next-matching-history-element
-         ;; ("M-r" . consult-history)                ;; orig. previous-matching-history-element
-	 )
+         ("M-S e" . consult-isearch-history)
+         ("M-S l" . consult-line)
+         ("M-S L" . consult-line-multi)
+         :map minibuffer-local-map)
   :config
   ;; Narrowing lets you restrict results to certain groups of candidates
   (setq consult-narrow-key "<")
   (autoload 'projectile-project-root "projectile")
-  (setq consult-project-function (lambda (_) (projectile-project-root)))
-  )
+  (setq consult-project-function (lambda (_) (projectile-project-root))))
 
 (use-package embark
-  :ensure t
   :demand t
   :after avy
   :bind (("C-c a" . embark-act))        ; bind this to an easy key to hit
@@ -115,8 +95,7 @@
   ;; candidate you select
   (setf (alist-get ?. avy-dispatch-alist) 'bedrock/avy-action-embark))
 
-(use-package embark-consult
-  :ensure t)
+(use-package embark-consult)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -126,16 +105,16 @@
 
 ;; Vertico: better vertical completion for minibuffer commands
 (use-package vertico
-  :ensure t
+  :demand t
   :init
   ;; You'll want to make sure that e.g. fido-mode isn't enabled
   (vertico-mode))
 
 (use-package vertico-directory
   :after vertico
-  :ensure f ;; it's a sub-library of the vertico package
+  :ensure nil ;; it's a sub-library of the vertico package
   :bind (:map vertico-map
-	      ("M-DEL" . vertico-directory-delete-word)))
+              ("M-DEL" . vertico-directory-delete-word)))
 
 ;; Marginalia: annotations for minibuffer
 ;; Enable rich annotations using the Marginalia package
@@ -143,14 +122,15 @@
   ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
   ;; available in the *Completions* buffer, add it to the
   ;; `completion-list-mode-map'.
+  :demand t
   :config
   (defun marginalia-toggle ()
     (interactive)
     (mapc
      (lambda (x)
        (setcdr x (append (reverse (remq 'none
-					(remq 'builtin (cdr x))))
-			 '(builtin none))))
+                                        (remq 'builtin (cdr x))))
+                         '(builtin none))))
      marginalia-annotator-registry))
   (defun marginalia-use-builtin ()
     (interactive)
@@ -169,60 +149,49 @@
   ;; package.
   (marginalia-mode))
 
-;; Popup completion-at-point
-(use-package corfu
-  :ensure t
-  :init
-  (global-corfu-mode)
-  :bind
-  (:map corfu-map
-        ("SPC" . corfu-insert-separator)
-        ("C-n" . corfu-next)
-        ("C-p" . corfu-previous)))
-
-;; Part of corfu
-(use-package corfu-popupinfo
-  :ensure f ;; Sub-library of the corfu package.
-  :after corfu
-  :hook (corfu-mode . corfu-popupinfo-mode)
-  :custom
-  (corfu-popupinfo-delay '(0.25 . 0.1))
-  (corfu-popupinfo-hide nil)
+;; Company for completion-at-point
+(use-package company
+  :hook ((prog-mode . company-mode)
+         (text-mode . company-mode))
+  :bind (:map company-active-map
+              ("C-n" . company-select-next)
+              ("C-p" . company-select-previous))
   :config
-  (corfu-popupinfo-mode))
+  (setq company-idle-delay 0.1)
+  (setq company-minimum-prefix-length 2)
+  (setq company-selection-wrap-around t))
 
-;; Make corfu popup come up in terminal overlay
-(use-package corfu-terminal
-  :if (not (display-graphic-p))
-  :ensure t
+(use-package company-prescient
+  :after company
   :config
-  (corfu-terminal-mode)
-  )
+  (company-prescient-mode))
+
+(use-package company-quickhelp
+  :after company
+  :config
+  (company-quickhelp-mode))
 
 ;; Fancy completion-at-point functions; there's too much in the cape package to
 ;; configure here; dive in when you're comfortable!
 (use-package cape
-  :ensure t
   :init
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-file))
 
-;; Pretty icons for corfu
 (use-package kind-icon
   :if (display-graphic-p)
-  :ensure t
-  :after corfu
+  :after company
   :config
-  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+  (add-to-list 'company-format-margin-function #'kind-icon-margin-formatter))
 
 (use-package eshell
   :bind (("C-r" . consult-history)))
 
 ;; Orderless: powerful completion style
 (use-package orderless
-  :ensure t
+  :demand t
   :config
-  (setq completion-styles '(orderless)))
+  (setq completion-styles '(orderless basic)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -232,22 +201,20 @@
 
 ;; Modify search results en masse
 (use-package wgrep
-  :ensure t
   :config
   (setq wgrep-auto-save-buffer t))
 
 (use-package telephone-line
+  :demand t
   :config
-  (telephone-line-mode 1)
-  )
+  (telephone-line-mode 1))
 
 (use-package stripspace
   :ensure t
   ;; enable for prog-mode-hook, text-mode-hook, conf-mode-hook
   :hook ((prog-mode . stripspace-local-mode)
-	 (text-mode . stripspace-local-mode)
-	(conf-mode . stripspace-local-mode))
-
+         (text-mode . stripspace-local-mode)
+         (conf-mode . stripspace-local-mode))
   :custom
   ;; the `stripspaceonly-if-initially-clean' option:
   ;; - nil to always delete trailing whitespace
@@ -255,6 +222,18 @@
   ;; (The initial cleanliness check is performed when `stripspace-local-mode'
   ;; is enabled)
   (stripspace-only-if-initially-clean nil)
+  (stripspace-restore-column t))
+
+;; Rainbow delimiters for better parenthesis matching
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+;; Show git changes in fringe
+(use-package diff-hl
+  :hook ((prog-mode . diff-hl-mode)
+         (magit-post-refresh . diff-hl-magit-post-refresh))
+  :config
+  (diff-hl-flydiff-mode))
 
   ;; Enabling `stripspace-restore-column' preserves the cursor's column position
   ;; even after stripping spaces. This is useful in scenarios where you add
