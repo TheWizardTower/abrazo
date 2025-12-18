@@ -37,6 +37,15 @@ cmp.setup({
       name = 'custom',
       selection_order = 'near_cursor',
     },
+    docs = {
+      auto_open = true,
+    },
+  },
+
+  -- Window positioning
+  completion = {
+    -- Show completion menu below cursor with 1 line offset
+    completeopt = 'menu,menuone,noinsert',
   },
 
   -- Completion sources (in priority order)
