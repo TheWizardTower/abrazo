@@ -1,7 +1,3 @@
-# Get the aliases and functions
-if [ -f ~/.bashrc ]; then
-	. ~/.bashrc
-fi
 
 # User specific environment and startup programs
 
@@ -9,6 +5,7 @@ PATH="$PATH:$HOME/.local/bin"
 PATH="$PATH:$HOME/local/bin"
 PATH="$PATH:$HOME/.local/share/coursier/bin"
 PATH="$PATH:$HOME/bin"
+PATH="$PATH:/home/merlin/.opencode/bin"
 
 export PATH
 
@@ -17,3 +14,10 @@ if [ -e /home/merlin/.nix-profile/etc/profile.d/nix.sh ]; then . /home/merlin/.n
 . "$HOME/.cargo/env"
 
 . "$HOME/.atuin/bin/env"
+
+# Set up the $PATH first, then invoke bashrc.
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+	. ~/.bashrc
+fi
