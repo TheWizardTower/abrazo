@@ -115,6 +115,37 @@ models:
       --ctx-size ${ctx_size}
       --model ${model_path}
       --temp ${temp}
+  starcoder-2-15b-q8:
+    description: "StarCoder2 15B Q8 - high quality coding model."
+    recommended_use: "Complex coding tasks requiring high accuracy"
+    macros:
+      model_path: "${hf-cache}/models--dranger003--starcoder2-15b-GGUF/snapshots/652898e2235cd61c5648fefb4e03e66a434f8b4d/ggml-starcoder2-15b-q8_0.gguf"
+      ctx_size: 327680
+    cmd: |
+      ${llama-server}
+      --port ${PORT}
+      --host ${host}
+      --flash-attn ${flash_attn}
+      ${slots}
+      --ctx-size ${ctx_size}
+      --model ${model_path}
+      --temp ${temp}
+
+  kokoro:
+    description: "Kokoro espeak Q8 - text to speech model"
+    recommended_use: "high quality text to speech model"
+    macros:
+      model_path: "${hf-cache}/models--mmwillet2--Kokoro_GGUF/snapshots/e9e81d8e813948353195c9db77ef065476335c8d/Kokoro_espeak_Q8.gguf"
+      ctx_size: 327680
+    cmd: |
+      ${llama-server}
+      --port ${PORT}
+      --host ${host}
+      --flash-attn ${flash_attn}
+      ${slots}
+      --ctx-size ${ctx_size}
+      --model ${model_path}
+      --temp ${temp}
 
 groups:
   architect-and-editor:
