@@ -4,10 +4,43 @@ sendLoadingState: true
 macros:
   llama-server: /home/merlin/git/llama.cpp/build/bin/llama-server
   model-path: /home/merlin/models/
+  hf-cache: /home/merlin/.cache/huggingface/hub/
   "default_ctx": 4096
   "temp": 0.7
 
 models:
+  "qwen-coder-32B":
+    cmd: |
+      ${llama-server}
+      --port ${PORT}
+      --host 0.0.0.0
+      --flash-attn on
+      --slots
+      --ctx-size 32768
+      --cache-type-k q8_0
+      --cache-type-v q8_0
+      -ngl 99
+      --model ${hf-cache}/models--Triangle104--Qwen2.5-Coder-32B-Instruct-Q4_K_M-GGUF/snapshots/2246fc23fc869f1be602abaf3b8b5c6b8e23c13d/qwen2.5-coder-32b-instruct-q4_k_m.gguf
+  "QwQ":
+    cmd: |
+      ${llama-server}
+      --port ${PORT}
+      --host 0.0.0.0
+      --flash-attn on
+      --metrics
+      --slots
+      --ctx-size 65356
+      --samplers "top_k;top_p;min_p;temperature;dry;typ_p;xtc"
+      --temp 0.6
+      --repeat-penalty 1.1
+      --dry-multiplier 0.5
+      --min-p 0.01
+      --top-k 40
+      --top-p 0.95
+      --cache-type-k q8_0
+      --cache-type-v q8_0
+      -ngl 99
+      --model ${hf-cache}/models--bartowski--Qwen_QwQ-32B-GGUF/snapshots/390cc7b31baedc55a4d094802995e75f40b4a86d/Qwen_QwQ-32B-Q4_K_M.gguf
   qwen3-q6:
     cmd: |
       ${llama-server}
@@ -29,3 +62,11 @@ models:
       --model ${model-path}/qwen-coder/Qwen3-Coder-30B-A3B-Instruct-UD-Q6_K_XL.gguf
       --ctx-size 327680
       # --temperature ${temp}
+
+groups:
+  "architect-and-editor":
+    swap: false
+    exclusive: true
+    members:
+      - "QwQ"
+      - "qwen-coder-32B"
