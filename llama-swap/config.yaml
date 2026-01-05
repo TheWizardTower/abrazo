@@ -1,72 +1,135 @@
-logLevel: debug
+# llama-swap configuration
+# Environment variables can override these values:
+# - LLAMA_SERVER_PATH: Path to llama-server binary
+# - MODEL_PATH: Base directory for models
+# - HF_CACHE: HuggingFace cache directory
+
+logLevel: info
 sendLoadingState: true
 
+# Default values inherited by all models unless overridden
+
 macros:
-  llama-server: /home/merlin/git/llama.cpp/build/bin/llama-server
-  model-path: /home/merlin/models/
-  hf-cache: /home/merlin/.cache/huggingface/hub/
-  "default_ctx": 4096
-  "temp": 0.7
+  llama-server: "/home/merlin/git/llama.cpp/build/bin/llama-server"
+  model-path: "models/"
+  hf-cache: "/home/merlin/.cache/huggingface/hub/"
+  host: "0.0.0.0"
+  flash_attn: "on"
+  slots: "--slots"
+  cache_type_k: "q8_0"
+  cache_type_v: "q8_0"
+  ngl: 99
+  ctx_size: 32768
+  temp: 0.7
 
 models:
-  "qwen-coder-32B":
+  qwen-coder-32b:
+    description: "Qwen2.5 Coder 32B Instruct - Specialized for coding tasks"
+    recommended_use: "Code generation, debugging, programming assistance"
+    macros:
+      model_path: "${hf-cache}/models--Triangle104--Qwen2.5-Coder-32B-Instruct-Q4_K_M-GGUF/snapshots/2246fc23fc869f1be602abaf3b8b5c6b8e23c13d/qwen2.5-coder-32b-instruct-q4_k_m.gguf"
+      ctx_size: 32768
     cmd: |
       ${llama-server}
       --port ${PORT}
-      --host 0.0.0.0
-      --flash-attn on
-      --slots
-      --ctx-size 32768
-      --cache-type-k q8_0
-      --cache-type-v q8_0
-      -ngl 99
-      --model ${hf-cache}/models--Triangle104--Qwen2.5-Coder-32B-Instruct-Q4_K_M-GGUF/snapshots/2246fc23fc869f1be602abaf3b8b5c6b8e23c13d/qwen2.5-coder-32b-instruct-q4_k_m.gguf
-  "QwQ":
+      --host ${host}
+      --flash-attn ${flash_attn}
+      ${slots}
+      --ctx-size ${ctx_size}
+      --cache-type-k ${cache_type_k}
+      --cache-type-v ${cache_type_v}
+      -ngl ${ngl}
+      --model ${model_path}
+
+  qwq-32b:
+    description: "Qwen QwQ 32B - Advanced reasoning model"
+    recommended_use: "Complex reasoning, problem-solving, analysis"
+    macros:
+      model_path: "${hf-cache}/models--bartowski--Qwen_QwQ-32B-GGUF/snapshots/390cc7b31baedc55a4d094802995e75f40b4a86d/Qwen_QwQ-32B-Q4_K_M.gguf"
+      ctx_size: 65536
+      temp: 0.6
     cmd: |
       ${llama-server}
       --port ${PORT}
-      --host 0.0.0.0
-      --flash-attn on
+      --host ${host}
+      --flash-attn ${flash_attn}
       --metrics
-      --slots
-      --ctx-size 65356
+      ${slots}
+      --ctx-size ${ctx_size}
+      --cache-type-k ${cache_type_k}
+      --cache-type-v ${cache_type_v}
+      -ngl ${ngl}
+      --model ${model_path}
       --samplers "top_k;top_p;min_p;temperature;dry;typ_p;xtc"
-      --temp 0.6
+      --temp ${temp}
       --repeat-penalty 1.1
       --dry-multiplier 0.5
       --min-p 0.01
       --top-k 40
       --top-p 0.95
-      --cache-type-k q8_0
-      --cache-type-v q8_0
-      -ngl 99
-      --model ${hf-cache}/models--bartowski--Qwen_QwQ-32B-GGUF/snapshots/390cc7b31baedc55a4d094802995e75f40b4a86d/Qwen_QwQ-32B-Q4_K_M.gguf
-  qwen3-q6:
+
+  qwen3-coder-q6:
+    description: "Qwen3 Coder 30B Q6_K - Balanced coding model"
+    recommended_use: "General coding, script development"
+    macros:
+      model_path: "${model-path}/qwen-coder/Qwen3-Coder-30B-A3B-Instruct-Q6_K.gguf"
+      ctx_size: 327680
     cmd: |
       ${llama-server}
       --port ${PORT}
-      --model ${model-path}/qwen-coder/Qwen3-Coder-30B-A3B-Instruct-Q6_K.gguf
-      --ctx-size 327680
-      # --temperature ${temp}
-  qwen3-q4:
+      --host ${host}
+      --flash-attn ${flash_attn}
+      ${slots}
+      --ctx-size ${ctx_size}
+      --model ${model_path}
+      --temp ${temp}
+
+  qwen3-coder-q4:
+    description: "Qwen3 Coder 30B Q4_K_M - Lightweight coding model"
+    recommended_use: "Quick coding tasks, resource-constrained environments"
+    macros:
+      model_path: "${model-path}/qwen-coder/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf"
+      ctx_size: 327680
     cmd: |
       ${llama-server}
       --port ${PORT}
-      --model ${model-path}/qwen-coder/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf
-      --ctx-size 327680
-      # --temperature ${temp}
-  qwen3-q6-xl:
+      --host ${host}
+      --flash-attn ${flash_attn}
+      ${slots}
+      --ctx-size ${ctx_size}
+      --model ${model_path}
+      --temp ${temp}
+
+  qwen3-coder-q6-xl:
+    description: "Qwen3 Coder 30B Q6_K_XL - High-quality coding model"
+    recommended_use: "Complex coding tasks requiring high accuracy"
+    macros:
+      model_path: "${model-path}/qwen-coder/Qwen3-Coder-30B-A3B-Instruct-UD-Q6_K_XL.gguf"
+      ctx_size: 327680
     cmd: |
       ${llama-server}
       --port ${PORT}
-      --model ${model-path}/qwen-coder/Qwen3-Coder-30B-A3B-Instruct-UD-Q6_K_XL.gguf
-      --ctx-size 327680
-      # --temperature ${temp}
+      --host ${host}
+      --flash-attn ${flash_attn}
+      ${slots}
+      --ctx-size ${ctx_size}
+      --model ${model_path}
+      --temp ${temp}
 
 groups:
-  "architect-and-editor":
+  architect-and-editor:
+    description: "Paired models for complex reasoning and coding"
     swap: false
     exclusive: true
     members:
-      - "QwQ"
-      - "qwen-coder-32B"
+      - qwq-32b
+      - qwen-coder-32b
+
+# Validation rules (optional enhancement)
+validation:
+  required_fields:
+    - model_path
+    - cmd
+  valid_ctx_sizes: [4096, 8192, 16384, 32768, 65536, 131072, 262144, 327680]
+  max_temperature: 2.0
+  min_temperature: 0.0
