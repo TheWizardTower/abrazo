@@ -1,0 +1,31 @@
+logLevel: debug
+sendLoadingState: true
+
+macros:
+  llama-server: /home/merlin/git/llama.cpp/build/bin/llama-server
+  model-path: /home/merlin/models/
+  "default_ctx": 4096
+  "temp": 0.7
+
+models:
+  qwen3-q6:
+    cmd: |
+      ${llama-server}
+      --port ${PORT}
+      --model ${model-path}/qwen-coder/Qwen3-Coder-30B-A3B-Instruct-Q6_K.gguf
+      --ctx-size 327680
+      # --temperature ${temp}
+  qwen3-q4:
+    cmd: |
+      ${llama-server}
+      --port ${PORT}
+      --model ${model-path}/qwen-coder/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf
+      --ctx-size 327680
+      # --temperature ${temp}
+  qwen3-q6-xl:
+    cmd: |
+      ${llama-server}
+      --port ${PORT}
+      --model ${model-path}/qwen-coder/Qwen3-Coder-30B-A3B-Instruct-UD-Q6_K_XL.gguf
+      --ctx-size 327680
+      # --temperature ${temp}
