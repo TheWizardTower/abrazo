@@ -1,0 +1,43 @@
+[Unit]
+Description=llama-swap proxy server
+Documentation=https://github.com/anomalyco/llama-swap
+After=network.target
+
+[Service]
+User=merlin
+Group=merlin
+Type=simple
+Restart=on-failure
+RestartSec=5
+WorkingDirectory=/home/merlin/git/llama-swap/build
+ExecStart=/usr/local/bin/llama-swap --config /home/merlin/abrazo/llama-swap/config.yaml --listen 0.0.0.0:8080
+ExecReload=/bin/kill -HUP $MAINPID
+WorkingDirectory=/home/merlin/git/llama-swap/build
+PrivateTmp=false
+ProtectHome=false
+ProtectSystem=false
+ReadWritePaths=/home/merlin
+
+# Environment variables
+Environment="TORCH_ROCM_AOTRITON_ENABLE_EXPERIMENTAL=1"
+Environment="XDG_CACHE_HOME=/home/merlin/.cache/"
+Environment="LOGNAME=merlin"
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=llama-swap
+
+# Resource limits
+LimitNOFILE=65536
+LimitNPROC=4096
+
+# Security
+NoNewPrivileges=true
+; PrivateTmp=true
+; ProtectSystem=strict
+; ProtectHome=read-only
+; ReadWritePaths=/home/%i/models /home/%i/.cache/huggingface/hub /tmp
+
+[Install]
+WantedBy=default.target
