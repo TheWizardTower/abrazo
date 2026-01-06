@@ -1,0 +1,101 @@
+{
+  "$schema": "https://charm.land/crush.json",
+  "providers": {
+    "llama-swap": {
+      "type": "openai",
+      "base_url": "http://turkishDelight:8080/v1",
+      "name": "Llama-swap - Llama.cpp",
+      "id": "llamacpp",
+      "models": [
+        {
+          "id": "gpt-oss-20b",
+          "name": "GPT-OSS 20B",
+          "context_window": 131072,
+          "default_max_tokens": 51200,
+          "options": {},
+          "can_reason": true,
+          "supports_attachments": false,
+          "default_reasoning_effort": "high",
+          "cost_per_1m_in": 0,
+          "cost_per_1m_in_cached": 0,
+          "cost_per_1m_out": 0,
+          "cost_per_1m_out_cached": 0
+        },
+        {
+          "id": "starcoder-2-15b-q8",
+          "name": "StarCoder-2 15B Q8",
+          "context_window": 131072,
+          "default_max_tokens": 51200,
+          "options": {},
+          "can_reason": true,
+          "supports_attachments": false,
+          "default_reasoning_effort": "high",
+          "cost_per_1m_in": 0,
+          "cost_per_1m_in_cached": 0,
+          "cost_per_1m_out": 0,
+          "cost_per_1m_out_cached": 0
+        },
+        {
+          "id": "qwq-32b",
+          "name": "Qwen2.5 Architect",
+          "context_window": 131072,
+          "default_max_tokens": 51200,
+          "options": {},
+          "can_reason": true,
+          "supports_attachments": false,
+          "default_reasoning_effort": "high",
+          "cost_per_1m_in": 0,
+          "cost_per_1m_in_cached": 0,
+          "cost_per_1m_out": 0,
+          "cost_per_1m_out_cached": 0
+        },
+        {
+          "id": "qwen3-coder-q6-xl",
+          "name": "Qwen3 Q6 XL model. For heavy tasks.",
+          "context_window": 131072,
+          "default_max_tokens": 51200,
+          "options": {},
+          "can_reason": true,
+          "supports_attachments": false,
+          "default_reasoning_effort": "high",
+          "cost_per_1m_in": 0,
+          "cost_per_1m_in_cached": 0,
+          "cost_per_1m_out": 0,
+          "cost_per_1m_out_cached": 0
+        }
+      ]
+    }
+  },
+  "mcp": {
+    "serena-stdio": {
+      "type": "stdio",
+      "command": "serena",
+      "args": [
+        "start-mcp-server",
+        "--project-from-cwd"
+      ]
+    }
+  },
+  "lsp": {
+    "rust": {
+      "command": "rust-analyzer"
+    }
+  },
+  "models": {
+    "large": {
+      "model": "gpt-oss-20b",
+      "provider": "llamacpp",
+      "reasoning_effort": "high",
+      "max_tokens": 51200
+    }
+  },
+  "recent_models": {
+    "large": [
+      {
+        "model": "gpt-oss-20b",
+        "provider": "llamacpp"
+      }
+    ]
+  }
+}
+
