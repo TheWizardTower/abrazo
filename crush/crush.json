@@ -10,7 +10,7 @@
         {
           "id": "gpt-oss-20b",
           "name": "GPT-OSS 20B",
-          "context_window": 131072,
+          "context_window": 262144,
           "default_max_tokens": 51200,
           "options": {},
           "can_reason": true,
@@ -74,6 +74,47 @@
         "start-mcp-server",
         "--project-from-cwd"
       ]
+    },
+    "sourcerer": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "sourcerer-mcp"
+      ]
+    },
+    "semgrep": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-semgrep"
+      ]
+    },
+    "filesystem": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/home/merlin/git"
+      ]
+    },
+    "git": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "mcp-server-git",
+        "--repository",
+        "path/to/git/repo"
+      ]
+    },
+    "sequential-thinking": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ]
     }
   },
   "lsp": {
@@ -84,8 +125,7 @@
   "models": {
     "large": {
       "model": "gpt-oss-20b",
-      "provider": "llamacpp",
-      "reasoning_effort": "high",
+      "provider": "llama-swap",
       "max_tokens": 51200
     }
   },
@@ -93,9 +133,8 @@
     "large": [
       {
         "model": "gpt-oss-20b",
-        "provider": "llamacpp"
+        "provider": "llama-swap"
       }
     ]
   }
 }
-
