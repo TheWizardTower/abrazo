@@ -16,19 +16,24 @@ macros:
   host: "0.0.0.0"
   flash_attn: "on"
   slots: "--slots"
-  cache_type_k: "q4_0"
-  cache_type_v: "q4_0"
+  # cache_type_k: "q4_0"
+  # cache_type_v: "q4_0"
   ngl: 99
-  ctx_size: 32768
+  ctx_size: 131072 # Larger default for Rust projects
   temp: 0.7
+  # Performance tuning for Strix Halo (shared memory architecture)
+  batch_size: 512
+  ubatch_size: 512
+  parallel: 4
+  cont_batching: "--cont-batching"
 
 models:
   gpt-oss-20b:
-    description: "Qwen2.5 Coder 32B Instruct - Specialized for coding tasks"
+    description: "GPT Open Source, 20B version. Useful for programming."
     recommended_use: "Code generation, debugging, programming assistance"
     macros:
-      model_path: "${hf-cache}//models--ggml-org--gpt-oss-20b-GGUF/snapshots/e1dc459feff949ff451ce107337a2026daa80df8/gpt-oss-20b-mxfp4.gguf"
-      ctx_size: 0 # default for the model
+      model_path: "${hf-cache}/models--ggml-org--gpt-oss-20b-GGUF/snapshots/e1dc459feff949ff451ce107337a2026daa80df8/gpt-oss-20b-mxfp4.gguf"
+      ctx_size: 131072
     cmd: |
       ${llama-server}
       --port ${PORT}
@@ -40,12 +45,18 @@ models:
       # --cache-type-v ${cache_type_v}
       -ngl ${ngl}
       --model ${model_path}
+      ${cont_batching}
+      --parallel ${parallel}
+      --batch-size ${batch_size}
+      --ubatch-size ${ubatch_size}
+      --no-mmap
+
   qwen-coder-32b:
     description: "Qwen2.5 Coder 32B Instruct - Specialized for coding tasks"
     recommended_use: "Code generation, debugging, programming assistance"
     macros:
       model_path: "${hf-cache}/models--Triangle104--Qwen2.5-Coder-32B-Instruct-Q4_K_M-GGUF/snapshots/2246fc23fc869f1be602abaf3b8b5c6b8e23c13d/qwen2.5-coder-32b-instruct-q4_k_m.gguf"
-      ctx_size: 32768
+      ctx_size: 131072
     cmd: |
       ${llama-server}
       --port ${PORT}
@@ -53,18 +64,25 @@ models:
       --flash-attn ${flash_attn}
       ${slots}
       --ctx-size ${ctx_size}
-      --cache-type-k ${cache_type_k}
-      --cache-type-v ${cache_type_v}
+      # --cache-type-k ${cache_type_k}
+      # --cache-type-v ${cache_type_v}
       -ngl ${ngl}
       --model ${model_path}
+      ${cont_batching}
+      --parallel ${parallel}
+      --batch-size ${batch_size}
+      --ubatch-size ${ubatch_size}
+      --mlock
 
   qwq-32b:
     description: "Qwen QwQ 32B - Advanced reasoning model"
     recommended_use: "Complex reasoning, problem-solving, analysis"
     macros:
       model_path: "${hf-cache}/models--bartowski--Qwen_QwQ-32B-GGUF/snapshots/390cc7b31baedc55a4d094802995e75f40b4a86d/Qwen_QwQ-32B-Q4_K_M.gguf"
-      ctx_size: 65536
+      ctx_size: 131072
       temp: 0.6
+      # cache_type_k: "q6_0"
+      # cache_type_v: "q6_0"
     cmd: |
       ${llama-server}
       --port ${PORT}
@@ -73,8 +91,8 @@ models:
       --metrics
       ${slots}
       --ctx-size ${ctx_size}
-      --cache-type-k ${cache_type_k}
-      --cache-type-v ${cache_type_v}
+      # --cache-type-k ${cache_type_k}
+      # --cache-type-v ${cache_type_v}
       -ngl ${ngl}
       --model ${model_path}
       --samplers "top_k;top_p;min_p;temperature;dry;typ_p;xtc"
@@ -84,15 +102,20 @@ models:
       --min-p 0.01
       --top-k 40
       --top-p 0.95
+      ${cont_batching}
+      --parallel ${parallel}
+      --batch-size ${batch_size}
+      --ubatch-size ${ubatch_size}
+      --mlock
 
   qwen3-coder-q6:
     description: "Qwen3 Coder 30B Q6_K - Balanced coding model"
     recommended_use: "General coding, script development"
     macros:
       model_path: "${model-path}/qwen-coder/Qwen3-Coder-30B-A3B-Instruct-Q6_K.gguf"
-      ctx_size: 327680
-      cache_type_k: "q6_0"
-      cache_type_v: "q6_0"
+      ctx_size: 196608
+      # cache_type_k: "q6_0"
+      # cache_type_v: "q6_0"
     cmd: |
       ${llama-server}
       --port ${PORT}
@@ -100,15 +123,24 @@ models:
       --flash-attn ${flash_attn}
       ${slots}
       --ctx-size ${ctx_size}
+      # --cache-type-k ${cache_type_k}
+      # --cache-type-v ${cache_type_v}
+      -ngl ${ngl}
       --model ${model_path}
       --temp ${temp}
+      ${cont_batching}
+      --parallel ${parallel}
+      --batch-size ${batch_size}
+      --ubatch-size ${ubatch_size}
+      --mlock
 
   qwen3-coder-q4:
     description: "Qwen3 Coder 30B Q4_K_M - Lightweight coding model"
     recommended_use: "Quick coding tasks, resource-constrained environments"
     macros:
       model_path: "${model-path}/qwen-coder/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf"
-      ctx_size: 327680
+      ctx_size: 196608
+      parallel: 1 # give full context to one process
     cmd: |
       ${llama-server}
       --port ${PORT}
@@ -116,17 +148,25 @@ models:
       --flash-attn ${flash_attn}
       ${slots}
       --ctx-size ${ctx_size}
+      # --cache-type-k ${cache_type_k}
+      # --cache-type-v ${cache_type_v}
+      -ngl ${ngl}
       --model ${model_path}
       --temp ${temp}
+      ${cont_batching}
+      --parallel ${parallel}
+      --batch-size ${batch_size}
+      --ubatch-size ${ubatch_size}
 
   qwen3-coder-q6-xl:
     description: "Qwen3 Coder 30B Q6_K_XL - High-quality coding model"
     recommended_use: "Complex coding tasks requiring high accuracy"
     macros:
       model_path: "${model-path}/qwen-coder/Qwen3-Coder-30B-A3B-Instruct-UD-Q6_K_XL.gguf"
-      ctx_size: 327680
-      cache_type_k: "q6_0"
-      cache_type_v: "q6_0"
+      ctx_size: 196608
+      # cache_type_k: "q8_0"
+      # cache_type_v: "q8_0"
+      parallel: 1 # give full context to one process
     cmd: |
       ${llama-server}
       --port ${PORT}
@@ -134,16 +174,25 @@ models:
       --flash-attn ${flash_attn}
       ${slots}
       --ctx-size ${ctx_size}
+      # --cache-type-k ${cache_type_k}
+      # --cache-type-v ${cache_type_v}
+      -ngl ${ngl}
       --model ${model_path}
       --temp ${temp}
+      ${cont_batching}
+      --parallel ${parallel}
+      --batch-size ${batch_size}
+      --ubatch-size ${ubatch_size}
+      --mlock
+
   starcoder-2-15b-q8:
     description: "StarCoder2 15B Q8 - high quality coding model."
     recommended_use: "Complex coding tasks requiring high accuracy"
     macros:
       model_path: "${hf-cache}/models--dranger003--starcoder2-15b-GGUF/snapshots/652898e2235cd61c5648fefb4e03e66a434f8b4d/ggml-starcoder2-15b-q8_0.gguf"
-      ctx_size: 327680
-      cache_type_k: "q8_0"
-      cache_type_v: "q8_0"
+      ctx_size: 196608
+      # cache_type_k: "q8_0"
+      # cache_type_v: "q8_0"
     cmd: |
       ${llama-server}
       --port ${PORT}
@@ -151,17 +200,25 @@ models:
       --flash-attn ${flash_attn}
       ${slots}
       --ctx-size ${ctx_size}
+      # --cache-type-k ${cache_type_k}
+      # --cache-type-v ${cache_type_v}
+      -ngl ${ngl}
       --model ${model_path}
       --temp ${temp}
+      ${cont_batching}
+      --parallel ${parallel}
+      --batch-size ${batch_size}
+      --ubatch-size ${ubatch_size}
+      --mlock
 
   kokoro:
     description: "Kokoro espeak Q8 - text to speech model"
     recommended_use: "high quality text to speech model"
     macros:
       model_path: "${hf-cache}/models--mmwillet2--Kokoro_GGUF/snapshots/e9e81d8e813948353195c9db77ef065476335c8d/Kokoro_espeak_Q8.gguf"
-      ctx_size: 327680
-      cache_type_k: "q8_0"
-      cache_type_v: "q8_0"
+      ctx_size: 32768
+      # cache_type_k: "q8_0"
+      # cache_type_v: "q8_0"
     cmd: |
       ${llama-server}
       --port ${PORT}
@@ -169,8 +226,15 @@ models:
       --flash-attn ${flash_attn}
       ${slots}
       --ctx-size ${ctx_size}
+      # --cache-type-k ${cache_type_k}
+      # --cache-type-v ${cache_type_v}
+      -ngl ${ngl}
       --model ${model_path}
       --temp ${temp}
+      ${cont_batching}
+      --parallel ${parallel}
+      --batch-size ${batch_size}
+      --ubatch-size ${ubatch_size}
 
 groups:
   architect-and-editor:
@@ -186,6 +250,7 @@ validation:
   required_fields:
     - model_path
     - cmd
-  valid_ctx_sizes: [4096, 8192, 16384, 32768, 65536, 131072, 262144, 327680]
+  valid_ctx_sizes:
+    [4096, 8192, 16384, 32768, 65536, 131072, 196608, 262144, 327680]
   max_temperature: 2.0
   min_temperature: 0.0
