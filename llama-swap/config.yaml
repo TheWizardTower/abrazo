@@ -11,7 +11,7 @@ sendLoadingState: true
 
 macros:
   llama-server: "/home/merlin/git/llama.cpp/build/bin/llama-server"
-  model-path: "models/"
+  model-path: "/home/merlin/models/"
   hf-cache: "/home/merlin/.cache/huggingface/hub/"
   host: "0.0.0.0"
   flash_attn: "on"
