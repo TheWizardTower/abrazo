@@ -19,7 +19,7 @@ function start_agent {
   chmod 600 ${SSH_ENV}
   . ${SSH_ENV} >/dev/null
 
-  for key in ~/.ssh/{golem,github,gitlab-home-lab-merlin} ~/.ssh/merlin*; do
+  for key in ~/.ssh/{golem,github,gitlab-home-lab-merlin,turkishDelight} ~/.ssh/merlin*; do
     [ -f "$key" ] && ssh-add "$key"
   done
 }
