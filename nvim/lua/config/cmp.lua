@@ -17,35 +17,23 @@ cmp.setup({
     end,
   },
 
-  -- Window appearance - offset to avoid overlap
+  -- Window appearance with better positioning
   window = {
-    completion = cmp.config.window.bordered({
+    completion = {
       border = 'rounded',
       winhighlight = 'Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None',
-    }),
-    documentation = cmp.config.window.bordered({
+      scrollbar = true,
+      -- Position below cursor with offset
+      col_offset = 0,
+      side_padding = 1,
+    },
+    documentation = {
       border = 'rounded',
       winhighlight = 'Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None',
       max_height = 15,
       max_width = 80,
-    }),
-  },
-
-  -- View configuration - position windows to avoid overlap
-  view = {
-    entries = {
-      name = 'custom',
-      selection_order = 'near_cursor',
+      scrollbar = true,
     },
-    docs = {
-      auto_open = true,
-    },
-  },
-
-  -- Window positioning
-  completion = {
-    -- Show completion menu below cursor with 1 line offset
-    completeopt = 'menu,menuone,noinsert',
   },
 
   -- Completion sources (in priority order)
@@ -128,6 +116,7 @@ cmp.setup({
 
   -- Formatting appearance with Copilot icon
   formatting = {
+    fields = { "kind", "abbr", "menu" },
     format = lspkind.cmp_format({
       mode = "symbol_text",
       maxwidth = 50,
@@ -150,6 +139,19 @@ cmp.setup({
   experimental = {
     ghost_text = false,     -- Let Copilot handle ghost text
   },
+})
+
+-- Custom autocmd to better position documentation window
+vim.api.nvim_create_autocmd("CompleteChanged", {
+  pattern = "*",
+  callback = function()
+    local completed_item = vim.v.completed_item
+    if completed_item and completed_item.info then
+      -- Documentation will appear, ensure it doesn't cover code
+      vim.cmd('stopinsert')
+      vim.cmd('startinsert')
+    end
+  end,
 })
 
 -- Command line completion
@@ -175,3 +177,6 @@ vim.keymap.set({ "i", "s" }, "<C-l>", function()
     luasnip.change_choice(1)
   end
 end, { desc = "Change snippet choice" })
+
+-- Add pumheight to limit completion menu height and keep code visible
+vim.opt.pumheight = 15 -- Limit completion menu to 15 items max
