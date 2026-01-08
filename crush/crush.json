@@ -220,13 +220,30 @@
   },
   "models": {
     "large": {
-      "model": "gpt-oss-20b",
-      "provider": "llama-swap",
-      "max_tokens": 51200
+      "model": "Qwen3-Coder-30B-A3B-Instruct-GGUF",
+      "provider": "lemonaid",
+      "reasoning_effort": "high",
+      "max_tokens": 16384
     }
   },
   "recent_models": {
     "large": [
+      {
+        "model": "Qwen3-Coder-30B-A3B-Instruct-GGUF",
+        "provider": "lemonaid"
+      },
+      {
+        "model": "gpt-oss-120b-GGUF",
+        "provider": "lemonaid"
+      },
+      {
+        "model": "qwen3-coder-q4",
+        "provider": "llama-swap"
+      },
+      {
+        "model": "qwen3-coder-q6-xl",
+        "provider": "llama-swap"
+      },
       {
         "model": "gpt-oss-20b",
         "provider": "llama-swap"
