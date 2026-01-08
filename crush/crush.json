@@ -209,6 +209,15 @@
       "command": "rust-analyzer"
     }
   },
+  "permissions": {
+    "allowed_tools": [
+      "view",
+      "ls",
+      "grep",
+      "edit",
+      "mcp_context7_get-library-doc"
+    ]
+  },
   "models": {
     "large": {
       "model": "gpt-oss-20b",
