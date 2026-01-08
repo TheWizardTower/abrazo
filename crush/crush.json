@@ -152,21 +152,6 @@
         "--project-from-cwd"
       ]
     },
-    "sourcerer": {
-      "type": "stdio",
-      "command": "uvx",
-      "args": [
-        "sourcerer-mcp"
-      ]
-    },
-    "semgrep": {
-      "type": "stdio",
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-semgrep"
-      ]
-    },
     "filesystem": {
       "type": "stdio",
       "command": "npx",
@@ -180,9 +165,7 @@
       "type": "stdio",
       "command": "uvx",
       "args": [
-        "mcp-server-git",
-        "--repository",
-        "path/to/git/repo"
+        "mcp-server-git"
       ]
     },
     "sequential-thinking": {
@@ -191,6 +174,33 @@
       "args": [
         "-y",
         "@modelcontextprotocol/server-sequential-thinking"
+      ]
+    },
+    "kubernetes": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "kubernetes-mcp-server@latest"
+      ]
+    },
+    "mcp_k8s": {
+      "type": "stdio",
+      "command": "mcp-k8s",
+      "args": []
+    },
+    "nixos": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "mcp-nixos"
+      ]
+    },
+    "mcp-gp-pdf-reader": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "/home/merlin/git/mcp_gp_pdf_reader/index.js"
       ]
     }
   },
