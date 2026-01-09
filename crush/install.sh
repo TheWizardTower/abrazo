@@ -3,6 +3,9 @@
 mkdir -p ~/.local/share/crush/
 ln -s ~/abrazo/crush/crush.json ~/.local/share/crush/crush.json
 
+# Install (or update) crush
+sudo corepack npm install -g @charmland/crush
+
 # Install uv, if not present.
 if [ ! "$(which uv)" ]; then
   curl -LsSf https://astral.sh/uv/install.sh | sh
