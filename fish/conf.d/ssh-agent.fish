@@ -26,26 +26,24 @@ end
 
 if status --is-interactive
 else
-  exit
+    exit
 end
 
 set -l output
-if test -z (hostname | grep lin[[:alpha:]]-sandbox)
-    if test -n "$SSH_AGENT_PID"
-        echo "Passed ssh-agent-pid guard."
-        ps -ef | grep -q "$SSH_AGENT_PID" | grep -q ssh-agent
-        if [ $status -eq 0 ]
-            test_identities
-        end
+if test -n "$SSH_AGENT_PID"
+    echo "Passed ssh-agent-pid guard."
+    ps -ef | grep -q "$SSH_AGENT_PID" | grep -q ssh-agent
+    if [ $status -eq 0 ]
+        test_identities
+    end
+else
+    if test -f $SSH_ENV
+        source $SSH_ENV >/dev/null
+    end
+    ps -ef | grep -q $SSH_AGENT_PID | grep -q [s]sh-agent
+    if test $status -eq 0
+        test_identities
     else
-        if test -f $SSH_ENV
-            source $SSH_ENV >/dev/null
-        end
-        ps -ef | grep -q $SSH_AGENT_PID | grep -q [s]sh-agent
-        if test $status -eq 0
-            test_identities
-        else
-            start_agent
-        end
+        start_agent
     end
 end
