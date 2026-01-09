@@ -21,6 +21,7 @@ function link_file() {
 
 link_file "${HOME}/abrazo/alias" "${HOME}/.alias"
 link_file "${HOME}/abrazo/alias.sh" "${HOME}/.alias.sh"
+link_file "${HOME}/abrazo/api_keys.sh" "${HOME}/.api_keys.sh"
 link_file "${HOME}/abrazo/tmux.conf" "${HOME}/.tmux.conf"
 link_file "${HOME}/abrazo/tmux/config.sh" "${HOME}/.config/tmux-powerline/config.sh"
 link_file "${HOME}/abrazo/tmux/merlin.sh" "${HOME}/.config/tmux-powerline/themes/merlin.sh"
