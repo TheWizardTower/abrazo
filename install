@@ -3,20 +3,22 @@
 set -euo pipefail
 
 function link_file() {
-	SRC="${1}"; shift
-	DEST="${1}"; shift
+  SRC="${1}"
+  shift
+  DEST="${1}"
+  shift
 
-	mkdir -p $(dirname "${DEST}")
+  mkdir -p $(dirname "${DEST}")
 
-	if [ -L "${DEST}" ]; then
-		echo "File ${DEST} already linked; skipping"
-	elif [ -e "${DEST}" ]; then
-		mv "${DEST}" "${DEST}_$(date +%s)"
-		ln -s "${SRC}" "${DEST}"
-	else
-		# Neither already linked, nor a concrete file.
-		ln -s "${SRC}" "${DEST}"
-	fi
+  if [ -L "${DEST}" ]; then
+    echo "File ${DEST} already linked; skipping"
+  elif [ -e "${DEST}" ]; then
+    mv "${DEST}" "${DEST}_$(date +%s)"
+    ln -s "${SRC}" "${DEST}"
+  else
+    # Neither already linked, nor a concrete file.
+    ln -s "${SRC}" "${DEST}"
+  fi
 }
 
 link_file "${HOME}/abrazo/alias" "${HOME}/.alias"
@@ -44,13 +46,13 @@ link_file "${HOME}/kitty/font-${OS}.conf" "${HOME}/.config/kitty/font.conf"
 export fileList=("current-theme" "kitty" "ligatures")
 
 for file in ${fileList[@]}; do
-	link_file "${HOME}/abrazo/kitty/${file}.conf" "${HOME}/.config/kitty/${file}.conf"
+  link_file "${HOME}/abrazo/kitty/${file}.conf" "${HOME}/.config/kitty/${file}.conf"
 done
 
 if [ -d "${HOME}/.tmux/plugins/tpm" ]; then
-	pushd "${HOME}/.tmux/plugins/tpm"
-	git pull
-	popd
+  pushd "${HOME}/.tmux/plugins/tpm"
+  git pull
+  popd
 else
-	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
