@@ -1,3 +1,5 @@
+.serena
+api_keys.sh
 
 # Created by https://www.gitignore.io/api/emacs
 
@@ -7,15 +9,17 @@
 \#*\#
 /.emacs.desktop
 /.emacs.desktop.lock
-emacs.d/elpa
-emacs.d/quelpa
-emacs.d/projects
-emacs.d/history
-emacs.d/recentf
-emacs.d/org-roam.db
-emacs.d/transient/
+emacs.d/.cache/
+emacs.d/.lsp-session-v1
 emacs.d/eln-cache/
+emacs.d/elpa
+emacs.d/history
+emacs.d/org-roam.db
 emacs.d/projectile-bookmarks.eld
+emacs.d/projects
+emacs.d/quelpa
+emacs.d/recentf
+emacs.d/transient/
 *.elc
 auto-save-list
 tramp
