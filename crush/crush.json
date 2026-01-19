@@ -23,8 +23,22 @@
           "cost_per_1m_out_cached": 0
         },
         {
-          "id": "gpt-oss-120b-GGUF",
-          "name": "GPT-OSS 20B",
+          "id": "gpt-oss-120b",
+          "name": "GPT-OSS 120B",
+          "context_window": 131072,
+          "default_max_tokens": 16384,
+          "options": {},
+          "can_reason": true,
+          "supports_attachments": false,
+          "default_reasoning_effort": "high",
+          "cost_per_1m_in": 0,
+          "cost_per_1m_in_cached": 0,
+          "cost_per_1m_out": 0,
+          "cost_per_1m_out_cached": 0
+        },
+        {
+          "id": "gpt-oss-120b-vulkan",
+          "name": "GPT-OSS 120B",
           "context_window": 131072,
           "default_max_tokens": 16384,
           "options": {},
