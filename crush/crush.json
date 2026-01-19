@@ -12,7 +12,7 @@
           "id": "Qwen3-Coder-30B-A3B-Instruct-GGUF",
           "name": "Qwen3 Coder 30B A3B",
           "context_window": 131072,
-          "default_max_tokens": 16384,
+          "default_max_tokens": 32768,
           "options": {},
           "can_reason": true,
           "supports_attachments": false,
@@ -40,13 +40,41 @@
     },
     "llama-swap": {
       "type": "openai-compat",
-      "base_url": "http://turkishDelight:8080/v1",
+      "base_url": "http://192.168.1.140:8080/v1",
       "name": "Llama-swap - Llama.cpp",
       "id": "llamacpp",
       "models": [
         {
-          "id": "gpt-oss-20b",
-          "name": "GPT-OSS 20B",
+          "id": "Qwen3-next-80B-A3B-Instruct-UD-Q4-K-XL",
+          "name": "Qwen3-Next-80B-A3B-Instruct-UD-Q4_K_XL",
+          "context_window": 262144,
+          "default_max_tokens": 32768,
+          "options": {},
+          "can_reason": false,
+          "supports_attachments": false,
+          "default_reasoning_effort": "high",
+          "cost_per_1m_in": 0,
+          "cost_per_1m_in_cached": 0,
+          "cost_per_1m_out": 0,
+          "cost_per_1m_out_cached": 0
+        },
+        {
+          "id": "RNJ-1-Instruct",
+          "name": "RNJ-1-Instruct",
+          "context_window": 262144,
+          "default_max_tokens": 16384,
+          "options": {},
+          "can_reason": true,
+          "supports_attachments": false,
+          "default_reasoning_effort": "high",
+          "cost_per_1m_in": 0,
+          "cost_per_1m_in_cached": 0,
+          "cost_per_1m_out": 0,
+          "cost_per_1m_out_cached": 0
+        },
+        {
+          "id": "gpt-oss-120b",
+          "name": "GPT-OSS 120B",
           "context_window": 131072,
           "default_max_tokens": 16384,
           "options": {},
@@ -144,21 +172,11 @@
     }
   },
   "mcp": {
-    "serena-stdio": {
+    "serena": {
       "type": "stdio",
-      "command": "serena",
+      "command": "serena-mcp-server",
       "args": [
-        "start-mcp-server",
         "--project-from-cwd"
-      ]
-    },
-    "filesystem": {
-      "type": "stdio",
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-filesystem",
-        "/home/merlin/git"
       ]
     },
     "git": {
@@ -207,6 +225,45 @@
   "lsp": {
     "rust": {
       "command": "rust-analyzer"
+    },
+    "python": {
+      "command": "pylsp"
+    },
+    "javascript": {
+      "command": "typescript-language-server",
+      "args": [
+        "--stdio"
+      ]
+    },
+    "typescript": {
+      "command": "typescript-language-server",
+      "args": [
+        "--stdio"
+      ]
+    },
+    "go": {
+      "command": "gopls"
+    },
+    "java": {
+      "command": "jdtls"
+    },
+    "c": {
+      "command": "clangd"
+    },
+    "cpp": {
+      "command": "clangd"
+    },
+    "yaml": {
+      "command": "yaml-language-server",
+      "args": [
+        "--stdio"
+      ]
+    },
+    "json": {
+      "command": "json-languageserver",
+      "args": [
+        "--stdio"
+      ]
     }
   },
   "permissions": {
