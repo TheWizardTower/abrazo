@@ -9,7 +9,9 @@ else
 fi
 
 export PACKAGE_LIST="
+  aichat \
   bat \
+  code2prompt \
   erdtree \
   exa \
   fd-find \
@@ -19,8 +21,10 @@ export PACKAGE_LIST="
   ripgrep \
   sd \
   tealdeer \
+  tenere \
   tre \
   xh \
+  yj \
   zoxide \
   "
 
