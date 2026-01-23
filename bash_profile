@@ -1,11 +1,13 @@
 
 # User specific environment and startup programs
+export BUN_INSTALL="${HOME}/.bun"
 
-PATH="$HOME/.local/bin:$PATH"
-PATH="$PATH:$HOME/local/bin"
-PATH="$PATH:$HOME/.local/share/coursier/bin"
-PATH="$PATH:$HOME/bin"
-PATH="$PATH:/home/merlin/.opencode/bin"
+PATH="${HOME}/.local/bin:${PATH}"
+PATH="${PATH}:$HOME/local/bin"
+PATH="${PATH}:$HOME/.local/share/coursier/bin"
+PATH="${PATH}:$HOME/bin"
+PATH="${PATH}:${HOME}/.opencode/bin"
+PATH="${BUN_INSTALL}/bin:${PATH}"
 
 export PATH
 
