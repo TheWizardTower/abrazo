@@ -11,8 +11,72 @@
         "baseURL": "http://192.168.1.140:8080/v1"
       },
       "models": {
-        "Qwen3-next-80B-A3B-Instruct-UD-Q4-K-XL": {
-          "name": "Qwen3-next from llama-swap",
+        "Qwen3-Next-80B-A3B-Instruct-UD-Q4-K-XL": {
+          "name": "Qwen3-Next-Instruct from llama-swap",
+          "modalities": {
+            "input": [
+              "image",
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 64000,
+            "output": 65536
+          }
+        },
+        "Qwen3-Next-80B-A3B-Thinking-UD-Q4-K-XL": {
+          "name": "Qwen3-Next-Thinking from llama-swap",
+          "modalities": {
+            "input": [
+              "image",
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 64000,
+            "output": 65536
+          }
+        },
+        "gpt-oss-120b": {
+          "name": "gpt-oss-120b-rocm",
+          "modalities": {
+            "input": [
+              "image",
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 64000,
+            "output": 65536
+          }
+        },
+        "gpt-oss-120b-vulkan": {
+          "name": "gpt-oss-120b-vulkan",
+          "modalities": {
+            "input": [
+              "image",
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 64000,
+            "output": 65536
+          }
+        },
+        "RNJ-1-Instruct": {
+          "name": "RNJ-1 Instruct. Small model for the all-famous Ralph Wiggum Loop",
           "modalities": {
             "input": [
               "image",
