@@ -18,7 +18,7 @@ macros:
   cache_type_k: "q4_0"
   cache_type_v: "q4_0"
   ngl: 99
-  ctx_size: 16384
+  ctx_size: 131072 # Larger default for Rust projects
   temp: 0.7
   # Performance tuning for Strix Halo (shared memory architecture)
   batch_size: 512
@@ -87,7 +87,7 @@ models:
     recommended_use: "Code generation, debugging, programming assistance"
     macros:
       model_path: "${extra-storage}/Qwen3-Next-80B-A3B-Instruct-GGUF/Qwen3-Next-80B-A3B-Instruct-UD-Q4_K_XL.gguf"
-      ctx_size: 131072
+      ctx_size: 262144
       temp: 0.7
       top-p: 0.8
       top-k: 20
@@ -121,7 +121,7 @@ models:
     recommended_use: "Code generation, debugging, programming assistance"
     macros:
       model_path: "${extra-storage}/Qwen3-Next-80B-A3B-Instruct-GGUF/Qwen3-Next-80B-A3B-Instruct-Q3_K_S.gguf"
-      ctx_size: 131072
+      ctx_size: 262144
       temp: 0.7
       top-p: 0.8
       top-k: 20
@@ -189,7 +189,7 @@ models:
     recommended_use: "Code generation, debugging, programming assistance"
     macros:
       model_path: "${home_dir}/Downloads/rnj-1-instruct-UD-Q8_K_XL.gguf"
-      ctx_size: 16384
+      ctx_size: 262144
       temp: 0.6
       top-p: 0.8
       top-k: 20
@@ -217,130 +217,6 @@ models:
       --mlock
       --no-mmap
       --threads ${threads}
-
-  RNJ-1-Instruct-1:
-    description: "Small coding model, good for quick responses"
-    recommended_use: "Code generation, debugging, programming assistance"
-    macros:
-      model_path: "${home_dir}/Downloads/rnj-1-instruct-UD-Q8_K_XL.gguf"
-      ctx_size: 16384
-      temp: 0.6
-      top-p: 0.8
-      top-k: 20
-      min-p: 0
-      presence-penalty: 1
-    cmd: |
-      ${llama-server}
-      --port ${PORT}
-      --host ${host}
-      --flash-attn ${flash_attn}
-      ${slots}
-      --ctx-size ${ctx_size}
-      --temp ${temp}
-      --top-p ${top-p}
-      --top-k ${top-k}
-      --min-p ${min-p}
-      # --cache-type-k ${cache_type_k}
-      # --cache-type-v ${cache_type_v}
-      -ngl ${ngl}
-      --model ${model_path}
-      ${cont_batching}
-      --parallel ${parallel}
-      --batch-size ${batch_size}
-      --ubatch-size ${ubatch_size}
-      --mlock
-      --no-mmap
-      --threads ${threads}
-
-  RNJ-1-Instruct-2:
-    description: "Small coding model, good for quick responses"
-    recommended_use: "Code generation, debugging, programming assistance"
-    macros:
-      model_path: "${home_dir}/Downloads/rnj-1-instruct-UD-Q8_K_XL.gguf"
-      ctx_size: 16384
-      temp: 0.6
-      top-p: 0.8
-      top-k: 20
-      min-p: 0
-      presence-penalty: 1
-    cmd: |
-      ${llama-server}
-      --port ${PORT}
-      --host ${host}
-      --flash-attn ${flash_attn}
-      ${slots}
-      --ctx-size ${ctx_size}
-      --temp ${temp}
-      --top-p ${top-p}
-      --top-k ${top-k}
-      --min-p ${min-p}
-      # --cache-type-k ${cache_type_k}
-      # --cache-type-v ${cache_type_v}
-      -ngl ${ngl}
-      --model ${model_path}
-      ${cont_batching}
-      --parallel ${parallel}
-      --batch-size ${batch_size}
-      --ubatch-size ${ubatch_size}
-      --mlock
-      --no-mmap
-      --threads ${threads}
-
-  RNJ-1-Instruct-3:
-    description: "Small coding model, good for quick responses"
-    recommended_use: "Code generation, debugging, programming assistance"
-    macros:
-      model_path: "${home_dir}/Downloads/rnj-1-instruct-UD-Q8_K_XL.gguf"
-      ctx_size: 16384
-      temp: 0.6
-      top-p: 0.8
-      top-k: 20
-      min-p: 0
-      presence-penalty: 1
-    cmd: |
-      ${llama-server}
-      --port ${PORT}
-      --host ${host}
-      --flash-attn ${flash_attn}
-      ${slots}
-      --ctx-size ${ctx_size}
-      --temp ${temp}
-      --top-p ${top-p}
-      --top-k ${top-k}
-      --min-p ${min-p}
-      # --cache-type-k ${cache_type_k}
-      # --cache-type-v ${cache_type_v}
-      -ngl ${ngl}
-      --model ${model_path}
-      ${cont_batching}
-      --parallel ${parallel}
-      --batch-size ${batch_size}
-      --ubatch-size ${ubatch_size}
-      --mlock
-      --no-mmap
-      --threads ${threads}
-
-groups:
-  "gpt-pair-rocm":
-    swap: false
-    members:
-      - "gpt-oss-120b"
-      - "RNJ-1-Instruct"
-  "gpt-pair-vulkan":
-    swap: false
-    members:
-      - "gpt-oss-120b-vulkan"
-      - "RNJ-1-Instruct-1"
-  "qwen3-next-instruct":
-    swap: false
-    members:
-      - "Qwen3-Next-80B-A3B-Instruct-UD-Q4-K-XL"
-      - "RNJ-1-Instruct-2"
-  "qwen3-next-thinking":
-    swap: false
-    members:
-      - "Qwen3-Next-80B-A3B-Thinking-UD-Q4-K-XL"
-      - "RNJ-1-Instruct-3"
 
 # Validation rules (optional enhancement)
 validation:
