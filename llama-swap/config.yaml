@@ -15,8 +15,8 @@ macros:
   host: "0.0.0.0"
   flash_attn: "on"
   slots: "--slots"
-  # cache_type_k: "q4_0"
-  # cache_type_v: "q4_0"
+  cache_type_k: "q4_0"
+  cache_type_v: "q4_0"
   ngl: 99
   ctx_size: 131072 # Larger default for Rust projects
   temp: 0.7
@@ -24,6 +24,7 @@ macros:
   batch_size: 512
   ubatch_size: 512
   parallel: 1
+  threads: 14
   cont_batching: "--cont-batching"
 
 models:
@@ -32,7 +33,7 @@ models:
     recommended_use: "Code generation, debugging, programming assistance"
     macros:
       model_path: "${hf-cache}/models--unsloth--gpt-oss-120b-GGUF/snapshots/ff1a82da6ad466e32284fa3d2b86694db3204789/Q4_K_M/gpt-oss-120b-Q4_K_M-00001-of-00002.gguf"
-      ctx_size: 8192
+      ctx_size: 32768
       batch_size: 1
       ubatch_size: 1
     cmd: |
@@ -42,10 +43,11 @@ models:
       --flash-attn ${flash_attn}
       ${slots}
       --ctx-size ${ctx_size}
-      # --cache-type-k ${cache_type_k}
-      # --cache-type-v ${cache_type_v}
+      --cache-type-k ${cache_type_k}
+      --cache-type-v ${cache_type_v}
       -ngl ${ngl}
       --model ${model_path}
+      --jinja
       ${cont_batching}
       --parallel ${parallel}
       --batch-size ${batch_size}
@@ -58,7 +60,7 @@ models:
     recommended_use: "Code generation, debugging, programming assistance"
     macros:
       model_path: "${hf-cache}/models--unsloth--gpt-oss-120b-GGUF/snapshots/ff1a82da6ad466e32284fa3d2b86694db3204789/Q4_K_M/gpt-oss-120b-Q4_K_M-00001-of-00002.gguf"
-      ctx_size: 8192
+      ctx_size: 32768
       batch_size: 1
       ubatch_size: 1
     cmd: |
@@ -68,16 +70,17 @@ models:
       --flash-attn ${flash_attn}
       ${slots}
       --ctx-size ${ctx_size}
-      # --cache-type-k ${cache_type_k}
-      # --cache-type-v ${cache_type_v}
+      --cache-type-k ${cache_type_k}
+      --cache-type-v ${cache_type_v}
       -ngl ${ngl}
       --model ${model_path}
+      --jinja
       ${cont_batching}
       --parallel ${parallel}
       --batch-size ${batch_size}
       --ubatch-size ${ubatch_size}
       --no-mmap
-      --threads 16
+      --threads ${threads}
 
   Qwen3-Next-80B-A3B-Instruct-UD-Q4-K-XL:
     description: "Next-Generation Qwen3 Model, performs on par with Qwen3-235B models."
@@ -110,6 +113,8 @@ models:
       --batch-size ${batch_size}
       --ubatch-size ${ubatch_size}
       --mlock
+      --no-mmap
+      --threads ${threads}
 
   Qwen3-Next-80B-A3B-Instruct-Q3-K-S:
     description: "Next-Generation Qwen3 Model, performs on par with Qwen3-235B models."
@@ -142,6 +147,8 @@ models:
       --batch-size ${batch_size}
       --ubatch-size ${ubatch_size}
       --mlock
+      --no-mmap
+      --threads ${threads}
 
   Qwen3-Next-80B-A3B-Thinking-UD-Q4-K-XL:
     description: "Next-Generation Qwen3 Model, performs on par with Qwen3-235B models."
@@ -174,6 +181,8 @@ models:
       --batch-size ${batch_size}
       --ubatch-size ${ubatch_size}
       --mlock
+      --no-mmap
+      --threads ${threads}
 
   RNJ-1-Instruct:
     description: "Small coding model, good for quick responses"
@@ -206,6 +215,8 @@ models:
       --batch-size ${batch_size}
       --ubatch-size ${ubatch_size}
       --mlock
+      --no-mmap
+      --threads ${threads}
 
 # Validation rules (optional enhancement)
 validation:
