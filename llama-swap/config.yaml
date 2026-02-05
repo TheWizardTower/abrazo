@@ -28,6 +28,87 @@ macros:
   cont_batching: "--cont-batching"
 
 models:
+  GLM-4.7-Flash-UD-Q8-K_XL:
+    description: "No clue how this one performs, we'll see."
+    recommended_use: "Code generation, debugging, programming assistance"
+    macros:
+      model_path: "${extra-storage}/models--unsloth--GLM-4.7-Flash-GGUF/snapshots/66205ea11ef638d83850389bd921e6c199f7504e/GLM-4.7-Flash-UD-Q8_K_XL.gguf"
+      ctx_size: 13172
+      batch_size: 1
+      ubatch_size: 1
+    cmd: |
+      ${llama-server-rocm}
+      --port ${PORT}
+      --host ${host}
+      --flash-attn ${flash_attn}
+      ${slots}
+      --ctx-size ${ctx_size}
+      --cache-type-k ${cache_type_k}
+      --cache-type-v ${cache_type_v}
+      -ngl ${ngl}
+      --model ${model_path}
+      --jinja
+      ${cont_batching}
+      --parallel ${parallel}
+      --batch-size ${batch_size}
+      --ubatch-size ${ubatch_size}
+      --no-mmap
+      --threads 16
+
+  c4ai-command-r:
+    description: "Another coding bot, smaller than the others"
+    recommended_use: "Code generation, debugging, programming assistance"
+    macros:
+      model_path: "${extra-storage}/c4ai-command-r-v01-Q6_K.gguf"
+      ctx_size: 13172
+      batch_size: 1
+      ubatch_size: 1
+    cmd: |
+      ${llama-server-rocm}
+      --port ${PORT}
+      --host ${host}
+      --flash-attn ${flash_attn}
+      ${slots}
+      --ctx-size ${ctx_size}
+      --cache-type-k ${cache_type_k}
+      --cache-type-v ${cache_type_v}
+      -ngl ${ngl}
+      --model ${model_path}
+      --jinja
+      ${cont_batching}
+      --parallel ${parallel}
+      --batch-size ${batch_size}
+      --ubatch-size ${ubatch_size}
+      --no-mmap
+      --threads 16
+
+  Devstral-Small-2505-UD-Q8_K_XL:
+    description: "Yet another coding bot, smaller than the others, suited for coding and infra work"
+    recommended_use: "Code generation, debugging, programming assistance"
+    macros:
+      model_path: "${extra-storage}//models--unsloth--Devstral-Small-2505-GGUF/snapshots/099dd7ee959e17c68c0f47fe060e5b46cc41f82c/Devstral-Small-2505-UD-Q8_K_XL.gguf"
+      ctx_size: 13172
+      batch_size: 1
+      ubatch_size: 1
+    cmd: |
+      ${llama-server-rocm}
+      --port ${PORT}
+      --host ${host}
+      --flash-attn ${flash_attn}
+      ${slots}
+      --ctx-size ${ctx_size}
+      --cache-type-k ${cache_type_k}
+      --cache-type-v ${cache_type_v}
+      -ngl ${ngl}
+      --model ${model_path}
+      --jinja
+      ${cont_batching}
+      --parallel ${parallel}
+      --batch-size ${batch_size}
+      --ubatch-size ${ubatch_size}
+      --no-mmap
+      --threads 16
+
   gpt-oss-120b:
     description: "GPT Open Source, 120B version. Useful for programming."
     recommended_use: "Code generation, debugging, programming assistance"
