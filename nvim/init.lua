@@ -7,31 +7,18 @@ vim.cmd([[
   set shiftwidth=2
   set expandtab
   set softtabstop=8
-  autocmd BufRead Tiltfile set filetype=bzl
-  autocmd BufRead infra-Tiltfile set filetype=bzl
-
 
   set list
   set listchars=space:·,trail:·
-
 ]])
 
 vim.wo.number = true
 
 require("config.lazy")
 require("autorun")
-require("config.mason")
-require("config.lsp")
-require("config.dap")
-require("config.cmp")
-require("config.telescope")
-require("config.which-key")
-require("config.conform")
-require("config.neogit")
-require("config.lualine")
-require("config.gitsigns")
-require("config.comment")
-require("config.autopairs")
+
+-- Set colorscheme (habamax is built into Neovim)
+vim.cmd('colorscheme habamax')
 
 
 -- Set completeopt for nvim-cmp

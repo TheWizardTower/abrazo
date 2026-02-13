@@ -24,7 +24,6 @@ require 'nvim-treesitter.configs'.setup {
         "typescript",
         "tmux",
         "vim",
-        "vim",
         "vimdoc",
         "yaml"
     },

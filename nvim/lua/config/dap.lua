@@ -1,5 +1,14 @@
-local dap = require("dap")
-local dapui = require("dapui")
+local ok_dap, dap = pcall(require, "dap")
+if not ok_dap then
+    vim.notify("nvim-dap not found", vim.log.levels.WARN)
+    return
+end
+
+local ok_dapui, dapui = pcall(require, "dapui")
+if not ok_dapui then
+    vim.notify("nvim-dap-ui not found", vim.log.levels.WARN)
+    return
+end
 
 require("nvim-dap-virtual-text").setup({
     commented = true,
