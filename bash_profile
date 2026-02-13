@@ -1,11 +1,12 @@
-
 # User specific environment and startup programs
 export BUN_INSTALL="${HOME}/.bun"
 
 PATH="${HOME}/.local/bin:${PATH}"
-PATH="${PATH}:$HOME/local/bin"
-PATH="${PATH}:$HOME/.local/share/coursier/bin"
-PATH="${PATH}:$HOME/bin"
+PATH="${PATH}:${HOME}/local/bin"
+PATH="${PATH}:${HOME}/go/bin"
+PATH="${PATH}:${HOME}/.local/share/coursier/bin"
+PATH="${HOME}/.local/share/nvim/mason/bin:${PATH}"
+PATH="${PATH}:${HOME}/bin"
 PATH="${PATH}:${HOME}/.opencode/bin"
 PATH="${BUN_INSTALL}/bin:${PATH}"
 
@@ -23,5 +24,5 @@ if [ -e /home/merlin/.nix-profile/etc/profile.d/nix.sh ]; then . /home/merlin/.n
 
 # Get the aliases and functions
 if [ -f ~/.bashrc ]; then
-	. ~/.bashrc
+  . ~/.bashrc
 fi
