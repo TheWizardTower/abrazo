@@ -7,6 +7,10 @@ return {
       'WhoIsSethDaniel/mason-tool-installer.nvim',       -- optional
       'williamboman/mason-lspconfig.nvim',               -- optional
     },
+    config = function()
+      require('config.lsp')
+    end,
+    event = { "BufReadPre", "BufNewFile" },
     keys = {
       { '<leader>f', ':lua vim.lsp.buf.format()' },
     },
@@ -44,7 +48,10 @@ return {
     end
   },
   {
-    "williamboman/mason.nvim"
+    "williamboman/mason.nvim",
+    config = function()
+        require('config.mason')
+    end,
   },
   {
     'nvimdev/lspsaga.nvim',
