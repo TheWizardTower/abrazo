@@ -88,6 +88,11 @@ require('lsp-setup').setup({
     },
     inlay_hints = {
         enabled = true,
+    },
+    init_options = {
+        lint = {
+            enabled = true,
+        },
     }
 })
 
