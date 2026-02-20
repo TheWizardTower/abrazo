@@ -375,7 +375,7 @@ default_shell "nu"
 // Default: "default"
 // 
 // default_layout "compact"
-default_layout "default"
+default_layout "zjframes-layout"
  
 // The folder in which Zellij will look for layouts
 // (Requires restart)
