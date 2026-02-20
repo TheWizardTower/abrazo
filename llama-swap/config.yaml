@@ -8,7 +8,8 @@ sendLoadingState: true
 macros:
   home_dir: "/home/merlin/"
   llama-server: "/home/merlin/git/llama.cpp/build/bin/llama-server"
-  llama-server-rocm: "/home/merlin/git/llama.cpp.rom/build/bin/llama-server"
+  # llama-server-rocm: "/home/merlin/git/llama.cpp.rom/build/bin/llama-server"
+  llama-server-rocm: "/home/merlin/git/llama.cpp-rocm-rebuild/build/bin/llama-server"
   model-path: "/home/merlin/models/"
   hf-cache: "/home/merlin/.cache/huggingface/hub/"
   extra-storage: "/home/merlin/extra_storage/models/"
@@ -27,145 +28,162 @@ macros:
   threads: 14
   cont_batching: "--cont-batching"
 
+  # ── Shared cmd fragments ──────────────────────────────────────────
+  # Common flags for rocm binary (everything after --model is added per-model)
+  rocm-base: >
+    ${llama-server-rocm}
+    --port ${PORT}
+    --host ${host}
+    --flash-attn ${flash_attn}
+    ${slots}
+    --ctx-size ${ctx_size}
+    --cache-type-k ${cache_type_k}
+    --cache-type-v ${cache_type_v}
+    -ngl ${ngl}
+
+  # Common tail flags (after --model <path>)
+  std-tail: >
+    --jinja
+    ${cont_batching}
+    --parallel ${parallel}
+    --batch-size ${batch_size}
+    --ubatch-size ${ubatch_size}
+    --no-mmap
+    --threads ${threads}
+
+  # Vulkan base (same as rocm but different binary)
+  vulkan-base: >
+    ${llama-server}
+    --port ${PORT}
+    --host ${host}
+    --flash-attn ${flash_attn}
+    ${slots}
+    --ctx-size ${ctx_size}
+    --cache-type-k ${cache_type_k}
+    --cache-type-v ${cache_type_v}
+    -ngl ${ngl}
+
 models:
   GLM-4.7-Flash-UD-Q8-K_XL:
-    description: "No clue how this one performs, we'll see."
-    recommended_use: "Code generation, debugging, programming assistance"
+    description: "Zhipu AI 30B MoE (3B active). Strong reasoning and coding for its size, beats GPT-OSS-20B on SWE-bench. Fast inference, good bilingual (EN/ZH)."
+    recommended_use: "Coding, reasoning, agentic workflows, fast iteration"
     macros:
       model_path: "${extra-storage}/models--unsloth--GLM-4.7-Flash-GGUF/snapshots/66205ea11ef638d83850389bd921e6c199f7504e/GLM-4.7-Flash-UD-Q8_K_XL.gguf"
-      ctx_size: 13172
-      batch_size: 1
-      ubatch_size: 1
+      ctx_size: 65536
     cmd: |
-      ${llama-server-rocm}
-      --port ${PORT}
-      --host ${host}
-      --flash-attn ${flash_attn}
-      ${slots}
-      --ctx-size ${ctx_size}
-      --cache-type-k ${cache_type_k}
-      --cache-type-v ${cache_type_v}
-      -ngl ${ngl}
+      ${rocm-base}
       --model ${model_path}
-      --jinja
-      ${cont_batching}
-      --parallel ${parallel}
-      --batch-size ${batch_size}
-      --ubatch-size ${ubatch_size}
-      --no-mmap
-      --threads 16
-
-  c4ai-command-r:
-    description: "Another coding bot, smaller than the others"
-    recommended_use: "Code generation, debugging, programming assistance"
-    macros:
-      model_path: "${extra-storage}/c4ai-command-r-v01-Q6_K.gguf"
-      ctx_size: 13172
-      batch_size: 1
-      ubatch_size: 1
-    cmd: |
-      ${llama-server-rocm}
-      --port ${PORT}
-      --host ${host}
-      --flash-attn ${flash_attn}
-      ${slots}
-      --ctx-size ${ctx_size}
-      --cache-type-k ${cache_type_k}
-      --cache-type-v ${cache_type_v}
-      -ngl ${ngl}
-      --model ${model_path}
-      --jinja
-      ${cont_batching}
-      --parallel ${parallel}
-      --batch-size ${batch_size}
-      --ubatch-size ${ubatch_size}
-      --no-mmap
-      --threads 16
+      ${std-tail}
 
   Devstral-Small-2505-UD-Q8_K_XL:
-    description: "Yet another coding bot, smaller than the others, suited for coding and infra work"
-    recommended_use: "Code generation, debugging, programming assistance"
+    description: "Mistral x All Hands AI 24B dense. Purpose-built agentic SWE model. #1 open model on SWE-bench at release. Excels at codebase navigation and multi-file edits."
+    recommended_use: "Agentic coding, codebase exploration, multi-file refactoring, issue resolution"
     macros:
-      model_path: "${extra-storage}//models--unsloth--Devstral-Small-2505-GGUF/snapshots/099dd7ee959e17c68c0f47fe060e5b46cc41f82c/Devstral-Small-2505-UD-Q8_K_XL.gguf"
+      model_path: "${extra-storage}/models--unsloth--Devstral-Small-2505-GGUF/snapshots/099dd7ee959e17c68c0f47fe060e5b46cc41f82c/Devstral-Small-2505-UD-Q8_K_XL.gguf"
       ctx_size: 13172
-      batch_size: 1
-      ubatch_size: 1
     cmd: |
-      ${llama-server-rocm}
-      --port ${PORT}
-      --host ${host}
-      --flash-attn ${flash_attn}
-      ${slots}
-      --ctx-size ${ctx_size}
-      --cache-type-k ${cache_type_k}
-      --cache-type-v ${cache_type_v}
-      -ngl ${ngl}
+      ${rocm-base}
       --model ${model_path}
-      --jinja
-      ${cont_batching}
-      --parallel ${parallel}
-      --batch-size ${batch_size}
-      --ubatch-size ${ubatch_size}
-      --no-mmap
-      --threads 16
+      ${std-tail}
 
   gpt-oss-120b:
-    description: "GPT Open Source, 120B version. Useful for programming."
-    recommended_use: "Code generation, debugging, programming assistance"
+    description: "OpenAI 120B MoE. First open-weight release since GPT-2. Strong general reasoning and tool use. Apache 2.0. Slow on this hardware (dense-like memory footprint)."
+    recommended_use: "Complex reasoning, general coding, tool use, structured output"
     macros:
       model_path: "${hf-cache}/models--unsloth--gpt-oss-120b-GGUF/snapshots/ff1a82da6ad466e32284fa3d2b86694db3204789/Q4_K_M/gpt-oss-120b-Q4_K_M-00001-of-00002.gguf"
       ctx_size: 32768
       batch_size: 1
       ubatch_size: 1
     cmd: |
-      ${llama-server-rocm}
-      --port ${PORT}
-      --host ${host}
-      --flash-attn ${flash_attn}
-      ${slots}
-      --ctx-size ${ctx_size}
-      --cache-type-k ${cache_type_k}
-      --cache-type-v ${cache_type_v}
-      -ngl ${ngl}
+      ${rocm-base}
       --model ${model_path}
-      --jinja
-      ${cont_batching}
-      --parallel ${parallel}
-      --batch-size ${batch_size}
-      --ubatch-size ${ubatch_size}
-      --no-mmap
-      --threads 16
+      ${std-tail}
 
   gpt-oss-120b-vulkan:
-    description: "GPT Open Source, 120B version. Useful for programming."
-    recommended_use: "Code generation, debugging, programming assistance"
+    description: "Same as gpt-oss-120b but using vulkan backend. Use if ROCm has issues."
+    recommended_use: "Complex reasoning, general coding, tool use, structured output"
     macros:
       model_path: "${hf-cache}/models--unsloth--gpt-oss-120b-GGUF/snapshots/ff1a82da6ad466e32284fa3d2b86694db3204789/Q4_K_M/gpt-oss-120b-Q4_K_M-00001-of-00002.gguf"
       ctx_size: 32768
       batch_size: 1
       ubatch_size: 1
     cmd: |
-      ${llama-server}
-      --port ${PORT}
-      --host ${host}
-      --flash-attn ${flash_attn}
-      ${slots}
-      --ctx-size ${ctx_size}
-      --cache-type-k ${cache_type_k}
-      --cache-type-v ${cache_type_v}
-      -ngl ${ngl}
+      ${vulkan-base}
       --model ${model_path}
-      --jinja
-      ${cont_batching}
-      --parallel ${parallel}
-      --batch-size ${batch_size}
-      --ubatch-size ${ubatch_size}
-      --no-mmap
-      --threads ${threads}
+      ${std-tail}
+
+  Strand-Rust-Coder-14B:
+    description: "Fortytwo 14B (Qwen2.5-Coder fine-tune). Rust-specialized via 191K swarm-validated examples. Beats GPT-5 Codex and Claude Sonnet 4.5 on Rust benchmarks."
+    recommended_use: "Rust code generation, Rust debugging, refactoring, optimization, ownership/lifetime issues"
+    macros:
+      model_path: "${extra-storage}/models--Fortytwo-Network--Strand-Rust-Coder-14B-v1-GGUF/snapshots/56fca9d5ecd31066cb38912d4235f216a1eb48d8/Fortytwo_Strand-Rust-Coder-14B-BF16.gguf"
+      ctx_size: 32768
+    cmd: |
+      ${rocm-base}
+      --model ${model_path}
+      ${std-tail}
+
+  Ministral-3-14B-Instruct:
+    description: "Mistral 14B dense. Compact but punches above its weight. Vision, function calling, 256K context. Good for local/edge deployment."
+    recommended_use: "Quick drafts, function calling, lightweight coding, on-the-fly Q&A"
+    macros:
+      model_path: "${extra-storage}/models--unsloth--Ministral-3-14B-Instruct-2512-GGUF/snapshots/9b948841b705cc11285ff274b84ba6c885908b19/Ministral-3-14B-Instruct-2512-UD-Q8_K_XL.gguf"
+      ctx_size: 32768
+    cmd: |
+      ${rocm-base}
+      --model ${model_path}
+      ${std-tail}
+
+  Mistral-Small-3.2-24B:
+    description: "Mistral 24B dense. Improved instruction following and function calling over 3.1. Low refusal rate on infra/ops tasks. Vision-capable. Apache 2.0."
+    recommended_use: "Infrastructure, Kubernetes, DevOps, tool-heavy workflows, general coding"
+    # Unsloth recommended tuning: --jinja --temp 0.15 --top-k -1 --top-p 1.00
+    # Context: 128K native
+    macros:
+      model_path: "${extra-storage}/models--unsloth--Mistral-Small-3.2-24B-Instruct-2506-GGUF/snapshots/b750ec2299225e492f1bd27cab88a0a595fa848f/Mistral-Small-3.2-24B-Instruct-2506-UD-Q8_K_XL.gguf"
+      ctx_size: 131072
+      temp: 0.15
+      top-p: 1.00
+      top-k: -1
+      min-p: 0
+    cmd: |
+      ${rocm-base}
+      --temp ${temp}
+      --top-p ${top-p}
+      --top-k ${top-k}
+      --min-p ${min-p}
+      --model ${model_path}
+      ${std-tail}
+
+  c4ai-command-a-111B:
+    description: "Cohere 111B dense. Best-in-class RAG with grounded citations, multi-step tool chaining, 23 languages. Very cooperative, low refusal. CC-BY-NC. Slow on this hardware."
+    recommended_use: "RAG, complex multi-step tool use, grounded generation, infra planning, multilingual"
+    macros:
+      model_path: "${extra-storage}/models--unsloth--c4ai-command-a-03-2025-GGUF/snapshots/5ca94ecdf2f60896faaf110a93902bcb1eaefd22/Q4_K_M/c4ai-command-a-03-2025-Q4_K_M-00001-of-00002.gguf"
+      ctx_size: 32768
+      batch_size: 1
+      ubatch_size: 1
+    cmd: |
+      ${rocm-base}
+      --model ${model_path}
+      ${std-tail}
+
+  Nemotron-3-Nano-30B-A3B:
+    description: "NVIDIA 30B hybrid Mamba-Transformer MoE (3B active). HelpSteer alignment - won't refuse infra/ops tasks. Built-in thinking mode. 1M context. Fast."
+    recommended_use: "Agentic reasoning, infra/DevOps, tool calling, long-context analysis, general coding"
+    macros:
+      model_path: "${extra-storage}/models--unsloth--Nemotron-3-Nano-30B-A3B-GGUF/snapshots/9ad8b366c308f931b2a96b9306f0b41aef9cd405/Nemotron-3-Nano-30B-A3B-UD-Q8_K_XL.gguf"
+      ctx_size: 131072
+    cmd: |
+      ${rocm-base}
+      --model ${model_path}
+      ${std-tail}
+
+  # ── Models with explicit sampling params (no kv-cache quant, with mlock) ──
 
   Qwen3-Next-80B-A3B-Instruct-UD-Q4-K-XL:
-    description: "Next-Generation Qwen3 Model, performs on par with Qwen3-235B models."
-    recommended_use: "Code generation, debugging, programming assistance"
+    description: "Alibaba 80B ultra-sparse MoE (3B active, 512 experts). Matches Qwen3-235B quality at 10x less compute. Hybrid attention for long context. Strong at SWE but skittish on infra/ops tasks."
+    recommended_use: "Software engineering, code generation, math, reasoning, long-context analysis"
     macros:
       model_path: "${extra-storage}/Qwen3-Next-80B-A3B-Instruct-GGUF/Qwen3-Next-80B-A3B-Instruct-UD-Q4_K_XL.gguf"
       ctx_size: 262144
@@ -185,10 +203,9 @@ models:
       --top-p ${top-p}
       --top-k ${top-k}
       --min-p ${min-p}
-      # --cache-type-k ${cache_type_k}
-      # --cache-type-v ${cache_type_v}
       -ngl ${ngl}
       --model ${model_path}
+      --jinja
       ${cont_batching}
       --parallel ${parallel}
       --batch-size ${batch_size}
@@ -198,8 +215,8 @@ models:
       --threads ${threads}
 
   Qwen3-Next-80B-A3B-Instruct-Q3-K-S:
-    description: "Next-Generation Qwen3 Model, performs on par with Qwen3-235B models."
-    recommended_use: "Code generation, debugging, programming assistance"
+    description: "Same as Instruct-UD-Q4-K-XL but lower quant (Q3_K_S) on vulkan backend. Lower quality, use when ROCm variant won't fit."
+    recommended_use: "Software engineering, code generation, math, reasoning, long-context analysis"
     macros:
       model_path: "${extra-storage}/Qwen3-Next-80B-A3B-Instruct-GGUF/Qwen3-Next-80B-A3B-Instruct-Q3_K_S.gguf"
       ctx_size: 262144
@@ -219,10 +236,9 @@ models:
       --top-p ${top-p}
       --top-k ${top-k}
       --min-p ${min-p}
-      # --cache-type-k ${cache_type_k}
-      # --cache-type-v ${cache_type_v}
       -ngl ${ngl}
       --model ${model_path}
+      --jinja
       ${cont_batching}
       --parallel ${parallel}
       --batch-size ${batch_size}
@@ -232,8 +248,8 @@ models:
       --threads ${threads}
 
   Qwen3-Next-80B-A3B-Thinking-UD-Q4-K-XL:
-    description: "Next-Generation Qwen3 Model, performs on par with Qwen3-235B models."
-    recommended_use: "Code generation, debugging, programming assistance"
+    description: "Thinking/reasoning variant of Qwen3-Next. Extended chain-of-thought via <think> tags. Outperforms Gemini 2.5 Flash Thinking on multiple benchmarks. Same infra-task limitations as Instruct."
+    recommended_use: "Hard reasoning, math proofs, complex debugging, multi-step problem solving"
     macros:
       model_path: "${extra-storage}/Qwen3-Next-80B-A3B-Thinking-UD-Q4_K_XL.gguf"
       ctx_size: 262144
@@ -253,10 +269,9 @@ models:
       --top-p ${top-p}
       --top-k ${top-k}
       --min-p ${min-p}
-      # --cache-type-k ${cache_type_k}
-      # --cache-type-v ${cache_type_v}
       -ngl ${ngl}
       --model ${model_path}
+      --jinja
       ${cont_batching}
       --parallel ${parallel}
       --batch-size ${batch_size}
@@ -266,8 +281,8 @@ models:
       --threads ${threads}
 
   RNJ-1-Instruct:
-    description: "Small coding model, good for quick responses"
-    recommended_use: "Code generation, debugging, programming assistance"
+    description: "Essential AI 8B dense (Gemma 3 arch). Punches well above its weight on coding, tool use, and STEM. Strong agentic capabilities for its size. Apache 2.0."
+    recommended_use: "Fast coding drafts, tool calling, agentic scaffolding, math/STEM, lightweight tasks"
     macros:
       model_path: "${home_dir}/Downloads/rnj-1-instruct-UD-Q8_K_XL.gguf"
       ctx_size: 262144
@@ -287,10 +302,9 @@ models:
       --top-p ${top-p}
       --top-k ${top-k}
       --min-p ${min-p}
-      # --cache-type-k ${cache_type_k}
-      # --cache-type-v ${cache_type_v}
       -ngl ${ngl}
       --model ${model_path}
+      --jinja
       ${cont_batching}
       --parallel ${parallel}
       --batch-size ${batch_size}

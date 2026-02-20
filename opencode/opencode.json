@@ -48,10 +48,9 @@
       },
       "models": {
         "Qwen3-Next-80B-A3B-Instruct-UD-Q4-K-XL": {
-          "name": "Qwen3-Next-Instruct from llama-swap",
+          "name": "Qwen3-Next 80B MoE (3B active) - SWE/coding/reasoning",
           "modalities": {
             "input": [
-              "image",
               "text"
             ],
             "output": [
@@ -64,10 +63,9 @@
           }
         },
         "Qwen3-Next-80B-A3B-Thinking-UD-Q4-K-XL": {
-          "name": "Qwen3-Next-Thinking from llama-swap",
+          "name": "Qwen3-Next Thinking - hard reasoning/math/debugging",
           "modalities": {
             "input": [
-              "image",
               "text"
             ],
             "output": [
@@ -77,13 +75,15 @@
           "limit": {
             "context": 64000,
             "output": 65536
+          },
+          "options": {
+            "reasoningEffort": "high"
           }
         },
         "gpt-oss-120b": {
-          "name": "gpt-oss-120b-rocm",
+          "name": "GPT-OSS 120B MoE (ROCm) - general reasoning/tool use (slow)",
           "modalities": {
             "input": [
-              "image",
               "text"
             ],
             "output": [
@@ -96,10 +96,9 @@
           }
         },
         "gpt-oss-120b-vulkan": {
-          "name": "gpt-oss-120b-vulkan",
+          "name": "GPT-OSS 120B MoE (Vulkan) - general reasoning/tool use (slow)",
           "modalities": {
             "input": [
-              "image",
               "text"
             ],
             "output": [
@@ -115,23 +114,6 @@
           "name": "RNJ-1 Instruct. Small model for the all-famous Ralph Wiggum Loop",
           "modalities": {
             "input": [
-              "image",
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "limit": {
-            "context": 64000,
-            "output": 65536
-          }
-        },
-        "c4ai-command-r": {
-          "name": "c4ai-command-r from llama-swap",
-          "modalities": {
-            "input": [
-              "image",
               "text"
             ],
             "output": [
@@ -144,10 +126,9 @@
           }
         },
         "Devstral-Small-2505-UD-Q8_K_XL": {
-          "name": "Devstral-Small-2505 from llama-swap",
+          "name": "Devstral 24B - agentic SWE/multi-file edits",
           "modalities": {
             "input": [
-              "image",
               "text"
             ],
             "output": [
@@ -159,11 +140,88 @@
             "output": 65536
           }
         },
-        "GLM-4.7-Flash-UD-Q8-K_XL": {
-          "name": "GLM-4.7-Flash from llama-swap",
+        "Strand-Rust-Coder-14B": {
+          "name": "Strand Rust Coder 14B - Rust specialist",
           "modalities": {
             "input": [
-              "image",
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 32000,
+            "output": 32768
+          }
+        },
+        "c4ai-command-a-111B": {
+          "name": "Command A 111B - RAG/tool chains/grounded generation (slow)",
+          "modalities": {
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 32000,
+            "output": 32768
+          }
+        },
+        "Nemotron-3-Nano-30B-A3B": {
+          "name": "Nemotron 3 Nano 30B MoE (3B active) - agentic/infra/reasoning",
+          "modalities": {
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 64000,
+            "output": 65536
+          },
+          "options": {
+            "reasoningEffort": "high"
+          }
+        },
+        "Mistral-Small-3.2-24B": {
+          "name": "Mistral Small 3.2 24B - infra/DevOps/tool calling",
+          "modalities": {
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 64000,
+            "output": 65536
+          }
+        },
+        "Ministral-3-14B-Instruct": {
+          "name": "Ministral 14B - fast lightweight coding/Q&A",
+          "modalities": {
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 32000,
+            "output": 32768
+          }
+        },
+        "GLM-4.7-Flash-UD-Q8-K_XL": {
+          "name": "GLM-4.7 Flash 30B MoE - coding/reasoning/agentic",
+          "modalities": {
+            "input": [
               "text"
             ],
             "output": [
