@@ -1,0 +1,1 @@
+/home/merlin/git/highlighting/vim/syntax/technique.vim

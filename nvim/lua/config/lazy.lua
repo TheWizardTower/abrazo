@@ -22,7 +22,7 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = ","
 
 
-vim.keymap.set("n", "<leader>fo", vim.lsp.buf.format, { buffer = buffer, desc = "vim.lsp.buf.format" })
+
 
 -- vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>fp", "<cmd>lua vim.lsp.buf.format()<CR>")
 

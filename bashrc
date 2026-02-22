@@ -98,8 +98,8 @@ source ~/.bash-powerline.sh
 source <(leadr --bash)
 
 [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
-eval "$(atuin init bash)"
 eval "$(flox activate --trust --dir ~/)"
+eval "$(atuin init bash)"
 
 # pnpm
 export PNPM_HOME="/home/merlin/.local/share/pnpm"

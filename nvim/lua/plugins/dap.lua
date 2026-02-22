@@ -9,6 +9,9 @@ return {
                 dependencies = { "williamboman/mason.nvim" },
             },
         },
+        config = function()
+            require('config.dap')
+        end,
     },
 }
 

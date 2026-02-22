@@ -3,6 +3,9 @@ return {
   {
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
+    config = function()
+        require('config.cmp')
+    end,
     dependencies = {
       -- Snippet engine
       {

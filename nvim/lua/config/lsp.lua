@@ -88,6 +88,11 @@ require('lsp-setup').setup({
     },
     inlay_hints = {
         enabled = true,
+    },
+    init_options = {
+        lint = {
+            enabled = true,
+        },
     }
 })
 
@@ -118,7 +123,6 @@ vim.lsp.enable("eslint")
 vim.lsp.enable("fish_lsp")
 vim.lsp.enable("gitlab_ci_ls")
 vim.lsp.enable("harper_ls")
-vim.lsp.enable("hydra_lsp")
 vim.lsp.enable("hydra_lsp")
 vim.lsp.enable("jqls")
 vim.lsp.enable("jsonls")

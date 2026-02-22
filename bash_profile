@@ -1,13 +1,18 @@
-
 # User specific environment and startup programs
+export BUN_INSTALL="${HOME}/.bun"
 
-PATH="$PATH:$HOME/.local/bin"
-PATH="$PATH:$HOME/local/bin"
-PATH="$PATH:$HOME/.local/share/coursier/bin"
-PATH="$PATH:$HOME/bin"
-PATH="$PATH:/home/merlin/.opencode/bin"
+PATH="${HOME}/.local/bin:${PATH}"
+PATH="${PATH}:${HOME}/local/bin"
+PATH="${PATH}:${HOME}/go/bin"
+PATH="${PATH}:${HOME}/.local/share/coursier/bin"
+PATH="${HOME}/.local/share/nvim/mason/bin:${PATH}"
+PATH="${PATH}:${HOME}/bin"
+PATH="${PATH}:${HOME}/.opencode/bin"
+PATH="${BUN_INSTALL}/bin:${PATH}"
 
 export PATH
+
+source ~/.api_keys.sh
 
 [ -s "/home/merlin/.jabba/jabba.sh" ] && source "/home/merlin/.jabba/jabba.sh"
 if [ -e /home/merlin/.nix-profile/etc/profile.d/nix.sh ]; then . /home/merlin/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
@@ -19,5 +24,5 @@ if [ -e /home/merlin/.nix-profile/etc/profile.d/nix.sh ]; then . /home/merlin/.n
 
 # Get the aliases and functions
 if [ -f ~/.bashrc ]; then
-	. ~/.bashrc
+  . ~/.bashrc
 fi
