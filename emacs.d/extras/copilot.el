@@ -19,12 +19,10 @@
             :branch "main")
   :hook (prog-mode . copilot-mode)
   :config
-  ;; Keybindings must be set in :config after the package loads
-  ;; because copilot-completion-map doesn't exist until then
-  (define-key copilot-completion-keymap (kbd "<tab>") 'copilot-accept-completion)
-  (define-key copilot-completion-keymap (kbd "TAB") 'copilot-accept-completion)
-  (define-key copilot-completion-keymap (kbd "C-TAB") 'copilot-accept-completion-by-word)
-  (define-key copilot-completion-keymap (kbd "C-<tab>") 'copilot-accept-completion-by-word))
+  ;; Set up keybindings after the package loads and keymaps are defined
+  (when (boundp 'copilot-mode-map)
+    (define-key copilot-mode-map (kbd "C-c TAB") 'copilot-accept-completion)
+    (define-key copilot-mode-map (kbd "C-c C-TAB") 'copilot-accept-completion-by-word)))
 
 (provide 'copilot)
 ;;; copilot.el ends here

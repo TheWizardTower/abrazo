@@ -1,6 +1,7 @@
 ;;; Rust development configuration
 
 (use-package rustic
+  :hook (rustic-mode . lsp)
   :bind (:map rustic-mode-map
               ("M-j" . lsp-ui-imenu)
               ("M-?" . lsp-find-references)

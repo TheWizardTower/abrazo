@@ -44,6 +44,10 @@
 (setq org-directory "~/Documents/org/") ; Non-absolute paths for agenda and
                                         ; capture templates will look here.
 
+;; Create org directory if it doesn't exist
+(unless (file-directory-p org-directory)
+  (make-directory org-directory t))
+
 (setq org-agenda-files '("inbox.org" "work.org"))
 
 ;; Default tags
@@ -67,7 +71,8 @@
                       ("reading")))
 
 ;; Org-refile: where should org-refile look?
-(setq org-refile-targets 'FIXME)
+;; Default: allow refiling to any org file in the agenda files
+(setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
 
 ;;; Phase 3 variables
 
