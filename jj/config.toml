@@ -1,0 +1,44 @@
+#:schema https://docs.jj-vcs.dev/latest/config-schema.json
+
+[ui]
+default-command = "log"
+color = "always"
+pager = "delta"
+
+[ui.diff]
+format = ":git"
+# Delta with side-by-side view
+diff-formatter = ["delta", "--width=$width", "$left", "$right"]
+tool = ["delta", "--dark", "--width=$width", "$left", "$right"]
+
+# Difftastic (uncomment to use instead of delta)
+# tool = ["difft", "--color=always"]
+
+[user]
+name = "adam@cravin.com"
+email = "adam@cravin.com"
+
+[merge-tools.mergiraf]
+program = "mergiraf"
+
+
+[merge-tools.diffconflicts]
+program = "nvim"
+merge-args = [
+    "-c", "let g:jj_diffconflicts_marker_length=$marker_length",
+    "-c", "JJDiffConflicts!", "$output", "$base", "$left", "$right",
+]
+merge-tool-edits-conflict-markers = true
+
+[merge-tools.imediff]
+program = "imediff"
+merge-args = ["$left", "$base", "$right", "-o", "$output"]
+merge-tool-edits-conflict-markers = true
+
+[merge-tools.delta]
+diff-args = ["--side-by-side", "$left", "$right", "--width=$width"]
+
+[aliases]
+co = "checkout"
+unstage = "restore --staged"
+
