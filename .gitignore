@@ -1,5 +1,6 @@
 .serena
 api_keys.sh
+opencode/sounds/**/*.wav
 
 # Created by https://www.gitignore.io/api/emacs
 
