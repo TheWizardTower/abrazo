@@ -69,7 +69,7 @@ models:
     recommended_use: "Coding, reasoning, agentic workflows, fast iteration"
     macros:
       model_path: "${extra-storage}/models--unsloth--GLM-4.7-Flash-GGUF/snapshots/66205ea11ef638d83850389bd921e6c199f7504e/GLM-4.7-Flash-UD-Q8_K_XL.gguf"
-      ctx_size: 65536
+      ctx_size: 131070
     cmd: |
       ${rocm-base}
       --model ${model_path}
