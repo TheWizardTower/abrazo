@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-set -euo pipefail
+# We actually don't want this, if one package fails, as it might if it is
+# already installed, please carry on to the remaining ones.
+# set -euo pipefail
 
 if ! which cargo; then
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
@@ -12,7 +14,7 @@ export PACKAGE_LIST="
   aichat \
   argc \
   bat \
-  caargo-outdated \
+  cargo-outdated \
   cargo-llvm-cov \
   code2prompt \
   erdtree \
@@ -38,18 +40,18 @@ export PACKAGE_LIST="
   zoxide \
   "
 
+# jj and jj-cli have to be in the same invocation, because reasons.
 export LOCKED_PACKAGE_LIST="
   bacon-ls \
   difftastic \
-  jj \
-  jj-cli \
+  jj jj-cli \
   zellij \
 "
 
 for package in $PACKAGE_LIST; do
-  cargo install $package
+  cargo install "$package"
 done
 
 for package in $LOCKED_PACKAGE_LIST; do
-  cargo install --locked $package
+  cargo install --locked "$package"
 done
