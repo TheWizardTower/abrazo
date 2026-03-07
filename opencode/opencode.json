@@ -247,7 +247,12 @@
     }
   },
   "plugin": [
+    "@zenobius/opencode-background",
+    "cc-safety-net",
     "opencode-cursor-auth@1.0.16",
-    "cc-safety-net"
+    "opencode-rts-sounds"
+  ],
+  "instructions": [
+    "~/.config/opencode/plugin/shell-strategy/shell_strategy.md"
   ]
 }

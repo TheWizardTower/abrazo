@@ -70,9 +70,10 @@
          ("M-S l" . consult-line)
          ("M-S L" . consult-line-multi)
          :map minibuffer-local-map)
-  :config
+  :custom
   ;; Narrowing lets you restrict results to certain groups of candidates
-  (setq consult-narrow-key "<")
+  (consult-narrow-key "<")
+  :config
   (autoload 'projectile-project-root "projectile")
   (setq consult-project-function (lambda (_) (projectile-project-root))))
 
@@ -108,11 +109,9 @@
   :demand t
   :init
   ;; You'll want to make sure that e.g. fido-mode isn't enabled
-  (vertico-mode))
-
-(use-package vertico-directory
-  :after vertico
-  :ensure nil ;; it's a sub-library of the vertico package
+  (vertico-mode)
+  ;; Load vertico-directory extension
+  (require 'vertico-directory)
   :bind (:map vertico-map
               ("M-DEL" . vertico-directory-delete-word)))
 
@@ -156,10 +155,10 @@
   :bind (:map company-active-map
               ("C-n" . company-select-next)
               ("C-p" . company-select-previous))
-  :config
-  (setq company-idle-delay 0.1)
-  (setq company-minimum-prefix-length 2)
-  (setq company-selection-wrap-around t))
+  :custom
+  (company-idle-delay 0.1)
+  (company-minimum-prefix-length 2)
+  (company-selection-wrap-around t))
 
 (use-package company-prescient
   :after company
@@ -190,8 +189,8 @@
 ;; Orderless: powerful completion style
 (use-package orderless
   :demand t
-  :config
-  (setq completion-styles '(orderless basic)))
+  :custom
+  (completion-styles '(orderless basic)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -201,8 +200,8 @@
 
 ;; Modify search results en masse
 (use-package wgrep
-  :config
-  (setq wgrep-auto-save-buffer t))
+  :custom
+  (wgrep-auto-save-buffer t))
 
 (use-package telephone-line
   :demand t

@@ -1,5 +1,6 @@
 .serena
 api_keys.sh
+opencode/sounds/**/*.wav
 
 # Created by https://www.gitignore.io/api/emacs
 
@@ -19,6 +20,7 @@ emacs.d/projectile-bookmarks.eld
 emacs.d/projects
 emacs.d/quelpa
 emacs.d/recentf
+emacs.d/straight/
 emacs.d/transient/
 *.elc
 auto-save-list

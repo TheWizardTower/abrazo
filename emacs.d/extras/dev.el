@@ -37,9 +37,8 @@
   (prog-mode . electric-pair-mode))
 
 (use-package treesit-auto
-  :demand t
   :custom
-  (treesit-auto-install 'prompt)
+  (treesit-auto-install t)  ; Auto-install instead of prompting
   :config
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
@@ -60,11 +59,7 @@
 (use-package magit-filenotify)
 (use-package magit-todos)
 (use-package magit-find-file
-  :demand t
-  :config
-  (require 'magit-find-file) ;; if not using the ELPA package
-  (global-set-key (kbd "C-c g") 'magit-find-file-completing-read)
-  )
+  :bind ("C-c g" . magit-find-file-completing-read))
 
 (use-package magit-commit-mark)
 
@@ -104,6 +99,7 @@
   :commands lsp
   :init
   (setq lsp-keymap-prefix "C-c l")
+  :after which-key  ; Ensure which-key is loaded before LSP which-key integration
   :custom
   ;; Performance tuning
   (lsp-idle-delay 0.500)
@@ -147,12 +143,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package projectile
-  :demand t
-  :config
+  :init
   (projectile-mode +1)
-  (setq projectile-completion-system 'default)
-  (setq projectile-enable-caching t)
-  (setq projectile-indexing-method 'alien)
+  :custom
+  (projectile-completion-system 'default)
+  (projectile-enable-caching t)
+  (projectile-indexing-method 'alien)
   :bind-keymap
   (("s-p" . projectile-command-map)
    ("C-c p" . projectile-command-map)))
@@ -169,7 +165,7 @@
   :bind (("M-o" . ace-window)))
 
 (use-package dirvish
-  :demand t
+  :defer t
   :init
   (dirvish-override-dired-mode))
 
@@ -215,21 +211,19 @@
   (add-hook 'ssh-config-mode-hook 'turn-on-font-lock))
 
 (use-package line-reminder
-  :demand t
-  :config
-  (global-line-reminder-mode))
+  :hook (prog-mode . line-reminder-mode))
 
 (use-package watch-buffer)
 
 (use-package discover
-  :demand t
+  :defer t
   :config
   (global-discover-mode))
 
 (use-package discover-my-major)
 
 (use-package dashboard
-  :demand t
+  :defer nil  ; Load immediately but don't demand
   :config
   (dashboard-setup-startup-hook))
 
@@ -246,13 +240,10 @@
   (require 'smartparens-config))
 
 ;; Eat terminal emulator
-(quelpa '(eat :fetcher git
-              :url "https://codeberg.org/akib/emacs-eat"
-              :files ("*.el" ("term" "term/*.el") "*.texi"
-                      "*.ti" ("terminfo/e" "terminfo/e/*")
-                      ("terminfo/65" "terminfo/65/*")
-                      ("integration" "integration/*")
-                      (:exclude ".dir-locals.el" "*-tests.el"))))
+(use-package eat
+  :ensure t
+  :straight (:type git :host codeberg :repo "akib/emacs-eat")
+  :commands (eat eat-project))
 
 (use-package bank-buddy)
 (with-eval-after-load 'bank-buddy

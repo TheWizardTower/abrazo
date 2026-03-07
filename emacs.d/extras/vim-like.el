@@ -45,6 +45,7 @@
 
 (use-package evil-args
   :after evil
+  :defer t
   :config
   ;; Bind evil-forward/backward-args
   (define-key evil-normal-state-map "L" 'evil-forward-arg)
@@ -109,6 +110,7 @@
 
 (use-package evil-indent-plus
   :after evil
+  :defer t
   :config
   (evil-indent-plus-default-bindings))
 
@@ -148,7 +150,8 @@
   (global-evil-visualstar-mode t))
 
 (use-package evil-string-inflection
-  :after evil)
+  :after evil
+  :defer t)
 
 (use-package evil-terminal-cursor-changer
   :after evil
@@ -170,5 +173,6 @@
 
 (use-package evil-visual-replace
   :after evil
+  :defer t
   :config
   (evil-visual-replace-visual-bindings))

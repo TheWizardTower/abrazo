@@ -28,7 +28,11 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; Ensure package.el is disabled - we use straight.el for package management
+(setq package-enable-at-startup nil)
+
 (defconst emacs-start-time (current-time))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -36,9 +40,8 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Package initialization
-(with-eval-after-load 'package
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
+;; Keep emacs.d clean - move cache/state files to appropriate directories
+(use-package no-littering)
 
 ;; Separate custom file
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
@@ -46,8 +49,9 @@
   (load custom-file))
 
 ;; Startup settings
-(setq inhibit-splash-screen t)
-(setq inhibit-startup-message t)
+;; Dashboard will handle startup screen
+;; (setq inhibit-splash-screen t)
+;; (setq inhibit-startup-message t)
 (setq initial-major-mode 'fundamental-mode)
 (setq display-time-default-load-average nil)
 
@@ -68,8 +72,9 @@
   (setq recentf-max-saved-items 100)
   :bind (("C-x C-r" . recentf-open-files)))
 
-;; Move through windows with Ctrl-<arrow keys>
-(windmove-default-keybindings 'control) ; You can use other modifiers here
+;; Window navigation is handled by ace-window (M-o) in dev.el
+;; If you prefer Ctrl-arrow keys, uncomment the following:
+;; (windmove-default-keybindings 'control)
 
 ;; Fix archaic defaults
 (setq sentence-end-double-space nil)
@@ -85,7 +90,7 @@ If the new path's directories does not exist, create them."
   (let* ((backupRootDir "~/.emacs.d/emacs-backup/")
          (filePath (replace-regexp-in-string "[A-Za-z]:" "" fpath ))
          (backupFilePath (replace-regexp-in-string "//" "/" (concat backupRootDir filePath "~") )))
-    (make-directory (file-name-directory backupFilePath) (file-name-directory backupFilePath))
+    (make-directory (file-name-directory backupFilePath) t)
     backupFilePath))
 
 (setq make-backup-file-name-function 'bedrock--backup-file-name)
@@ -237,6 +242,8 @@ If the new path's directories does not exist, create them."
 
 (add-hook 'emacs-startup-hook
           (lambda ()
+            ;; Restore GC threshold to default after startup for better performance
+            (setq gc-cons-threshold 800000)
             (message "Emacs loaded in %.2fs with %d garbage collections."
                      (float-time (time-subtract (current-time) emacs-start-time))
                      gcs-done)))
