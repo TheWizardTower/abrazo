@@ -17,6 +17,8 @@ export PACKAGE_LIST="
   cargo-outdated \
   cargo-llvm-cov \
   code2prompt \
+  fclones \
+  fdupes \
   erdtree \
   exa \
   fd-find \
@@ -43,6 +45,7 @@ export PACKAGE_LIST="
 # jj and jj-cli have to be in the same invocation, because reasons.
 export LOCKED_PACKAGE_LIST="
   bacon-ls \
+  cargo-audit \
   difftastic \
   jj jj-cli \
   zellij \
