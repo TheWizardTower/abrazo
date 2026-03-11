@@ -1,0 +1,39 @@
+[js]
+command = "jj st"
+description = "jj status"
+execute = true
+
+[jl]
+command = "jj log"
+description = "jj log"
+execute = true
+
+[jd]
+command = "jj diff"
+description = "jj diff"
+execute = true
+
+[jn]
+command = "jj new #CURSOR"
+description = "jj new (optional rev)"
+insert_type = "Insert"
+
+[jb]
+command = 'jj bookmark set #CURSOR -r @-'
+description = "Set bookmark on @-"
+insert_type = "Insert"
+
+[jp]
+command = "jj git push"
+description = "jj git push"
+execute = true
+
+[jr]
+command = "jj rebase -d main@origin -r @"
+description = "Rebase current commit onto main@origin"
+execute = true
+
+[jR]
+command = "jj rebase -d main@origin -s #CURSOR"
+description = "Rebase stack from rev onto main@origin"
+insert_type = "Insert"
