@@ -5,6 +5,9 @@
 [core]
   editor = nvim
   excludesfile = ~/.gitignore
+  pager = delta
+[interactive]
+  diffFilter = delta --color-only
 [difftool]
   prompt = false
 [difftool "difftastic"]
