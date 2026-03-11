@@ -101,6 +101,83 @@ layout {
         }
     }
 
+    swap_tiled_layout name="vsplit-even" {
+        // 4. Two panes side-by-side, 50/50
+        tab {
+            pane split_direction="vertical" {
+                pane size="50%" focus=true
+                pane size="50%"
+            }
+        }
+    }
+
+    swap_tiled_layout name="vsplit-wide" {
+        // 5. Editor left (70%) + side pane (30%)
+        tab {
+            pane split_direction="vertical" {
+                pane size="70%" focus=true
+                pane size="30%"
+            }
+        }
+    }
+
+    swap_tiled_layout name="vsplit-narrow" {
+        // 6. Thin side pane left (30%) + editor right (70%)
+        tab {
+            pane split_direction="vertical" {
+                pane size="30%"
+                pane size="70%" focus=true
+            }
+        }
+    }
+
+    swap_tiled_layout name="stacked" {
+        // 7. Stacked panes (2) — tabs-in-a-pane style
+        tab {
+            pane stacked=true {
+                pane focus=true
+                pane
+            }
+        }
+    }
+
+    swap_tiled_layout name="triple-col" {
+        // 8. Three columns, editor centered and widest
+        tab max_panes=3 {
+            pane split_direction="vertical" {
+                pane size="25%"
+                pane size="50%" focus=true
+                pane size="25%"
+            }
+        }
+    }
+
+    swap_tiled_layout name="main-plus-stack" {
+        // 9. Editor left (65%) + stacked side panes right (35%)
+        tab max_panes=3 {
+            pane split_direction="vertical" {
+                pane size="65%" focus=true
+                pane size="35%" stacked=true {
+                    pane
+                    pane
+                }
+            }
+        }
+    }
+
+    swap_tiled_layout name="ide" {
+        // 10. Editor top-left, terminal bottom, sidebar right
+        tab max_panes=3 {
+            pane split_direction="vertical" {
+                pane size="75%" split_direction="horizontal" {
+                    pane size="70%" focus=true
+                    pane size="30%"
+                }
+                pane size="25%"
+            }
+        }
+    }
+
     // ── Initial tab ──────────────────────────────────────────────────────────
     tab name="main" focus=true {
         pane focus=true
