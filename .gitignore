@@ -1,6 +1,8 @@
 .serena
 api_keys.sh
 opencode/sounds/**/*.wav
+nushell/history.txt
+nushell/autoload/leadr.nu
 
 # Created by https://www.gitignore.io/api/emacs
 
