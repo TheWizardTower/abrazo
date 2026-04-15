@@ -8,7 +8,7 @@ default:
     @just --list
 
 # Run every lint step (what CI runs)
-all: actionlint shell nu nvim terminals structured tool-configs
+all: actionlint shell nu nvim terminals structured tool-configs emacs
 
 # Validate .github/workflows/*.yml
 actionlint:
@@ -111,6 +111,18 @@ json:
 
 gitconfig:
     git config --file gitconfig --list > /dev/null
+
+# Emacs init smoke — strict, fails on any *Warnings* content.
+# Uses the system's `emacs` (must be 30.x for the :vc → :straight era).
+emacs:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    mkdir -p "$HOME/org-roam"
+    emacs --batch \
+      --init-directory="$PWD/emacs.d" \
+      -l "$PWD/emacs.d/early-init.el" \
+      -l "$PWD/emacs.d/init.el" \
+      -l "$PWD/emacs.d/ci/smoke.el"
 
 # eslint + mypy config parse
 tool-configs:
