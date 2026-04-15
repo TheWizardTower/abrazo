@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh api *)",
+      "Bash(awk '/^In / {file=$0} /SC[0-9]+/ {print file \" :: \" $0}' /tmp/sc.log)",
+      "Bash(mypy --config-file mypy.ini /tmp/dummy.py)",
+      "Bash(echo \"exit=$?\")",
+      "Bash(gh pr *)",
+      "Bash(just --list)",
+      "Bash(just actionlint *)",
+      "Bash(just yaml *)"
+    ]
+  }
+}

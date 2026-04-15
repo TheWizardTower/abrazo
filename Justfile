@@ -1,7 +1,7 @@
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
 export SHELLCHECK_EXCLUDES := "SC1090,SC2148,SC2034"
-export LINT_EXCLUDE_DIRS := "emacs.d|helix|SpaceVim.d|screen-bin|screenrc"
+export LINT_EXCLUDE_DIRS := "emacs.d|helix|SpaceVim.d|screen-bin|screenrc|xmonad"
 
 # List recipes
 default:

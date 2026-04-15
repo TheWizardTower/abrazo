@@ -181,13 +181,13 @@ jobs:
       - name: yamllint
         run: |
           git ls-files -z '*.yml' '*.yaml' \
-            | grep -zEv '^(emacs\.d|helix|SpaceVim\.d)/' \
+            | grep -zEv '^(emacs\.d|helix|SpaceVim\.d|xmonad)/' \
             | xargs -0 -r yamllint -d '{extends: relaxed, rules: {line-length: disable}}'
 
       - name: taplo lint (TOML)
         run: |
           git ls-files -z '*.toml' \
-            | grep -zEv '^(emacs\.d|helix|SpaceVim\.d)/' \
+            | grep -zEv '^(emacs\.d|helix|SpaceVim\.d|xmonad)/' \
             | xargs -0 -r taplo lint
 
       - name: jq empty (JSON)
@@ -196,7 +196,7 @@ jobs:
           while IFS= read -r f; do
             jq empty "$f" || { echo "invalid JSON: $f"; fail=1; }
           done < <(git ls-files '*.json' \
-            | grep -Ev '^(emacs\.d|helix|SpaceVim\.d|node_modules/)')
+            | grep -Ev '^(emacs\.d|helix|SpaceVim\.d|xmonad|node_modules/)')
           exit $fail
 
       - name: gitconfig parse
