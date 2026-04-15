@@ -100,3 +100,7 @@ compile-cache/
 nvim/pack
 nvim/lazy-lock.json
 nushell/nupm/
+
+node_modules/
+package.json
+package-lock.json
