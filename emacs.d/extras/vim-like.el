@@ -45,7 +45,7 @@
 
 (use-package evil-args
   :after evil
-  :defer t
+  :demand t
   :config
   ;; Bind evil-forward/backward-args
   (define-key evil-normal-state-map "L" 'evil-forward-arg)
@@ -110,7 +110,7 @@
 
 (use-package evil-indent-plus
   :after evil
-  :defer t
+  :demand t
   :config
   (evil-indent-plus-default-bindings))
 
@@ -151,10 +151,12 @@
 
 (use-package evil-string-inflection
   :after evil
-  :defer t)
+  :demand t)
+;; Commands available: evil-operator-string-inflection (bind to e.g. "g~" if desired)
 
 (use-package evil-terminal-cursor-changer
   :after evil
+  :demand t
   :if (not (display-graphic-p))
   :config
   (evil-terminal-cursor-changer-activate))
@@ -173,6 +175,6 @@
 
 (use-package evil-visual-replace
   :after evil
-  :defer t
+  :demand t
   :config
   (evil-visual-replace-visual-bindings))

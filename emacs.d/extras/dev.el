@@ -37,6 +37,7 @@
   (prog-mode . electric-pair-mode))
 
 (use-package treesit-auto
+  :demand t
   :custom
   (treesit-auto-install t)  ; Auto-install instead of prompting
   :config
@@ -55,13 +56,13 @@
          ("C-x M-g" . magit-dispatch)
          ("C-c M-g" . magit-file-dispatch)))
 
-(use-package magit-diff-flycheck)
-(use-package magit-filenotify)
-(use-package magit-todos)
+(use-package magit-diff-flycheck :after magit :demand t)
+(use-package magit-filenotify :after magit :demand t)
+(use-package magit-todos :after magit :demand t :config (magit-todos-mode))
 (use-package magit-find-file
   :bind ("C-c g" . magit-find-file-completing-read))
 
-(use-package magit-commit-mark)
+(use-package magit-commit-mark :after magit :demand t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -166,7 +167,7 @@
   :bind (("M-o" . ace-window)))
 
 (use-package dirvish
-  :defer t
+  :demand t
   :init
   (dirvish-override-dired-mode))
 
@@ -204,12 +205,11 @@
   :hook (sh-mode . shfmt-on-save-mode))
 
 (use-package ssh-config-mode
-  :config
-  (add-to-list 'auto-mode-alist '("/\\.ssh/config\\(\\.d/.*\\.conf\\)?\\'" . ssh-config-mode))
-  (add-to-list 'auto-mode-alist '("/sshd?_config\\(\\.d/.*\\.conf\\)?\\'" . ssh-config-mode))
-  (add-to-list 'auto-mode-alist '("/known_hosts\\'" . ssh-known-hosts-mode))
-  (add-to-list 'auto-mode-alist '("/authorized_keys2?\\'" . ssh-authorized-keys-mode))
-  (add-hook 'ssh-config-mode-hook 'turn-on-font-lock))
+  :mode (("/\\.ssh/config\\(\\.d/.*\\.conf\\)?\\'" . ssh-config-mode)
+         ("/sshd?_config\\(\\.d/.*\\.conf\\)?\\'" . ssh-config-mode)
+         ("/known_hosts\\'" . ssh-known-hosts-mode)
+         ("/authorized_keys2?\\'" . ssh-authorized-keys-mode))
+  :hook (ssh-config-mode . turn-on-font-lock))
 
 (use-package line-reminder
   :hook (prog-mode . line-reminder-mode))
@@ -217,7 +217,7 @@
 (use-package watch-buffer)
 
 (use-package discover
-  :defer t
+  :demand t
   :config
   (global-discover-mode))
 
