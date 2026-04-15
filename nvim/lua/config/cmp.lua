@@ -141,18 +141,10 @@ cmp.setup({
   },
 })
 
--- Custom autocmd to better position documentation window
-vim.api.nvim_create_autocmd("CompleteChanged", {
-  pattern = "*",
-  callback = function()
-    local completed_item = vim.v.completed_item
-    if completed_item and completed_item.info then
-      -- Documentation will appear, ensure it doesn't cover code
-      vim.cmd('stopinsert')
-      vim.cmd('startinsert')
-    end
-  end,
-})
+-- NOTE: A CompleteChanged autocmd with stopinsert/startinsert was previously
+-- here to force documentation window repositioning. Removed because nvim-cmp
+-- handles doc window positioning natively via window.documentation config above,
+-- and the insert mode cycling caused flicker and interfered with other mappings.
 
 -- Command line completion
 cmp.setup.cmdline({ "/", "?" }, {

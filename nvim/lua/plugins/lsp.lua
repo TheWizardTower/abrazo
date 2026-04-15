@@ -12,47 +12,48 @@ return {
     end,
     event = { "BufReadPre", "BufNewFile" },
     keys = {
-      { '<leader>f', ':lua vim.lsp.buf.format()' },
+      { '<leader>lf', ':lua vim.lsp.buf.format()<CR>', desc = "Format (LSP)" },
     },
   },
 
-  "neovim/nvim-lspconfig",
-  dependencies = {
-    {
-      "SmiteshP/nvim-navbuddy",
-      dependencies = {
-        "SmiteshP/nvim-navic",
-        "nvimdev/lspsaga.nvim",
-        "MunifTanjim/nui.nvim"
+  {
+    "neovim/nvim-lspconfig",
+    dependencies = {
+      {
+        "SmiteshP/nvim-navbuddy",
+        dependencies = {
+          "SmiteshP/nvim-navic",
+          "MunifTanjim/nui.nvim",
+        },
+        opts = { lsp = { auto_attach = true } },
       },
-      opts = { lsp = { auto_attach = true } }
-    }
+    },
   },
-  -- your lsp config or other stuff
 
-  "junegunn/fzf",
-  "junegunn/fzf.vim",
-  "gfanto/fzf-lsp.nvim",
-  "nvim-lua/plenary.nvim",
-  'RishabhRD/popfix',
-  'RishabhRD/nvim-lsputils',
-  'jubnzv/virtual-types.nvim',
+  { "junegunn/fzf" },
+  { "junegunn/fzf.vim" },
+  { "gfanto/fzf-lsp.nvim" },
+  { "nvim-lua/plenary.nvim" },
+  { "RishabhRD/popfix" },
+  { "RishabhRD/nvim-lsputils" },
+  { "jubnzv/virtual-types.nvim" },
+
   {
     "Dan7h3x/signup.nvim",
     branch = "main",
-    opts = {
-      -- Your configuration options here
-    },
+    opts = {},
     config = function(_, opts)
       require("signup").setup(opts)
-    end
+    end,
   },
+
   {
     "williamboman/mason.nvim",
     config = function()
-        require('config.mason')
+      require('config.mason')
     end,
   },
+
   {
     'nvimdev/lspsaga.nvim',
     config = function()
@@ -62,5 +63,5 @@ return {
       'nvim-treesitter/nvim-treesitter',       -- optional
       'nvim-tree/nvim-web-devicons',           -- optional
     },
-  }
+  },
 }

@@ -97,65 +97,61 @@ require('lsp-setup').setup({
 })
 
 
+-- Additional LSP servers enabled via native vim.lsp.enable() (nvim 0.11+).
+-- Only servers NOT already configured via lsp-setup above are listed here.
+-- Each server is gated on its binary being available (installed directly or via Mason).
+
+-- Helper: check if a binary is available on PATH (includes Mason's bin dir)
+local function has_binary(name)
+    return vim.fn.executable(name) == 1
+end
+
+-- Map of server name -> binary name (or command) to check.
+-- Servers already configured via lsp-setup.nvim are NOT listed here to avoid double-starting.
+local additional_servers = {
+    awk_ls           = "awk-language-server",
+    bacon_ls         = "bacon-ls",
+    bzl              = "bzl",
+    clangd           = "clangd",
+    cmake            = "cmake-language-server",
+    cspell_ls        = "cspell",
+    dprint           = "dprint",
+    gitlab_ci_ls     = "gitlab-ci-ls",
+    hydra_lsp        = "hydra-lsp",
+    jqls             = "jq-lsp",
+    jsonls           = "vscode-json-language-server",
+    latexindent      = "latexindent",
+    ["ltex-ls"]      = "ltex-ls",
+    ["ltex-ls-plus"] = "ltex-ls-plus",
+    marksman         = "marksman",
+    nushell          = "nu",
+    ocamllsp         = "ocamllsp",
+    proselint        = "proselint",
+    quick_lint_js    = "quick-lint-js",
+    starlark         = "tilt",
+    starlark_rust    = "starlark",
+    tectonic         = "tectonic",
+    terraformls      = "terraform-ls",
+    ["tex-fmt"]      = "tex-fmt",
+    texlab           = "texlab",
+    tflint           = "tflint",
+    vale             = "vale",
+    ["vale-ls"]      = "vale-ls",
+    yamlls           = "yaml-language-server",
+}
+
+for server, binary in pairs(additional_servers) do
+    if has_binary(binary) then
+        vim.lsp.enable(server)
+    end
+end
+
+
 -- require("ltex_extra").setup {}
--- vim.lsp.config("latexindent")
--- vim.lsp.config("ltex-ls")
--- vim.lsp.config("ltex-ls-plus")
 
-
--- vim.lsp.enable("jq")
-
-vim.lsp.enable("ast_grep")
-vim.lsp.enable("awk_ls")
-vim.lsp.enable("bacon_ls")
-vim.lsp.enable("basedpyright")
-vim.lsp.enable("bashls")
-vim.lsp.enable("biome")
-vim.lsp.enable("bzl") -- bazel, which is the origin for starlark.
-vim.lsp.enable("clangd")
-vim.lsp.enable("cmake")
-vim.lsp.enable("cspell_ls")
-vim.lsp.enable("docker_compose_language_service")
-vim.lsp.enable("docker_language_server")
-vim.lsp.enable("dockerls")
-vim.lsp.enable("dprint")
-vim.lsp.enable("eslint")
-vim.lsp.enable("fish_lsp")
-vim.lsp.enable("gitlab_ci_ls")
-vim.lsp.enable("harper_ls")
-vim.lsp.enable("hydra_lsp")
-vim.lsp.enable("jqls")
-vim.lsp.enable("jsonls")
-vim.lsp.enable("just")
-vim.lsp.enable("latexindent")
-vim.lsp.enable("ltex-ls")
-vim.lsp.enable("ltex-ls-plus")
-vim.lsp.enable("marksman")
-vim.lsp.enable("nushell")
-vim.lsp.enable("ocammlsp")
-vim.lsp.enable("oxlint")
-vim.lsp.enable("proselint")
-vim.lsp.enable("quick_lint_js")
-vim.lsp.enable("starlark")
-vim.lsp.enable("starlark_rust")
-vim.lsp.enable("tectonic")
-vim.lsp.enable("terraformls")
-vim.lsp.enable("tex-fmt")
-vim.lsp.enable("texlab")
-vim.lsp.enable("tflint")
-vim.lsp.enable("ts_ls")
-vim.lsp.enable("vale")
-vim.lsp.enable("vale-ls")
-vim.lsp.enable("vtsls")
-vim.lsp.enable("yamlls")
 
 -- setup() is also available as an alias
 require('lspkind').init({
-    -- DEPRECATED (use mode instead): enables text annotations
-    --
-    -- default: true
-    -- with_text = true,
-
     -- defines how annotations are shown
     -- default: symbol
     -- options: 'text', 'text_symbol', 'symbol_text', 'symbol'
@@ -164,37 +160,33 @@ require('lspkind').init({
     -- default symbol map
     -- can be either 'default' (requires nerd-fonts font) or
     -- 'codicons' for codicon preset (requires vscode-codicons font)
-    --
-    -- default: 'default'
     preset = 'codicons',
 
     -- override preset symbols
-    --
-    -- default: {}
     symbol_map = {
         Text = "󰉿",
         Method = "󰆧",
         Function = "󰊕",
-        Constructor = "",
+        Constructor = "",
         Field = "󰜢",
         Variable = "󰀫",
         Class = "󰠱",
-        Interface = "",
-        Module = "",
+        Interface = "",
+        Module = "",
         Property = "󰜢",
         Unit = "󰑭",
         Value = "󰎠",
-        Enum = "",
+        Enum = "",
         Keyword = "󰌋",
-        Snippet = "",
+        Snippet = "",
         Color = "󰏘",
         File = "󰈙",
         Reference = "󰈇",
         Folder = "󰉋",
-        EnumMember = "",
+        EnumMember = "",
         Constant = "󰏿",
         Struct = "󰙅",
-        Event = "",
+        Event = "",
         Operator = "󰆕",
         TypeParameter = "",
     },
@@ -224,5 +216,3 @@ end
 -- Apply codeAction to the selected region
 -- Example: `<leader>aap` for current paragraph
 local opts = { silent = true, nowait = true }
-
-

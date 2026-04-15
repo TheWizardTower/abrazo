@@ -3,10 +3,9 @@ local wk = require("which-key")
 wk.add({
     { "<Leader>f",  group = "file" }, -- group
     { "<Leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find File", mode = "n" },
-    { "<Leader>fb", function() print("hello") end,   desc = "Foobar" },
     { "<Leader>fn", desc = "New File" },
     { "<Leader>f1", hidden = true },                                      -- hide this keymap
-    { "<Leader>w",  proxy = "<c-w>",                 group = "windows" }, -- proxy to window mappings
+    { "<Leader>W",  proxy = "<c-w>",                 group = "windows" }, -- proxy to window mappings
     {
         "<Leader>b",
         group = "buffers",
@@ -23,4 +22,3 @@ wk.add({
         { "<Leader>w", "<cmd>w<cr>", desc = "Write" },
     }
 })
-
