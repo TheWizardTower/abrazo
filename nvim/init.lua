@@ -24,6 +24,14 @@ vim.cmd('colorscheme habamax')
 -- Set completeopt for nvim-cmp
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
+-- Briefly highlight yanked text (evil-goggles equivalent)
+vim.api.nvim_create_autocmd("TextYankPost", {
+    group = vim.api.nvim_create_augroup("HighlightYank", { clear = true }),
+    callback = function()
+        vim.highlight.on_yank({ higroup = "IncSearch", timeout = 150 })
+    end,
+})
+
 
 -- -- Set the highlight for trailing whitespace
 -- vim.api.nvim_set_hl(0, "ExtraWhitespace", { ctermbg = "darkred", bg = "darkred" })
