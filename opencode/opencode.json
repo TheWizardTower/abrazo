@@ -156,7 +156,7 @@
           }
         },
         "c4ai-command-a-111B": {
-          "name": "Command A 111B - RAG/tool chains/grounded generation (slow)",
+          "name": "Command A 111B Q3_K_M (4.4GB) - RAG/tool chains/grounded generation (faster)",
           "modalities": {
             "input": [
               "text"
@@ -166,8 +166,8 @@
             ]
           },
           "limit": {
-            "context": 32000,
-            "output": 32768
+            "context": 64000,
+            "output": 8192
           }
         },
         "Nemotron-3-Nano-30B-A3B": {

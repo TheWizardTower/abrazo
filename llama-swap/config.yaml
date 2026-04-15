@@ -159,10 +159,10 @@ models:
     description: "Cohere 111B dense. Best-in-class RAG with grounded citations, multi-step tool chaining, 23 languages. Very cooperative, low refusal. CC-BY-NC. Slow on this hardware."
     recommended_use: "RAG, complex multi-step tool use, grounded generation, infra planning, multilingual"
     macros:
-      model_path: "${extra-storage}/models--unsloth--c4ai-command-a-03-2025-GGUF/snapshots/5ca94ecdf2f60896faaf110a93902bcb1eaefd22/Q4_K_M/c4ai-command-a-03-2025-Q4_K_M-00001-of-00002.gguf"
-      ctx_size: 32768
-      batch_size: 1
-      ubatch_size: 1
+      model_path: "${extra-storage}/models--unsloth--c4ai-command-a-03-2025-GGUF/snapshots/5ca94ecdf2f60896faaf110a93902bcb1eaefd22/Q3_K_M/c4ai-command-a-03-2025-Q3_K_M-00001-of-00002.gguf"
+      ctx_size: 65536
+      batch_size: 64
+      ubatch_size: 64
     cmd: |
       ${rocm-base}
       --model ${model_path}
