@@ -25,6 +25,9 @@ require('lualine').setup {
         'FileChangedShellPost',
         'VimResized',
         'Filetype',
+        -- NOTE: CursorMoved/CursorMovedI fire on every cursor movement, which
+        -- can be expensive. Kept intentionally for real-time statusline updates
+        -- (diagnostics, position, etc.). Remove these if performance degrades.
         'CursorMoved',
         'CursorMovedI',
         'ModeChanged',

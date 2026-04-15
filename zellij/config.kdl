@@ -200,7 +200,6 @@ keybinds clear-defaults=true {
         bind "Alt o" { MoveTab "Right"; }
         bind "Alt p" { TogglePaneInGroup; }
         bind "Ctrl g" { SwitchToMode "Locked"; }
-        bind "Ctrl q" { Quit; }
     }
     shared_except "locked" "move" {
         bind "Ctrl h" { SwitchToMode "move"; }

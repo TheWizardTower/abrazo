@@ -10,30 +10,7 @@ if [ -f /etc/bashrc ]; then
   . /etc/bashrc
 fi
 
-SSH_ENV=$HOME/.ssh/environment
-
-function start_agent {
-  echo "Initialising new SSH agent..."
-  /usr/bin/ssh-agent | sed 's/^echo/#echo/' >${SSH_ENV}
-  echo succeeded
-  chmod 600 ${SSH_ENV}
-  . ${SSH_ENV} >/dev/null
-
-  for key in ~/.ssh/{golem,github,gitlab-home-lab-merlin,turkishDelight} ~/.ssh/merlin*; do
-    [ -f "$key" ] && ssh-add "$key"
-  done
-}
-
-# Source SSH settings, if applicable
-
-if [ -f "${SSH_ENV}" ]; then
-  . ${SSH_ENV} >/dev/null
-  ps ${SSH_AGENT_PID} | grep ssh-agent$ >/dev/null || {
-    start_agent
-  }
-else
-  start_agent
-fi
+eval "$(keychain --eval --quiet fedora golem github digital-ocean)"
 
 export EDITOR=nvim
 

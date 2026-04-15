@@ -1,0 +1,20 @@
+[sq]
+command = '"#COMMAND"'
+description = "Surround with quotes"
+insert_type = "Surround"
+
+[y]
+command = " | wl-copy"
+description = "Append copy to clipboard (Wayland)"
+insert_type = "Append"
+
+[dt]
+command = "date +%Y%m%d"
+description = "Insert today's date (YYYYMMDD)"
+insert_type = "Insert"
+evaluate = true
+
+[ps]
+command = "sudo "
+description = "Prepend sudo"
+insert_type = "Prepend"

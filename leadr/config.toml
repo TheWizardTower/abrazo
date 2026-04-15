@@ -1,4 +1,4 @@
-leadr_key = "<C-g>"
+leadr_key = "<C-x>"
 redraw_prompt_line = true
 
 [panel]
