@@ -258,6 +258,13 @@ jobs:
       - name: Install just
         uses: taiki-e/install-action@just
 
+      - name: Install copilot language server
+        # copilot.el's `:hook (prog-mode . copilot-mode)` fires during init
+        # when straight generates autoloads (loaddefs-generate opens a buffer
+        # in emacs-lisp-mode, which runs prog-mode-hook). Without the server
+        # binary on PATH, copilot-mode errors out.
+        run: npm install -g @github/copilot-language-server
+
       - name: Cache straight.el repos and builds
         # straight clones to user-emacs-directory/straight/, which under
         # `just emacs` is the in-repo emacs.d/straight/ (gitignored).
