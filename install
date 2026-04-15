@@ -8,7 +8,7 @@ function link_file() {
   DEST="${1}"
   shift
 
-  mkdir -p $(dirname "${DEST}")
+  mkdir -p "$(dirname "${DEST}")"
 
   if [ -L "${DEST}" ]; then
     echo "File ${DEST} already linked; skipping"
@@ -45,7 +45,7 @@ link_file "${HOME}/kitty/font-${OS}.conf" "${HOME}/.config/kitty/font.conf"
 
 export fileList=("current-theme" "kitty" "ligatures")
 
-for file in ${fileList[@]}; do
+for file in "${fileList[@]}"; do
   link_file "${HOME}/abrazo/kitty/${file}.conf" "${HOME}/.config/kitty/${file}.conf"
 done
 

@@ -15,10 +15,10 @@ if [ ! "$(which mcp-k8s)" ]; then
 fi
 
 mkdir -p ~/git
-pushd ~/git
+pushd ~/git || exit
 git clone https://github.com/gpetraroli/mcp_pdf_reader.git
 git clone https://github.com/oraios/serena
-pushd serena
+pushd serena || exit
 uv tool install ./
-popd
-popd
+popd || exit
+popd || exit

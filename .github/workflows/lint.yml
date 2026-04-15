@@ -1,0 +1,259 @@
+name: lint
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+concurrency:
+  group: lint-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  actionlint:
+    name: actionlint (workflow files)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install actionlint
+        run: |
+          bash <(curl -fsSL \
+            https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+          echo "$PWD" >> "$GITHUB_PATH"
+      - name: Run actionlint
+        run: actionlint
+
+  shell:
+    name: shell (shellcheck + shfmt + bash -n)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install shellcheck and shfmt
+        run: sudo apt-get update && sudo apt-get install -y shellcheck shfmt
+
+      - name: Collect bash scripts
+        id: collect
+        run: |
+          # Deprecated dirs are excluded; update when removing from master.
+          mapfile -t files < <(
+            git ls-files \
+              '*.sh' \
+              'bashrc' 'bash_profile' 'bin/*' 'install' \
+            | grep -Ev '^(emacs\.d|helix|SpaceVim\.d|screen-bin|screenrc)/' \
+            | while read -r f; do
+                if [[ "$f" == *.sh || "$f" == bashrc || "$f" == bash_profile || "$f" == install ]]; then
+                  echo "$f"
+                elif file "$f" | grep -qE 'Bourne-Again shell script|POSIX shell script'; then
+                  echo "$f"
+                fi
+              done
+          )
+          printf '%s\n' "${files[@]}" | tee scripts.txt
+
+      - name: bash -n
+        run: xargs -r -a scripts.txt -I{} bash -n "{}"
+
+      - name: shellcheck
+        # SC1090: can't follow non-constant `source` — universally noisy for dotfiles
+        # SC2148: missing shebang — bashrc/bash_profile/tmux config are sourced, not executed
+        # SC2034: unused vars — tmux-powerline config sets vars consumed via sourcing
+        run: xargs -r -a scripts.txt shellcheck --severity=warning --external-sources -e SC1090,SC2148,SC2034
+
+      - name: shfmt -d (informational)
+        continue-on-error: true
+        run: xargs -r -a scripts.txt shfmt -d -i 2 -ci
+
+  nushell:
+    name: nushell (parse + load)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install nushell
+        run: |
+          VERSION=0.109.1
+          curl -fsSL -o /tmp/nu.tgz \
+            "https://github.com/nushell/nushell/releases/download/${VERSION}/nu-${VERSION}-x86_64-unknown-linux-gnu.tar.gz"
+          mkdir -p /tmp/nu && tar -xzf /tmp/nu.tgz -C /tmp/nu --strip-components=1
+          sudo install /tmp/nu/nu /usr/local/bin/nu
+
+      - name: Stub runtime-generated source targets
+        # autoload/atuin.nu sources ~/.local/share/atuin/init.nu at parse time;
+        # stub it so parse-check passes without a real atuin install.
+        run: |
+          mkdir -p "$HOME/.local/share/atuin"
+          : > "$HOME/.local/share/atuin/init.nu"
+
+      - name: Parse-check each .nu file
+        run: |
+          set -e
+          while IFS= read -r f; do
+            echo "checking $f"
+            nu -c "source $PWD/$f" || { echo "load failure in $f"; exit 1; }
+          done < <(git ls-files 'nushell/**/*.nu' | grep -v '^nushell/nupm/')
+
+      - name: Source config.nu (load smoke)
+        run: nu -c 'source nushell/config.nu; print ok'
+
+  neovim:
+    name: neovim (lua parse-check + stylua)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install lua5.1 and stylua
+        # lua5.1 matches neovim's embedded LuaJIT dialect for `luac -p` parse.
+        # A full headless load would trigger lazy.nvim plugin install which is
+        # fragile in CI (node/luarocks/tree-sitter build deps). Parse-check is
+        # the right scope for "did this config break its own syntax".
+        run: |
+          sudo apt-get update && sudo apt-get install -y lua5.1
+          curl -fsSL -o /tmp/stylua.zip \
+            https://github.com/JohnnyMorganz/StyLua/releases/latest/download/stylua-linux-x86_64.zip
+          sudo unzip -o /tmp/stylua.zip -d /usr/local/bin
+          sudo chmod +x /usr/local/bin/stylua
+
+      - name: luac -p (parse-check)
+        run: |
+          fail=0
+          while IFS= read -r f; do
+            luac5.1 -p "$f" || { echo "parse error in $f"; fail=1; }
+          done < <(git ls-files 'nvim/**/*.lua' | grep -v '^nvim/lazy-lock')
+          exit $fail
+
+      - name: stylua --check
+        continue-on-error: true
+        run: stylua --check nvim/
+
+  terminals:
+    name: kitty / tmux / zellij smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install tmux and kitty
+        run: sudo apt-get update && sudo apt-get install -y tmux kitty
+
+      - name: Install zellij
+        run: |
+          curl -fsSL -o /tmp/zellij.tgz \
+            https://github.com/zellij-org/zellij/releases/latest/download/zellij-x86_64-unknown-linux-musl.tar.gz
+          tar -xzf /tmp/zellij.tgz -C /tmp
+          sudo install /tmp/zellij /usr/local/bin/zellij
+
+      - name: tmux parse
+        run: |
+          tmux -f tmux.conf new-session -d -s ci 'sleep 1' \
+            && tmux kill-server
+
+      - name: kitty parse check
+        # kitty has no --check flag; load_config() parses and raises on errors.
+        # The "Could not find included config file: font.conf" warning is
+        # expected — font.conf is symlinked at install time from font-linux.conf.
+        run: |
+          kitty +runpy 'from kitty.config import load_config; load_config("kitty/kitty.conf"); print("ok")' > kitty.out 2> kitty.err
+          cat kitty.out kitty.err
+          grep -q '^ok$' kitty.out || { echo "kitty config load failed"; exit 1; }
+          if grep -Ei '(Invalid|Bad key|Unknown key)' kitty.err; then
+            echo "kitty reported parse errors"
+            exit 1
+          fi
+
+      - name: zellij setup --check
+        run: zellij --config-dir zellij setup --check
+
+  structured:
+    name: yaml / toml / json / gitconfig
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install linters
+        run: |
+          pip install --user yamllint
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          curl -fsSL -o /tmp/taplo.gz \
+            https://github.com/tamasfe/taplo/releases/latest/download/taplo-linux-x86_64.gz
+          gunzip /tmp/taplo.gz && chmod +x /tmp/taplo && sudo mv /tmp/taplo /usr/local/bin/taplo
+          sudo apt-get update && sudo apt-get install -y jq
+
+      - name: yamllint
+        run: |
+          git ls-files -z '*.yml' '*.yaml' \
+            | grep -zEv '^(emacs\.d|helix|SpaceVim\.d|xmonad)/' \
+            | xargs -0 -r yamllint -d '{extends: relaxed, rules: {line-length: disable}}'
+
+      - name: taplo lint (TOML)
+        run: |
+          git ls-files -z '*.toml' \
+            | grep -zEv '^(emacs\.d|helix|SpaceVim\.d|xmonad)/' \
+            | xargs -0 -r taplo lint
+
+      - name: jq empty (JSON)
+        run: |
+          fail=0
+          while IFS= read -r f; do
+            jq empty "$f" || { echo "invalid JSON: $f"; fail=1; }
+          done < <(git ls-files '*.json' \
+            | grep -Ev '^(emacs\.d|helix|SpaceVim\.d|xmonad|node_modules/)')
+          exit $fail
+
+      - name: gitconfig parse
+        run: git config --file gitconfig --list > /dev/null
+
+  tool-configs:
+    name: eslint / mypy config
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: eslint --print-config
+        run: |
+          npm i --no-save eslint@8 eslint-plugin-react
+          echo 'const x = 1;' > /tmp/dummy.js
+          npx eslint --config eslintrc.js --print-config /tmp/dummy.js > /dev/null
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: mypy config
+        run: |
+          pip install mypy
+          echo 'x: int = 1' > /tmp/dummy.py
+          mypy --config-file mypy.ini /tmp/dummy.py
+
+  installer:
+    name: install script (scratch HOME)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: abrazo-src
+
+      - name: bash -n install
+        run: bash -n abrazo-src/install
+
+      - name: Install fish (needed by fish_install.fish)
+        run: sudo apt-get update && sudo apt-get install -y fish
+
+      - name: Run install against scratch HOME
+        # fish_install.fish does network calls to install fisher plugins,
+        # which can flake. bash -n above catches script-level regressions
+        # regardless; this step surfaces deeper breakage when it succeeds.
+        continue-on-error: true
+        run: |
+          SCRATCH=$(mktemp -d)
+          mv abrazo-src "$SCRATCH/abrazo"
+          export HOME="$SCRATCH"
+          echo "Using HOME=$HOME"
+          cd "$HOME/abrazo"
+          bash -x ./install
+          echo "--- resulting $HOME ---"
+          ls -la "$HOME"
+          echo "--- .config ---"
+          ls -la "$HOME/.config" || true
