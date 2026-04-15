@@ -143,15 +143,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package projectile
-  :init
-  (projectile-mode +1)
+  :demand t
   :custom
   (projectile-completion-system 'default)
   (projectile-enable-caching t)
   (projectile-indexing-method 'alien)
   :bind-keymap
   (("s-p" . projectile-command-map)
-   ("C-c p" . projectile-command-map)))
+   ("C-c p" . projectile-command-map))
+  :config
+  (projectile-mode +1))
 
 (use-package projectile-ripgrep)
 
