@@ -2,7 +2,9 @@
 api_keys.sh
 opencode/sounds/**/*.wav
 nushell/history.txt
-nushell/autoload/leadr.nu
+nushell/history.sqlite3
+nushell/history.sqlite3-shm
+nushell/history.sqlite3-wal
 
 # Created by https://www.gitignore.io/api/emacs
 
