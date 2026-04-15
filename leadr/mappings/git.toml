@@ -1,0 +1,13 @@
+[ga]
+command = "git add -p"
+description = "Git add (interactive)"
+execute = true
+
+[gs]
+command = "git status"
+description = "Git status"
+execute = true
+
+[gc]
+command = 'git commit -m "#CURSOR"'
+description = "Start a Git commit"
