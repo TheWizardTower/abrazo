@@ -1,0 +1,238 @@
+name: lint
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+concurrency:
+  group: lint-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  shell:
+    name: shell (shellcheck + shfmt + bash -n)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install shellcheck and shfmt
+        run: sudo apt-get update && sudo apt-get install -y shellcheck shfmt
+
+      - name: Collect bash scripts
+        id: collect
+        run: |
+          # Deprecated dirs are excluded; update when removing from master.
+          mapfile -t files < <(
+            git ls-files \
+              '*.sh' \
+              'bashrc' 'bash_profile' 'bin/*' 'install' \
+            | grep -Ev '^(emacs\.d|helix|SpaceVim\.d|screen-bin|screenrc)/' \
+            | while read -r f; do
+                if head -n1 "$f" | grep -qE '^#!.*(bash|sh)\b' \
+                   || [[ "$f" == *.sh || "$f" == bashrc || "$f" == bash_profile || "$f" == install ]]; then
+                  echo "$f"
+                fi
+              done
+          )
+          printf '%s\n' "${files[@]}" | tee scripts.txt
+
+      - name: bash -n
+        run: xargs -r -a scripts.txt -I{} bash -n "{}"
+
+      - name: shellcheck
+        run: xargs -r -a scripts.txt shellcheck --severity=warning --external-sources
+
+      - name: shfmt -d (informational)
+        continue-on-error: true
+        run: xargs -r -a scripts.txt shfmt -d -i 2 -ci
+
+  nushell:
+    name: nushell (parse + load)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install nushell
+        run: |
+          VERSION=0.99.1
+          curl -fsSL -o /tmp/nu.tgz \
+            "https://github.com/nushell/nushell/releases/download/${VERSION}/nu-${VERSION}-x86_64-unknown-linux-gnu.tar.gz"
+          mkdir -p /tmp/nu && tar -xzf /tmp/nu.tgz -C /tmp/nu --strip-components=1
+          sudo install /tmp/nu/nu /usr/local/bin/nu
+
+      - name: Parse-check each .nu file
+        # Autoload files may rely on the autoload env; sourcing in isolation
+        # still catches syntax errors, which is what we want here.
+        run: |
+          set -e
+          while IFS= read -r f; do
+            echo "checking $f"
+            nu -c "source $PWD/$f" || { echo "load failure in $f"; exit 1; }
+          done < <(git ls-files 'nushell/**/*.nu' | grep -v '^nushell/nupm/')
+
+  neovim:
+    name: neovim (headless load + stylua)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install neovim
+        uses: rhysd/action-setup-vim@v1
+        with:
+          neovim: true
+          version: stable
+
+      - name: Install stylua
+        run: |
+          curl -fsSL -o /tmp/stylua.zip \
+            https://github.com/JohnnyMorganz/StyLua/releases/latest/download/stylua-linux-x86_64.zip
+          sudo unzip -o /tmp/stylua.zip -d /usr/local/bin && sudo chmod +x /usr/local/bin/stylua
+
+      - name: stylua --check
+        continue-on-error: true
+        run: stylua --check nvim/
+
+      - name: Headless load
+        env:
+          XDG_CONFIG_HOME: ${{ github.workspace }}/.xdg
+        run: |
+          mkdir -p "$XDG_CONFIG_HOME"
+          ln -s "$PWD/nvim" "$XDG_CONFIG_HOME/nvim"
+          # Exit nonzero on Lua errors during startup.
+          nvim --headless \
+            "+lua vim.schedule(function() vim.cmd('qa!') end)" \
+            2> nvim.err || true
+          if grep -Ei '^(Error|E[0-9]+:)' nvim.err; then
+            echo "neovim emitted errors during startup"
+            cat nvim.err
+            exit 1
+          fi
+          cat nvim.err || true
+
+  terminals:
+    name: kitty / tmux / zellij smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install tmux and kitty
+        run: sudo apt-get update && sudo apt-get install -y tmux kitty
+
+      - name: Install zellij
+        run: |
+          curl -fsSL -o /tmp/zellij.tgz \
+            https://github.com/zellij-org/zellij/releases/latest/download/zellij-x86_64-unknown-linux-musl.tar.gz
+          tar -xzf /tmp/zellij.tgz -C /tmp
+          sudo install /tmp/zellij /usr/local/bin/zellij
+
+      - name: tmux parse
+        run: |
+          tmux -f tmux.conf new-session -d -s ci 'sleep 1' \
+            && tmux kill-server
+
+      - name: kitty parse check
+        # --debug-config exits 0 even on parse errors, so grep stderr.
+        run: |
+          kitty --config kitty/kitty.conf --debug-config true 2> kitty.err || true
+          if grep -Ei '(Failed to|Invalid|Unknown key|Bad key|error)' kitty.err; then
+            cat kitty.err
+            exit 1
+          fi
+
+      - name: zellij setup --check
+        run: zellij --config-dir zellij setup --check
+
+  structured:
+    name: yaml / toml / json / gitconfig
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install linters
+        run: |
+          pip install --user yamllint
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          curl -fsSL -o /tmp/taplo.gz \
+            https://github.com/tamasfe/taplo/releases/latest/download/taplo-linux-x86_64.gz
+          gunzip /tmp/taplo.gz && chmod +x /tmp/taplo && sudo mv /tmp/taplo /usr/local/bin/taplo
+          sudo apt-get update && sudo apt-get install -y jq
+
+      - name: yamllint
+        run: |
+          yamllint -d '{extends: relaxed, rules: {line-length: disable}}' \
+            $(git ls-files '*.yml' '*.yaml' \
+              | grep -Ev '^(emacs\.d|helix|SpaceVim\.d)/')
+
+      - name: taplo lint (TOML)
+        run: |
+          files=$(git ls-files '*.toml' | grep -Ev '^(emacs\.d|helix|SpaceVim\.d)/')
+          [ -z "$files" ] || taplo lint $files
+
+      - name: jq empty (JSON)
+        run: |
+          fail=0
+          while IFS= read -r f; do
+            jq empty "$f" || { echo "invalid JSON: $f"; fail=1; }
+          done < <(git ls-files '*.json' \
+            | grep -Ev '^(emacs\.d|helix|SpaceVim\.d|node_modules/)')
+          exit $fail
+
+      - name: gitconfig parse
+        run: git config --file gitconfig --list > /dev/null
+
+  tool-configs:
+    name: eslint / mypy config
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: eslint --print-config
+        run: |
+          npm i --no-save eslint@8
+          echo 'const x = 1;' > /tmp/dummy.js
+          npx eslint --config eslintrc.js --print-config /tmp/dummy.js > /dev/null
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: mypy config
+        run: |
+          pip install mypy
+          echo 'x: int = 1' > /tmp/dummy.py
+          mypy --config-file mypy.ini /tmp/dummy.py
+
+  installer:
+    name: install script (scratch HOME)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: abrazo-src
+
+      - name: bash -n install
+        run: bash -n abrazo-src/install
+
+      - name: Install fish (needed by fish_install.fish)
+        run: sudo apt-get update && sudo apt-get install -y fish
+
+      - name: Run install against scratch HOME
+        # fish_install.fish does network calls to install fisher plugins,
+        # which can flake. bash -n above catches script-level regressions
+        # regardless; this step surfaces deeper breakage when it succeeds.
+        continue-on-error: true
+        run: |
+          SCRATCH=$(mktemp -d)
+          mv abrazo-src "$SCRATCH/abrazo"
+          export HOME="$SCRATCH"
+          echo "Using HOME=$HOME"
+          cd "$HOME/abrazo"
+          bash -x ./install
+          echo "--- resulting $HOME ---"
+          ls -la "$HOME"
+          echo "--- .config ---"
+          ls -la "$HOME/.config" || true
