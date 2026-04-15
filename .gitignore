@@ -26,6 +26,7 @@ emacs.d/quelpa
 emacs.d/recentf
 emacs.d/straight/
 emacs.d/transient/
+emacs.d/tree-sitter/
 *.elc
 auto-save-list
 tramp
