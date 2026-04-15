@@ -265,6 +265,11 @@ jobs:
         # binary on PATH, copilot-mode errors out.
         run: npm install -g @github/copilot-language-server
 
+      - name: Install fortune + cowsay
+        # init.el's fortune-cookie use-package runs (fortune-cookie-mode) in
+        # :config, which shells out to `fortune | cowsay -f tux -s` at load.
+        run: sudo apt-get update && sudo apt-get install -y fortune-mod cowsay
+
       - name: Cache straight.el repos and builds
         # straight clones to user-emacs-directory/straight/, which under
         # `just emacs` is the in-repo emacs.d/straight/ (gitignored).
