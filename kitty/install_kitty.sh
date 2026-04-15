@@ -14,7 +14,7 @@ export fileList=("current-theme" "kitty" "ligatures")
 mkdir -p ~/.config/kitty/
 
 
-for file in ${fileList[@]}; do
+for file in "${fileList[@]}"; do
 	echo "File: ${file}"
 
 	target="${HOME}/.config/kitty/${file}.conf"

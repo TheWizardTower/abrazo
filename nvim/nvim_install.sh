@@ -7,7 +7,7 @@ export LOCAL_PATH="pack/nvim/start/nvim-lspconfig"
 export STANDARD_CONFIG_DIR="${HOME}/.config/"
 export FLATPAK_CONFIG_DIR="${HOME}/.var/app/io.neovim.nvim/config/"
 
-if $(which nvim); then
+if command -v nvim >/dev/null; then
     pushd "${STANDARD_CONFIG_DIR}"
 else
     pushd "${FLATPAK_CONFIG_DIR}"
