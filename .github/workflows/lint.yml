@@ -29,8 +29,9 @@ jobs:
               'bashrc' 'bash_profile' 'bin/*' 'install' \
             | grep -Ev '^(emacs\.d|helix|SpaceVim\.d|screen-bin|screenrc)/' \
             | while read -r f; do
-                if head -n1 "$f" | grep -qE '^#!.*(bash|sh)\b' \
-                   || [[ "$f" == *.sh || "$f" == bashrc || "$f" == bash_profile || "$f" == install ]]; then
+                if [[ "$f" == *.sh || "$f" == bashrc || "$f" == bash_profile || "$f" == install ]]; then
+                  echo "$f"
+                elif file "$f" | grep -qE 'Bourne-Again shell script|POSIX shell script'; then
                   echo "$f"
                 fi
               done
@@ -41,7 +42,10 @@ jobs:
         run: xargs -r -a scripts.txt -I{} bash -n "{}"
 
       - name: shellcheck
-        run: xargs -r -a scripts.txt shellcheck --severity=warning --external-sources
+        # SC1090: can't follow non-constant `source` — universally noisy for dotfiles
+        # SC2148: missing shebang — bashrc/bash_profile/tmux config are sourced, not executed
+        # SC2034: unused vars — tmux-powerline config sets vars consumed via sourcing
+        run: xargs -r -a scripts.txt shellcheck --severity=warning --external-sources -e SC1090,SC2148,SC2034
 
       - name: shfmt -d (informational)
         continue-on-error: true
@@ -61,15 +65,23 @@ jobs:
           mkdir -p /tmp/nu && tar -xzf /tmp/nu.tgz -C /tmp/nu --strip-components=1
           sudo install /tmp/nu/nu /usr/local/bin/nu
 
+      - name: Stub runtime-generated source targets
+        # autoload/atuin.nu sources ~/.local/share/atuin/init.nu at parse time;
+        # stub it so parse-check passes without a real atuin install.
+        run: |
+          mkdir -p "$HOME/.local/share/atuin"
+          : > "$HOME/.local/share/atuin/init.nu"
+
       - name: Parse-check each .nu file
-        # Autoload files may rely on the autoload env; sourcing in isolation
-        # still catches syntax errors, which is what we want here.
         run: |
           set -e
           while IFS= read -r f; do
             echo "checking $f"
             nu -c "source $PWD/$f" || { echo "load failure in $f"; exit 1; }
           done < <(git ls-files 'nushell/**/*.nu' | grep -v '^nushell/nupm/')
+
+      - name: Source config.nu (load smoke)
+        run: nu -c 'source nushell/config.nu; print ok'
 
   neovim:
     name: neovim (headless load + stylua)
@@ -132,11 +144,15 @@ jobs:
             && tmux kill-server
 
       - name: kitty parse check
-        # --debug-config exits 0 even on parse errors, so grep stderr.
+        # kitty has no --check flag; load_config() parses and raises on errors.
+        # The "Could not find included config file: font.conf" warning is
+        # expected — font.conf is symlinked at install time from font-linux.conf.
         run: |
-          kitty --config kitty/kitty.conf --debug-config true 2> kitty.err || true
-          if grep -Ei '(Failed to|Invalid|Unknown key|Bad key|error)' kitty.err; then
-            cat kitty.err
+          kitty +runpy 'from kitty.config import load_config; load_config("kitty/kitty.conf"); print("ok")' > kitty.out 2> kitty.err
+          cat kitty.out kitty.err
+          grep -q '^ok$' kitty.out || { echo "kitty config load failed"; exit 1; }
+          if grep -Ei '(Invalid|Bad key|Unknown key)' kitty.err; then
+            echo "kitty reported parse errors"
             exit 1
           fi
 
@@ -193,7 +209,7 @@ jobs:
 
       - name: eslint --print-config
         run: |
-          npm i --no-save eslint@8
+          npm i --no-save eslint@8 eslint-plugin-react
           echo 'const x = 1;' > /tmp/dummy.js
           npx eslint --config eslintrc.js --print-config /tmp/dummy.js > /dev/null
 
