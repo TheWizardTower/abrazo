@@ -2,25 +2,36 @@
 
 [ui]
 default-command = "log"
-color = "always"
+color = "auto"
 pager = "delta"
+diff-formatter = ":git"
 
-[ui.diff]
-format = ":git"
-# Delta with side-by-side view
-diff-formatter = ["delta", "--width=$width", "$left", "$right"]
-tool = ["delta", "--dark", "--width=$width", "$left", "$right"]
-
-# Difftastic (uncomment to use instead of delta)
+# To use difftastic instead, comment out diff-formatter above and uncomment:
+# [ui.diff]
 # tool = ["difft", "--color=always"]
 
 [user]
-name = "adam@cravin.com"
+name = "Adam McCullough"
+email = "merlinfmct87@gmail.com"
+
+[git]
+push-bookmark-prefix = "amccullough/"
+
+[remotes.origin]
+auto-track-bookmarks = "*"
+
+[[--scope]]
+--when.repositories = [
+  "~/work",
+  "~/cravin-rs-fresh",
+  "~/cravin-rs-second-thread",
+  "~/cravin-rs-third-thread",
+]
+[--scope.user]
 email = "adam@cravin.com"
 
 [merge-tools.mergiraf]
 program = "mergiraf"
-
 
 [merge-tools.diffconflicts]
 program = "nvim"
@@ -34,11 +45,3 @@ merge-tool-edits-conflict-markers = true
 program = "imediff"
 merge-args = ["$left", "$base", "$right", "-o", "$output"]
 merge-tool-edits-conflict-markers = true
-
-[merge-tools.delta]
-diff-args = ["--side-by-side", "$left", "$right", "--width=$width"]
-
-[aliases]
-co = "checkout"
-unstage = "restore --staged"
-
