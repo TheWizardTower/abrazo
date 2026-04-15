@@ -27,6 +27,16 @@ jobs:
       - name: Run actionlint
         run: actionlint
 
+  just-fmt:
+    name: just (Justfile fmt --check)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install just
+        uses: taiki-e/install-action@just
+      - name: just just-fmt
+        run: just just-fmt
+
   shell:
     name: shell (shellcheck + shfmt + bash -n)
     runs-on: ubuntu-latest
@@ -83,11 +93,14 @@ jobs:
           sudo install /tmp/nu/nu /usr/local/bin/nu
 
       - name: Stub runtime-generated source targets
-        # autoload/atuin.nu sources ~/.local/share/atuin/init.nu at parse time;
-        # stub it so parse-check passes without a real atuin install.
+        # Several autoload files `source` cached init scripts that are
+        # generated at runtime (atuin/starship/zoxide). Stub them as empty
+        # files so the parse-check passes without installing those tools.
         run: |
-          mkdir -p "$HOME/.local/share/atuin"
+          mkdir -p "$HOME/.local/share/atuin" "$HOME/.cache/starship" "$HOME/.cache/zoxide"
           : > "$HOME/.local/share/atuin/init.nu"
+          : > "$HOME/.cache/starship/init.nu"
+          : > "$HOME/.cache/zoxide/init.nu"
 
       - name: Parse-check each .nu file
         run: |
