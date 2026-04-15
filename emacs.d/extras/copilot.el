@@ -14,9 +14,7 @@
 (use-package copilot-chat)
 
 (use-package copilot
-  :vc (:url "https://github.com/copilot-emacs/copilot.el"
-            :rev :newest
-            :branch "main")
+  :straight (copilot :type git :host github :repo "copilot-emacs/copilot.el" :branch "main")
   :hook (prog-mode . copilot-mode)
   :config
   ;; Set up keybindings after the package loads and keymaps are defined
