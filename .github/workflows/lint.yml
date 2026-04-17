@@ -4,6 +4,10 @@ on:
   push:
     branches: [master]
   pull_request:
+  schedule:
+    # Mondays 04:00 UTC — catches drift from upstream package breakage
+    # even when nothing in the repo has changed.
+    - cron: '0 4 * * 1'
 
 concurrency:
   group: lint-${{ github.ref }}
@@ -22,6 +26,16 @@ jobs:
           echo "$PWD" >> "$GITHUB_PATH"
       - name: Run actionlint
         run: actionlint
+
+  just-fmt:
+    name: just (Justfile fmt --check)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install just
+        uses: taiki-e/install-action@just
+      - name: just just-fmt
+        run: just just-fmt
 
   shell:
     name: shell (shellcheck + shfmt + bash -n)
@@ -79,11 +93,14 @@ jobs:
           sudo install /tmp/nu/nu /usr/local/bin/nu
 
       - name: Stub runtime-generated source targets
-        # autoload/atuin.nu sources ~/.local/share/atuin/init.nu at parse time;
-        # stub it so parse-check passes without a real atuin install.
+        # Several autoload files `source` cached init scripts that are
+        # generated at runtime (atuin/starship/zoxide). Stub them as empty
+        # files so the parse-check passes without installing those tools.
         run: |
-          mkdir -p "$HOME/.local/share/atuin"
+          mkdir -p "$HOME/.local/share/atuin" "$HOME/.cache/starship" "$HOME/.cache/zoxide"
           : > "$HOME/.local/share/atuin/init.nu"
+          : > "$HOME/.cache/starship/init.nu"
+          : > "$HOME/.cache/zoxide/init.nu"
 
       - name: Parse-check each .nu file
         run: |
@@ -226,6 +243,49 @@ jobs:
           pip install mypy
           echo 'x: int = 1' > /tmp/dummy.py
           mypy --config-file mypy.ini /tmp/dummy.py
+
+  emacs:
+    name: emacs (init smoke, strict warnings)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install emacs 30.1
+        uses: purcell/setup-emacs@master
+        with:
+          version: '30.1'
+
+      - name: Install just
+        uses: taiki-e/install-action@just
+
+      - name: Install copilot language server
+        # copilot.el's `:hook (prog-mode . copilot-mode)` fires during init
+        # when straight generates autoloads (loaddefs-generate opens a buffer
+        # in emacs-lisp-mode, which runs prog-mode-hook). Without the server
+        # binary on PATH, copilot-mode errors out.
+        run: npm install -g @github/copilot-language-server
+
+      - name: Install fortune + cowsay
+        # init.el's fortune-cookie use-package runs (fortune-cookie-mode) in
+        # :config, which shells out to `fortune | cowsay -f tux -s` at load.
+        run: sudo apt-get update && sudo apt-get install -y fortune-mod cowsay
+
+      - name: Cache straight.el repos and builds
+        # straight clones to user-emacs-directory/straight/, which under
+        # `just emacs` is the in-repo emacs.d/straight/ (gitignored).
+        uses: actions/cache@v4
+        with:
+          path: |
+            emacs.d/straight/repos
+            emacs.d/straight/build
+          # Bust the cache whenever a file that controls package selection
+          # or load order changes.
+          key: emacs-straight-${{ runner.os }}-${{ hashFiles('emacs.d/init.el', 'emacs.d/early-init.el', 'emacs.d/extras/*.el') }}
+          restore-keys: |
+            emacs-straight-${{ runner.os }}-
+
+      - name: just emacs
+        run: just emacs
 
   installer:
     name: install script (scratch HOME)

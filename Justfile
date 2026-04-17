@@ -8,7 +8,11 @@ default:
     @just --list
 
 # Run every lint step (what CI runs)
-all: actionlint shell nu nvim terminals structured tool-configs
+all: actionlint just-fmt shell nu nvim terminals structured tool-configs emacs
+
+# Check that the Justfile itself is formatted (apply with `just --unstable --fmt`).
+just-fmt:
+    just --unstable --fmt --check >/dev/null
 
 # Validate .github/workflows/*.yml
 actionlint:
@@ -46,8 +50,10 @@ shfmt:
 nu:
     #!/usr/bin/env bash
     set -euo pipefail
-    mkdir -p "$HOME/.local/share/atuin"
+    mkdir -p "$HOME/.local/share/atuin" "$HOME/.cache/starship" "$HOME/.cache/zoxide"
     [ -e "$HOME/.local/share/atuin/init.nu" ] || : > "$HOME/.local/share/atuin/init.nu"
+    [ -e "$HOME/.cache/starship/init.nu" ] || : > "$HOME/.cache/starship/init.nu"
+    [ -e "$HOME/.cache/zoxide/init.nu" ] || : > "$HOME/.cache/zoxide/init.nu"
     while IFS= read -r f; do
       echo "checking $f"
       nu -c "source $PWD/$f"
@@ -111,6 +117,17 @@ json:
 
 gitconfig:
     git config --file gitconfig --list > /dev/null
+
+# Emacs init smoke — strict, fails on any *Warnings* content. Uses the system `emacs` (must be 30.x).
+emacs:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    mkdir -p "$HOME/org-roam"
+    emacs --batch \
+      --init-directory="$PWD/emacs.d" \
+      -l "$PWD/emacs.d/early-init.el" \
+      -l "$PWD/emacs.d/init.el" \
+      -l "$PWD/emacs.d/ci/smoke.el"
 
 # eslint + mypy config parse
 tool-configs:

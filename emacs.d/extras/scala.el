@@ -22,9 +22,7 @@
   ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
   (setq sbt:program-options '("-Dsbt.supershell=false")))
 
-;; Enable nice rendering of diagnostics like compile errors.
-(use-package flycheck
-  :init (global-flycheck-mode))
+;; flycheck is already configured in dev.el (prog-mode hook); no extra setup needed here.
 
 ;; Add metals backend for lsp-mode
 (use-package lsp-metals)

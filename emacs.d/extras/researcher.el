@@ -78,8 +78,12 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(use-package magit-section :demand t)
+
 (use-package org-roam
   :ensure t
+  :demand t
+  :after magit-section
   :config
   ;; Make sure the backlinks buffer always shows up in a side window
   (add-to-list 'display-buffer-alist

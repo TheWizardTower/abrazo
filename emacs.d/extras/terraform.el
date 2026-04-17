@@ -1,4 +1,5 @@
 (use-package terraform-mode
+  :mode "\\.tf\\'"
   :custom (terraform-indent-level 2)
   :config
   (defun my-terraform-mode-init ()

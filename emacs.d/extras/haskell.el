@@ -4,6 +4,4 @@
 (add-hook 'haskell-literate-mode-hook #'lsp)
 
 (use-package flycheck-haskell
-  :config
-  (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup)
-  )
+  :hook (flycheck-mode . flycheck-haskell-setup))
