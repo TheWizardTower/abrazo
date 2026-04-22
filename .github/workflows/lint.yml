@@ -93,12 +93,25 @@ jobs:
           sudo install /tmp/nu/nu /usr/local/bin/nu
 
       - name: Stub runtime-generated source targets
-        # Several autoload files `source` cached init scripts that are
-        # generated at runtime (atuin/starship/zoxide). Stub them as empty
-        # files so the parse-check passes without installing those tools.
+        # Several autoload files `source` cached init / completion scripts that
+        # are generated at runtime (install step or regenerate-completions.nu).
+        # Stub them as empty files so the parse-check passes without installing
+        # the underlying tools.
         run: |
-          mkdir -p "$HOME/.local/share/atuin" "$HOME/.cache/starship" "$HOME/.cache/zoxide"
+          mkdir -p \
+            "$HOME/.local/share/atuin" \
+            "$HOME/.local/share/jj-gh-pr" \
+            "$HOME/.cache/atuin" \
+            "$HOME/.cache/jj" \
+            "$HOME/.cache/just" \
+            "$HOME/.cache/starship" \
+            "$HOME/.cache/zoxide"
           : > "$HOME/.local/share/atuin/init.nu"
+          : > "$HOME/.local/share/jj-gh-pr/jjpr.nu"
+          : > "$HOME/.cache/atuin/completions.nu"
+          : > "$HOME/.cache/jj/completions.nu"
+          : > "$HOME/.cache/just/completions.nu"
+          : > "$HOME/.cache/starship/completions.nu"
           : > "$HOME/.cache/starship/init.nu"
           : > "$HOME/.cache/zoxide/init.nu"
 
