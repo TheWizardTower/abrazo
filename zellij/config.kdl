@@ -1,6 +1,5 @@
 keybinds clear-defaults=true {
     normal {
-        bind "Ctrl a" { SwitchToMode "Tab"; }
         // bind "s" { NewPane; SwitchToMode "Normal"; }
         // bind "Ctrl r" { source-file "~/.zellij/layouts/default.kdl"; SwitchToMode "Normal"; }
         

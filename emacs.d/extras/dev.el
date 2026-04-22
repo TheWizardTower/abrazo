@@ -262,4 +262,5 @@
 (load-file (expand-file-name "extras/typescript.el" user-emacs-directory))
 (load-file (expand-file-name "extras/scala.el" user-emacs-directory))
 (load-file (expand-file-name "extras/terraform.el" user-emacs-directory))
+(load-file (expand-file-name "extras/tiltfile.el" user-emacs-directory))
 (load-file (expand-file-name "extras/copilot.el" user-emacs-directory))

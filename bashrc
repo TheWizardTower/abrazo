@@ -10,7 +10,12 @@ if [ -f /etc/bashrc ]; then
   . /etc/bashrc
 fi
 
-eval "$(keychain --eval --quiet fedora golem github digital-ocean)"
+_keychain_keys=()
+for _k in fedora golem github digital-ocean; do
+  [ -f "$HOME/.ssh/$_k" ] && _keychain_keys+=("$_k")
+done
+[ ${#_keychain_keys[@]} -gt 0 ] && eval "$(keychain --eval --quiet "${_keychain_keys[@]}")"
+unset _keychain_keys _k
 
 export EDITOR=nvim
 
