@@ -72,6 +72,7 @@ flycheck_*.el
 /fish/conf.d/ansible-completion.fish
 /fish/conf.d/git-flow.init.fish
 /fish/conf.d/paths.fish
+/fish/functions
 /xmonad/xmonad-x86_64-linux
 /xmonad/xmonad.errors
 /xmonad/xmonad.hi
@@ -104,3 +105,4 @@ nushell/nupm/
 node_modules/
 package.json
 package-lock.json
+/jj/repos
