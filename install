@@ -56,3 +56,33 @@ if [ -d "${HOME}/.tmux/plugins/tpm" ]; then
 else
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
+
+# Nushell: link the config dir and seed init/completion caches that autoload expects
+# at parse time. Each step is gated on its binary being present so a fresh machine
+# without the full cargo/brew battery installed doesn't abort.
+
+link_file "${HOME}/abrazo/nushell" "${HOME}/.config/nushell"
+
+# Prompt/navigation init scripts (sourced from autoload/{starship,zoxide}.nu)
+if command -v starship >/dev/null 2>&1; then
+  mkdir -p "${HOME}/.cache/starship"
+  starship init nu > "${HOME}/.cache/starship/init.nu"
+fi
+if command -v zoxide >/dev/null 2>&1; then
+  mkdir -p "${HOME}/.cache/zoxide"
+  zoxide init nushell > "${HOME}/.cache/zoxide/init.nu"
+fi
+
+# Native nushell completions for atuin, jj, just, starship (self-gating on binary)
+if command -v nu >/dev/null 2>&1; then
+  nu "${HOME}/abrazo/nushell/regenerate-completions.nu"
+fi
+
+# jj-gh-pr.nu — `jj pr create/merge/view/update` via gh
+if [ -d "${HOME}/.local/share/jj-gh-pr" ]; then
+  pushd "${HOME}/.local/share/jj-gh-pr"
+  git pull --ff-only
+  popd
+else
+  git clone https://github.com/eopb/jj-gh-pr.nu "${HOME}/.local/share/jj-gh-pr"
+fi
