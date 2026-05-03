@@ -1,0 +1,10 @@
+[Unit]
+Description=Personal data backup (atuin, KWallet, fonts) into Nextcloud
+ConditionPathIsDirectory=%h/Nextcloud
+
+[Service]
+Type=oneshot
+ExecStart=%h/abrazo/backup/personal-backup.sh
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7
