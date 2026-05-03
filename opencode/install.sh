@@ -3,6 +3,11 @@
 # Install opencode
 curl -fsSL https://opencode.ai/install | bash
 
+# Install MCP servers referenced by opencode.json mcp config
+uv tool install --upgrade serena-agent
+uv tool install --upgrade kubernetes-mcp-server
+uv tool install --upgrade postgres-mcp
+
 # Install opencode shell strategy
 
 if [ -d ~/.config/opencode/plugin/shell-strategy ]; then

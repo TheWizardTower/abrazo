@@ -244,6 +244,33 @@
         "--project-from-cwd"
       ],
       "enabled": true
+    },
+    "kubernetes": {
+      "type": "local",
+      "command": [
+        "kubernetes-mcp-server"
+      ],
+      "enabled": true
+    },
+    "postgres": {
+      "type": "local",
+      "command": [
+        "postgres-mcp",
+        "--access-mode=restricted"
+      ],
+      "environment": {
+        "DATABASE_URI": "postgresql://user:pass@localhost:5432/dbname"
+      },
+      "enabled": false
+    },
+    "context7": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@upstash/context7-mcp@latest"
+      ],
+      "enabled": true
     }
   },
   "plugin": [
