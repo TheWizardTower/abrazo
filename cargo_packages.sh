@@ -46,6 +46,7 @@ PACKAGE_LIST=(
   jsongrep
   kmon
   leadr
+  llmfit
   mcp-cli
   mergiraf
   mprocs
