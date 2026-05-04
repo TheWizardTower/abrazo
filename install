@@ -30,10 +30,21 @@ link_file "${HOME}/abrazo/tmux/merlin.sh" "${HOME}/.config/tmux-powerline/themes
 link_file "${HOME}/abrazo/bashrc" "${HOME}/.bashrc"
 link_file "${HOME}/abrazo/bash_profile" "${HOME}/.bash_profile"
 
+link_file "${HOME}/abrazo/gitconfig" "${HOME}/.gitconfig"
+link_file "${HOME}/abrazo/git_template" "${HOME}/.git_template"
+link_file "${HOME}/abrazo/vimrc" "${HOME}/.vimrc"
+link_file "${HOME}/abrazo/toprc" "${HOME}/.toprc"
+link_file "${HOME}/abrazo/flox" "${HOME}/.flox"
+
 link_file "${HOME}/abrazo/emacs.d" "${HOME}/.emacs.d"
 
 link_file "${HOME}/abrazo/nvim" "${HOME}/.config/nvim"
 link_file "${HOME}/abrazo/nvim" "${HOME}/.var/app/io.neovim.nvim/config/nvim"
+
+link_file "${HOME}/abrazo/jj" "${HOME}/.config/jj"
+link_file "${HOME}/abrazo/zellij" "${HOME}/.config/zellij"
+link_file "${HOME}/abrazo/leadr" "${HOME}/.config/leadr"
+link_file "${HOME}/abrazo/powerline" "${HOME}/.config/powerline"
 
 pushd fish
 ./fish_install.fish
@@ -85,4 +96,23 @@ if [ -d "${HOME}/.local/share/jj-gh-pr" ]; then
   popd
 else
   git clone https://github.com/eopb/jj-gh-pr.nu "${HOME}/.local/share/jj-gh-pr"
+fi
+
+# LS_COLORS — extended dircolors database (sourced from shell rc)
+mkdir -p "${HOME}/git"
+if [ -d "${HOME}/git/LS_COLORS" ]; then
+  pushd "${HOME}/git/LS_COLORS"
+  git pull --ff-only
+  popd
+else
+  git clone https://github.com/trapd00r/LS_COLORS "${HOME}/git/LS_COLORS"
+fi
+
+# Cache LS_COLORS as a nushell init script (autoload/ls-colors.nu sources it).
+if command -v dircolors >/dev/null 2>&1 && [ -f "${HOME}/git/LS_COLORS/LS_COLORS" ]; then
+  mkdir -p "${HOME}/.cache/ls-colors"
+  ls_colors_value=$(dircolors -b "${HOME}/git/LS_COLORS/LS_COLORS" \
+    | sed -n "s/^LS_COLORS='\(.*\)';.*/\1/p")
+  printf "\$env.LS_COLORS = '%s'\n" "${ls_colors_value}" \
+    > "${HOME}/.cache/ls-colors/init.nu"
 fi
