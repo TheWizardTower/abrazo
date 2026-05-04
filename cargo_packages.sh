@@ -44,6 +44,7 @@ PACKAGE_LIST=(
   jjj
   jnv
   jsongrep
+  just
   kmon
   leadr
   llmfit
