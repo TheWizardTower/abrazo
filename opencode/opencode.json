@@ -47,8 +47,8 @@
         "baseURL": "http://192.168.1.140:8080/v1"
       },
       "models": {
-        "Qwen3-Next-80B-A3B-Instruct-UD-Q4-K-XL": {
-          "name": "Qwen3-Next 80B MoE (3B active) - SWE/coding/reasoning",
+        "GLM-4.5-Air-Q6_K": {
+          "name": "GLM-4.5 Air 106B MoE (12B active) - quality coding/reasoning",
           "modalities": {
             "input": [
               "text"
@@ -58,167 +58,11 @@
             ]
           },
           "limit": {
-            "context": 64000,
+            "context": 131072,
             "output": 65536
           }
         },
-        "Qwen3-Next-80B-A3B-Thinking-UD-Q4-K-XL": {
-          "name": "Qwen3-Next Thinking - hard reasoning/math/debugging",
-          "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "limit": {
-            "context": 64000,
-            "output": 65536
-          },
-          "options": {
-            "reasoningEffort": "high"
-          }
-        },
-        "gpt-oss-120b": {
-          "name": "GPT-OSS 120B MoE (ROCm) - general reasoning/tool use (slow)",
-          "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "limit": {
-            "context": 64000,
-            "output": 65536
-          }
-        },
-        "gpt-oss-120b-vulkan": {
-          "name": "GPT-OSS 120B MoE (Vulkan) - general reasoning/tool use (slow)",
-          "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "limit": {
-            "context": 64000,
-            "output": 65536
-          }
-        },
-        "RNJ-1-Instruct": {
-          "name": "RNJ-1 Instruct. Small model for the all-famous Ralph Wiggum Loop",
-          "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "limit": {
-            "context": 64000,
-            "output": 65536
-          }
-        },
-        "Devstral-Small-2505-UD-Q8_K_XL": {
-          "name": "Devstral 24B - agentic SWE/multi-file edits",
-          "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "limit": {
-            "context": 64000,
-            "output": 65536
-          }
-        },
-        "Strand-Rust-Coder-14B": {
-          "name": "Strand Rust Coder 14B - Rust specialist",
-          "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "limit": {
-            "context": 32000,
-            "output": 32768
-          }
-        },
-        "c4ai-command-a-111B": {
-          "name": "Command A 111B Q3_K_M (4.4GB) - RAG/tool chains/grounded generation (faster)",
-          "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "limit": {
-            "context": 64000,
-            "output": 8192
-          }
-        },
-        "Nemotron-3-Nano-30B-A3B": {
-          "name": "Nemotron 3 Nano 30B MoE (3B active) - agentic/infra/reasoning",
-          "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "limit": {
-            "context": 64000,
-            "output": 65536
-          },
-          "options": {
-            "reasoningEffort": "high"
-          }
-        },
-        "Mistral-Small-3.2-24B": {
-          "name": "Mistral Small 3.2 24B - infra/DevOps/tool calling",
-          "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "limit": {
-            "context": 64000,
-            "output": 65536
-          }
-        },
-        "Ministral-3-14B-Instruct": {
-          "name": "Ministral 14B - fast lightweight coding/Q&A",
-          "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "limit": {
-            "context": 32000,
-            "output": 32768
-          }
-        },
-        "GLM-4.7-Flash-UD-Q8-K_XL": {
+        "GLM-4.7-Flash-THEROCK": {
           "name": "GLM-4.7 Flash 30B MoE - coding/reasoning/agentic",
           "modalities": {
             "input": [
@@ -229,7 +73,40 @@
             ]
           },
           "limit": {
-            "context": 64000,
+            "context": 131070,
+            "output": 65536
+          }
+        },
+        "Qwen3.5-35B-A3B-Claude-4.6-Opus-Reasoning-Distilled-Q8_0": {
+          "name": "Qwen3.5 35B MoE (3B active) - Claude 4.6 Opus reasoning distill",
+          "modalities": {
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 131072,
+            "output": 65536
+          },
+          "options": {
+            "reasoningEffort": "high"
+          }
+        },
+        "RNJ-1-Instruct": {
+          "name": "RNJ-1 Instruct 8B - fast coding/tool calling/Ralph Wiggum loop",
+          "modalities": {
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 262144,
             "output": 65536
           }
         }
@@ -240,7 +117,8 @@
     "serena": {
       "type": "local",
       "command": [
-        "serena-mcp-server",
+        "serena",
+        "start-mcp-server",
         "--project-from-cwd"
       ],
       "enabled": true
