@@ -1,0 +1,7 @@
+# ~/.flox/env is symlinked to this directory. flox reads/writes the
+# manifest here, but may also create transient runtime files we don't
+# want to track. Deny by default; whitelist the source-of-truth files.
+*
+!.gitignore
+!manifest.toml
+!manifest.lock
