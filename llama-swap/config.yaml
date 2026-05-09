@@ -4,13 +4,17 @@ logLevel: info
 sendLoadingState: true
 
 macros:
-  llama-server: "/usr/bin/llama-server"
+  # Wrapper that injects LD_LIBRARY_PATH=/opt/therock-current/lib before
+  # exec'ing the llama.cpp main build that links against TheRock's ROCm 7.13
+  # nightly. The Fedora-packaged ROCm 7.1.1 + rocWMMA path collapsed at depth
+  # (~30 min for an opencode agent turn); 7.13 restores native perf (~2 min).
+  llama-server: "/home/merlin/bin/llama-server-therock"
   models_dir: "/home/merlin/Models"
   host: "0.0.0.0"
-  flash_attn: "on"
+  flash_attn: "--flash-attn on"
   slots: "--slots"
-  cache_type_k: "q4_0"
-  cache_type_v: "q4_0"
+  cache_type_k: "q8_0"
+  cache_type_v: "q8_0"
   ngl: 99
   ctx_size: 131072
   temp: 0.7
@@ -25,7 +29,7 @@ macros:
     ${llama-server}
     --port ${PORT}
     --host ${host}
-    --flash-attn ${flash_attn}
+    ${flash_attn}
     ${slots}
     --ctx-size ${ctx_size}
     --cache-type-k ${cache_type_k}
@@ -42,15 +46,34 @@ macros:
     --threads ${threads}
 
 models:
-  GLM-4.7-Flash-UD-Q8_K_XL:
+  GLM-4.5-Air-Q6_K:
+    description: "Zhipu AI 106B MoE (12B active), Q6_K. Larger sibling of GLM-4.7-Flash with more active params per token. Higher quality, slower gen rate (~3-4× slower than the 3B-active Flash)."
+    recommended_use: "Coding/reasoning/agentic tasks where quality matters more than speed"
+    macros:
+      model_path: "${models_dir}/GLM-4.5-Air-Q6_K/GLM-4.5-Air-Q6_K-00001-of-00002.gguf"
+      ctx_size: 131072
+    cmd: |
+      ${base}
+      --model ${model_path}
+      ${std-tail}
+
+  GLM-4.7-Flash-THEROCK:
     description: "Zhipu AI 30B MoE (3B active). Strong reasoning and coding for its size, beats GPT-OSS-20B on SWE-bench. Fast inference, good bilingual (EN/ZH)."
     recommended_use: "Coding, reasoning, agentic workflows, fast iteration"
     macros:
       model_path: "${models_dir}/models--unsloth--GLM-4.7-Flash-GGUF/snapshots/66205ea11ef638d83850389bd921e6c199f7504e/GLM-4.7-Flash-UD-Q8_K_XL.gguf"
       ctx_size: 131070
+      # GLM-native XML template. Stock llama.cpp main uses the `peg-native`
+      # tool-call parser, which derives its regex from the chat template, so
+      # the format the template *demonstrates* must be the format the model
+      # *emits*. GLM-4.7-Flash emits its native XML regardless of what the
+      # template tries to teach it, so any non-native template leaks tool
+      # calls into content as text.
+      chat_template_file: "/home/merlin/abrazo/llama-swap/templates/glm-4.7.jinja"
     cmd: |
       ${base}
       --model ${model_path}
+      --chat-template-file ${chat_template_file}
       ${std-tail}
 
   Qwen3.5-35B-A3B-Claude-4.6-Opus-Reasoning-Distilled-Q8_0:
