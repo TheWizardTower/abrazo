@@ -44,7 +44,7 @@
       "npm": "@ai-sdk/openai-compatible",
       "name": "llama-swap",
       "options": {
-        "baseURL": "http://192.168.1.140:8080/v1"
+        "baseURL": "http://turkishDelight:8080/v1"
       },
       "models": {
         "Gemma-4-26B-A4B-UD-Q6_K": {
