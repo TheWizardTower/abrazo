@@ -11,7 +11,7 @@ if [ -f /etc/bashrc ]; then
 fi
 
 _keychain_keys=()
-for _k in fedora golem github digital-ocean; do
+for _k in github golem gitlab-home-lab-merlin turkishDelight; do
   [ -f "$HOME/.ssh/$_k" ] && _keychain_keys+=("$_k")
 done
 [ ${#_keychain_keys[@]} -gt 0 ] && eval "$(keychain --eval --quiet "${_keychain_keys[@]}")"
@@ -90,3 +90,23 @@ case ":$PATH:" in
 *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+# Atuin history with fzf integration for search, standard arrow keys for browsing
+# Arrow keys: regular bash history (with prefix matching via readline)
+bind '"\e[A": history-search-backward' 2>/dev/null || true
+bind '"\e[B": history-search-forward' 2>/dev/null || true
+
+# Alt+R: Launch atuin + fzf for powerful search with preview
+atuin-fzf() {
+  local cmd=$(atuin search --shell-upward-binding-command | fzf --height=40% --layout=reverse --border | sed 's/.*→ //')
+  if [ -n "$cmd" ]; then
+    READLINE_LINE="$cmd"
+    READLINE_POINT=${#READLINE_LINE}
+  fi
+}
+
+bind -x '"\e[r": atuin-fzf' 2>/dev/null || true
+
+eval "$(atuin init bash --disable-up-arrow)"
+
+source /home/merlin/.config/broot/launcher/bash/br
