@@ -1,6 +1,7 @@
 .serena
 api_keys.sh
 opencode/sounds/**/*.wav
+/opencode/opencode
 nushell/history.txt
 nushell/history.sqlite3
 nushell/history.sqlite3-shm

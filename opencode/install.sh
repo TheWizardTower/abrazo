@@ -18,4 +18,5 @@ else
   git clone https://github.com/JRedeker/opencode-shell-strategy.git ~/.config/opencode/plugin/shell-strategy
 fi
 
-ln -s ~/.config/opencode ~/abrazo/opencode
+mkdir -p ~/.config/opencode
+ln -sf ~/abrazo/opencode/opencode.json ~/.config/opencode/opencode.json
