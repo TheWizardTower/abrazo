@@ -40,7 +40,7 @@ shopt -s checkwinsize
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
-  test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+  test -r ~/git/LS_COLORS/LS_COLORS && eval "$(dircolors -b ~/git/LS_COLORS/LS_COLORS)" || eval "$(dircolors -b)"
   alias ls='ls --color=auto'
   alias dir='dir --color=auto'
   alias vdir='vdir --color=auto'
@@ -91,6 +91,7 @@ case ":$PATH:" in
 esac
 # pnpm end
 
+
 # Atuin history with fzf integration for search, standard arrow keys for browsing
 # Arrow keys: regular bash history (with prefix matching via readline)
 bind '"\e[A": history-search-backward' 2>/dev/null || true
@@ -111,3 +112,10 @@ bind -x '"\e[r": atuin-fzf' 2>/dev/null || true
 eval "$(atuin init bash --disable-up-arrow)"
 
 [ -f "$HOME/.config/broot/launcher/bash/br" ] && source "$HOME/.config/broot/launcher/bash/br"
+
+. "$HOME/.cargo/env"
+
+# Guarded broot sourcing for PR #36
+[ -f "$HOME/.config/broot/launcher/bash/br" ] && source "$HOME/.config/broot/launcher/bash/br"
+
+

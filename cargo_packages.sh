@@ -108,5 +108,7 @@ GIT_REPOS=(
 cargo install "${PACKAGE_LIST[@]}"
 cargo install --locked "${LOCKED_PACKAGE_LIST[@]}"
 cargo binstall "${BINSTALL_PACKAGES[@]}"
-cargo install --git "${GIT_REPOS[@]}"
+for repo in "${GIT_REPOS[@]}"; do
+  cargo install --git "$repo"
+done
 cargo install parallel-disk-usage --bin pdu

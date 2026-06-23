@@ -6,8 +6,7 @@ sendLoadingState: true
 macros:
   # Wrapper that injects LD_LIBRARY_PATH=/opt/therock-current/lib before
   # exec'ing the llama.cpp main build that links against TheRock's ROCm 7.13
-  # nightly. The Fedora-packaged ROCm 7.1.1 + rocWMMA path collapsed at depth
-  # (~30 min for an opencode agent turn); 7.13 restores native perf (~2 min).
+  # nightly.
   llama-server: "/home/merlin/bin/llama-server-therock"
   models_dir: "/home/merlin/Models"
   host: "0.0.0.0"
@@ -26,28 +25,22 @@ macros:
   cont_batching: "--cont-batching"
 
   base: >
-    ${llama-server}
-    --port ${PORT}
-    --host ${host}
-    ${flash_attn}
-    ${slots}
-    --ctx-size ${ctx_size}
-    --cache-type-k ${cache_type_k}
-    --cache-type-v ${cache_type_v}
-    -ngl ${ngl}
+    ${llama-server} --port ${PORT} --host ${host} ${flash_attn} ${slots}
+    --ctx-size ${ctx_size} --cache-type-k ${cache_type_k} --cache-type-v
+    ${cache_type_v} -ngl ${ngl}
 
   std-tail: >
-    --jinja
-    ${cont_batching}
-    --parallel ${parallel}
-    --batch-size ${batch_size}
-    --ubatch-size ${ubatch_size}
-    --no-mmap
-    --threads ${threads}
+    --jinja ${cont_batching} --parallel ${parallel} --batch-size ${batch_size}
+    --ubatch-size ${ubatch_size} --no-mmap --threads ${threads}
 
 models:
+
+  # ==================== Existing Models ====================
+
   GLM-4.5-Air-Q6_K:
-    description: "Zhipu AI 106B MoE (12B active), Q6_K. Larger sibling of GLM-4.7-Flash with more active params per token. Higher quality, slower gen rate (~3-4× slower than the 3B-active Flash)."
+    description: "Zhipu AI 106B MoE (12B active), Q6_K. Larger sibling of
+      GLM-4.7-Flash with more active params per token. Higher quality, slower
+      gen rate (~3-4× slower than the 3B-active Flash)."
     recommended_use: "Coding/reasoning/agentic tasks where quality matters more than speed"
     macros:
       model_path: "${models_dir}/GLM-4.5-Air-Q6_K/GLM-4.5-Air-Q6_K-00001-of-00002.gguf"
@@ -58,17 +51,14 @@ models:
       ${std-tail}
 
   GLM-4.7-Flash-THEROCK:
-    description: "Zhipu AI 30B MoE (3B active). Strong reasoning and coding for its size, beats GPT-OSS-20B on SWE-bench. Fast inference, good bilingual (EN/ZH)."
+    description: "Zhipu AI 30B MoE (3B active). Strong reasoning and coding for its
+      size, beats GPT-OSS-20B on SWE-bench. Fast inference, good bilingual
+      (EN/ZH)."
     recommended_use: "Coding, reasoning, agentic workflows, fast iteration"
     macros:
-      model_path: "${models_dir}/models--unsloth--GLM-4.7-Flash-GGUF/snapshots/66205ea11ef638d83850389bd921e6c199f7504e/GLM-4.7-Flash-UD-Q8_K_XL.gguf"
+      model_path: "${models_dir}/models--unsloth--GLM-4.7-Flash-GGUF/snapshots/66205e\
+        a11ef638d83850389bd921e6c199f7504e/GLM-4.7-Flash-UD-Q8_K_XL.gguf"
       ctx_size: 131070
-      # GLM-native XML template. Stock llama.cpp main uses the `peg-native`
-      # tool-call parser, which derives its regex from the chat template, so
-      # the format the template *demonstrates* must be the format the model
-      # *emits*. GLM-4.7-Flash emits its native XML regardless of what the
-      # template tries to teach it, so any non-native template leaks tool
-      # calls into content as text.
       chat_template_file: "/home/merlin/abrazo/llama-swap/templates/glm-4.7.jinja"
     cmd: |
       ${base}
@@ -77,10 +67,12 @@ models:
       ${std-tail}
 
   Qwen3.5-35B-A3B-Claude-4.6-Opus-Reasoning-Distilled-Q8_0:
-    description: "Qwen3.5 35B MoE (3B active), Q8_0. Distilled from Claude 4.6 Opus reasoning traces. Qwen-arch sampling defaults."
+    description: "Qwen3.5 35B MoE (3B active), Q8_0. Distilled from Claude 4.6 Opus
+      reasoning traces. Qwen-arch sampling defaults."
     recommended_use: "Reasoning, agentic workflows, code generation, long-context analysis"
     macros:
-      model_path: "${models_dir}/Qwen3.5-35B-A3B-Claude-4.6-Opus-Reasoning-Distilled.Q8_0.gguf"
+      model_path: "${models_dir}/Qwen3.5-35B-A3B-Claude-4.6-Opus-Reasoning-Distilled.\
+        Q8_0.gguf"
       ctx_size: 131072
       temp: 0.7
       top-p: 0.8
@@ -96,8 +88,11 @@ models:
       ${std-tail}
 
   RNJ-1-Instruct:
-    description: "Essential AI 8B dense (Gemma 3 arch). Punches above its weight on coding, tool use, and STEM. Strong agentic capabilities for its size. Apache 2.0."
-    recommended_use: "Fast coding drafts, tool calling, agentic scaffolding, math/STEM, lightweight tasks"
+    description: "Essential AI 8B dense (Gemma 3 arch). Punches above its weight on
+      coding, tool use, and STEM. Strong agentic capabilities for its size.
+      Apache 2.0."
+    recommended_use: "Fast coding drafts, tool calling, agentic scaffolding,
+      math/STEM, lightweight tasks"
     macros:
       model_path: "${models_dir}/rnj-1-instruct-UD-Q8_K_XL.gguf"
       ctx_size: 262144
@@ -116,11 +111,201 @@ models:
       --model ${model_path}
       ${std-tail}
 
+  # ==================== New Models ====================
+
+  Gemma4-Coding-Q8_0:
+    description: "Gemma 4 Coding specialized model, Q8_0. Excellent at code
+      generation, debugging, and software engineering tasks."
+    recommended_use: "Software engineering, code generation, refactoring, debugging"
+    macros:
+      model_path: "${models_dir}/gemma4-coding-Q8_0.gguf"
+      ctx_size: 131072
+      temp: 0.7
+      top-p: 0.9
+      top-k: 40
+    cmd: |
+      ${base}
+      --temp ${temp}
+      --top-p ${top-p}
+      --top-k ${top-k}
+      --model ${model_path}
+      ${std-tail}
+
+  Qwable-27B-Q4_K_M:
+    description: "Qwable 27B (Q4_K_M). Solid mid-size model with good reasoning and
+      instruction following."
+    recommended_use: "General chat, reasoning, lighter agentic work when you want
+      more capacity than 8B but not full 35B+"
+    macros:
+      model_path: "${models_dir}/Qwable-27b_Q4_K_M.gguf"
+      ctx_size: 131072
+      ngl: 60 # Q4_K_M on Strix Halo — adjust if you get OOM
+      temp: 0.7
+    cmd: |
+      ${base}
+      --temp ${temp}
+      --model ${model_path}
+      ${std-tail}
+
+  Gemma-4-12B-IT-BF16:
+    description: "Gemma 4 12B Instruction-Tuned (BF16). Very high quality dense
+      model, excellent coherence and instruction following."
+    recommended_use: "High-quality chat, creative writing, complex reasoning, when
+      you want top-tier 12B-class performance"
+    macros:
+      model_path: "${models_dir}/gemma-4-12b-it-BF16.gguf"
+      ctx_size: 131072
+      ngl: 99
+      temp: 0.7
+      top-p: 0.85
+    cmd: |
+      ${base}
+      --temp ${temp}
+      --top-p ${top-p}
+      --model ${model_path}
+      ${std-tail}
+
+  Nex-AGI-N2-Pro-IQ1_M:
+    description: "Nex-AGI N2 Pro (IQ1_M split). Extremely large model (~91 GB). Very
+      strong reasoning and knowledge capacity."
+    recommended_use: "Maximum capability tasks (deep research, complex multi-step
+      reasoning) — will be slow and VRAM-heavy"
+    macros:
+      model_path: "${models_dir}/nex-agi_Nex-N2-Pro-IQ1_M/nex-agi_Nex-N2-Pro-IQ1_M-00\
+        001-of-00003.gguf"
+      ctx_size: 131072 # lower ctx to save VRAM on such a huge model
+      ngl: 30 # very low layers — tune based on your available VRAM
+      temp: 0.85
+      top-p: 0.8
+      top-k: 20
+      presence-penalty: 1.1
+      frequency-penalty: 1.1 # very important for stopping repetition
+    cmd: |
+      ${base}
+      --temp ${temp}
+      --top-p ${top-p}
+      --top-k ${top-k}
+      --presence-penalty ${presence-penalty}
+      --frequency-penalty ${frequency-penalty}
+      --model ${model_path}
+      ${std-tail}
+
+  Qwen3-Coder-Next-UD-Q8:
+    description: "Qwen3-Coder-Next 80B-A3B UD-Q8_K_XL — excellent agentic coding &
+      repo analysis model with MTP. This config enables MTP."
+    recommended_use: "Repository analysis, dotfiles cleanup, complex coding,
+      long-horizon agentic work"
+    macros:
+      model_path: "/home/merlin/.cache/llama.cpp/unsloth_Qwen3-Coder-Next-GGUF_UD-Q8_\
+        K_XL_Qwen3-Coder-Next-UD-Q8_K_XL-00001-of-00003.gguf"
+      ctx_size: 131072
+      temp: 0.95
+      top-p: 0.96
+      top-k: 40
+      min-p: 0.05
+      presence-penalty: 1.05
+      frequency-penalty: 1.12
+      chat_template_file: "${models_dir}/chat_template.jinja"
+    cmd: |
+      ${base}
+      --model ${model_path}
+      --chat-template-file ${chat_template_file}
+      --temp ${temp}
+      --top-p ${top-p}
+      --top-k ${top-k}
+      --min-p ${min-p}
+      --presence-penalty ${presence-penalty}
+      --frequency-penalty ${frequency-penalty}
+      ${std-tail}
+
+  Qwen3-Coder-Next-UD-Q8-old:
+    description: "Qwen3-Coder-Next 80B-A3B UD-Q8_K_XL — strong agentic coding model.
+      Requires careful template + sampling."
+    recommended_use: "Repository analysis, complex coding, agentic workflows"
+    macros:
+      model: "/home/merlin/.cache/llama.cpp/unsloth_Qwen3-Coder-Next-GGUF_UD-Q8_K_XL_\
+        Qwen3-Coder-Next-UD-Q8_K_XL-00001-of-00003.gguf"
+      ctx_size: 65536 # start lower for stability, raise later
+      temp: 1.0
+      top-p: 0.95
+      top-k: 40
+      min-p: 0
+      presence-penalty: 1.0
+      frequency-penalty: 1.0
+      chat-template-file: "${models_dir}/chat_template.jinja"
+    cmd: |
+      ${base}
+      --model ${model}
+      --temp ${temp}
+      --top-p ${top-p}
+      --top-k ${top-k}
+      --min-p ${min-p}
+      --presence-penalty ${presence-penalty}
+      --frequency-penalty ${frequency-penalty}
+      --chat-template-file ${chat-template-file}
+      ${std-tail}
+
+  Qwen3.6-35B-A3B-MTP-UD-Q8:
+    description: "Qwen3.6-35B-A3B UD-Q8_K_XL (MTP version) — fast & strong
+      general/agentic model"
+    recommended_use: "Everyday use, reasoning, coding, when you want good speed + quality"
+    macros:
+      model_path: "${models_dir}/Qwen3.6-35B-A3B-UD-Q8_K_XL.gguf"
+      ctx_size: 131072
+      chat_template_file: "${models_dir}/chat_template.jinja"
+      temp: 0.9
+      top-p: 0.95
+      top-k: 40
+      min-p: 0.05
+      presence-penalty: 1.05
+      frequency-penalty: 1.1
+    cmd: |
+      ${base}
+      --model ${model_path}
+      --chat-template-file ${chat_template_file}
+      --chat-template-kwargs '{"enable_thinking": false}'
+      --spec-type draft-mtp
+      --spec-draft-n-max 4
+      --no-context-shift
+      --temp ${temp}
+      --top-p ${top-p}
+      --top-k ${top-k}
+      --min-p ${min-p}
+      --presence-penalty ${presence-penalty}
+      --frequency-penalty ${frequency-penalty}
+      ${std-tail}
+
+  Gemma-4-26B-A4B-UD-Q8:
+    description: "Gemma 4 26B-A4B UD-Q8_K_XL — excellent general conversation,
+      creative writing, and proposal drafting"
+    recommended_use: "General chat, marketing/creative proposals, brainstorming,
+      natural conversation"
+    macros:
+      model_path: "${models_dir}/gemma-4-26B-A4B-it-UD-Q8_K_XL.gguf"
+      ctx_size: 131072
+      chat_template_file: "${models_dir}/chat_template.jinja"
+      temp: 0.85
+      top-p: 0.95
+      top-k: 40
+      min-p: 0.05
+      presence-penalty: 1.05
+      frequency-penalty: 1.1
+    cmd: |
+      ${base}
+      --model ${model_path}
+      --chat-template-file ${chat_template_file}
+      --temp ${temp}
+      --top-p ${top-p}
+      --top-k ${top-k}
+      --min-p ${min-p}
+      --presence-penalty ${presence-penalty}
+      --frequency-penalty ${frequency-penalty}
+      ${std-tail}
+
 validation:
   required_fields:
     - model_path
     - cmd
-  valid_ctx_sizes:
-    [4096, 8192, 16384, 32768, 65536, 131072, 196608, 262144, 327680]
+  valid_ctx_sizes: [4096, 8192, 16384, 32768, 65536, 131072, 196608, 262144, 327680]
   max_temperature: 2.0
   min_temperature: 0.0

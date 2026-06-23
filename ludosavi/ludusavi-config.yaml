@@ -1,0 +1,15 @@
+manifest:
+  enable: true
+roots:
+  - path: /home/merlin/.var/app/com.heroicgameslauncher.hgl/config/heroic
+    store: heroic
+  - path: /home/merlin/.local/share/Steam
+    store: steam
+  - path: /home/merlin/.var/app/com.valvesoftware.Steam/data/Steam
+    store: steam
+backup:
+  path: /home/merlin/Nextcloud/heroic-saves
+  format:
+    chosen: simple
+restore:
+  path: /home/merlin/Nextcloud/heroic-saves

@@ -2,14 +2,9 @@
 
 set -euo pipefail
 
-OS=$(uname | tr 'A-Z' 'a-z')
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-if [ ! -e "${HOME}/.config/kitty/font.conf" ]; then
-	ln --symbolic "${SCRIPT_DIR}/font-${OS}.conf" "${HOME}/.config/kitty/font.conf"
-fi
-
-export fileList=("current-theme" "kitty" "ligatures")
+export fileList=("current-theme" "kitty" "ligatures" "font-linux" "font-macos")
 
 mkdir -p ~/.config/kitty/
 
@@ -26,3 +21,6 @@ for file in "${fileList[@]}"; do
 	fi
 done
 
+if [ ! -e "${HOME}/.config/kitty/font-include.sh" ]; then
+	ln --symbolic "${SCRIPT_DIR}/font-include.sh" "${HOME}/.config/kitty/font-include.sh"
+fi
