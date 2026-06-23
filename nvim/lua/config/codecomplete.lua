@@ -3,8 +3,10 @@ require("codecompanion").setup({
   strategies = {
     chat = {
       adapter = {
-        name = "opencode",
-        model = "Qwen3-next-80B-A3B-Instruct-UD-Q4-K-XL",
+        name = "openai",
+        model = "Qwen3-Coder-Next-UD-Q8_K_XL",
+        api_base = "http://turkishDelight:8080/v1",
+        api_key = "not-needed",
       },
     },
   },
