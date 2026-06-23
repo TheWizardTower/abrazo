@@ -109,4 +109,4 @@ bind -x '"\e[r": atuin-fzf' 2>/dev/null || true
 
 eval "$(atuin init bash --disable-up-arrow)"
 
-source /home/merlin/.config/broot/launcher/bash/br
+[ -f "$HOME/.config/broot/launcher/bash/br" ] && source "$HOME/.config/broot/launcher/bash/br"
