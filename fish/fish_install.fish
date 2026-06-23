@@ -10,8 +10,9 @@ end
 
 for path_entry in (ls -1 paths.d)
     echo $path_entry
-    if test ! -e ~/.config/fish/paths.d/$file
-        ln -s ~/abrazo/fish/paths.d/$file ~/.config/fish/conf.d/$file
+    set target_file "$HOME/.config/fish/conf.d/$path_entry.fish"
+    if test ! -e "$target_file"
+        ln -s ~/abrazo/fish/paths.d/$path_entry "$target_file"
     end
 end
 
@@ -25,3 +26,14 @@ for package in (cat fishfile)
     echo $package
     fisher install $package
 end
+
+# Cleanup old/dangling symlinks from previous configurations
+set -l current_conf (ls paths.d conf.d 2>/dev/null | basename -s .fish)
+for link in ~/.config/fish/conf.d/*.fish(.:t)
+    if not contains "$link" $current_conf
+        echo "Removing stale symlink: $link"
+        rm "$HOME/.config/fish/conf.d/$link.fish"
+    end
+end
+
+echo "Fish installation complete."
