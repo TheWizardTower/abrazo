@@ -33,6 +33,7 @@ link_file "${HOME}/abrazo/git_template" "${HOME}/.git_template"
 link_file "${HOME}/abrazo/vimrc" "${HOME}/.vimrc"
 link_file "${HOME}/abrazo/toprc" "${HOME}/.toprc"
 link_file "${HOME}/abrazo/flox/env/" "${HOME}/.flox"
+link_file "${HOME}/abrazo/starship.toml" "${HOME}/.config/starship.toml"
 
 link_file "${HOME}/abrazo/emacs.d" "${HOME}/.emacs.d"
 
