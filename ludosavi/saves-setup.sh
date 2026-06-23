@@ -13,7 +13,6 @@ POST_SCRIPT="$SCRIPTS_DIR/heroic-post.sh"
 LUDUSAVI_FLATPAK="com.github.mtkennerly.ludusavi"
 NEXTCLOUD_FLATPAK="com.nextcloud.desktopclient.nextcloud"
 HEROIC_FLATPAK="com.heroicgameslauncher.hgl"
-HEROIC_ROOT="$HOME/.var/app/${HEROIC_FLATPAK}/config/heroic"
 LUDUSAVI_CONFIG_DIR="$HOME/.var/app/${LUDUSAVI_FLATPAK}/config/ludusavi"
 
 say() { printf '\n==> %s\n' "$*"; }
@@ -76,23 +75,13 @@ fi
 mkdir -p "$SAVES_DIR"
 say "Saves dir ready: $SAVES_DIR"
 
-# --- 5. Ludusavi config: point at Heroic + Nextcloud-synced backup target ---
-mkdir -p "$LUDUSAVI_CONFIG_DIR"
+# --- 5. Ludusavi config: symlinked in by install.sh ---
 CONFIG_FILE="$LUDUSAVI_CONFIG_DIR/config.yaml"
-cat >"$CONFIG_FILE" <<EOF
-manifest:
-  enable: true
-roots:
-  - path: $HEROIC_ROOT
-    store: heroic
-backup:
-  path: $SAVES_DIR
-  format:
-    chosen: simple
-restore:
-  path: $SAVES_DIR
-EOF
-say "Wrote Ludusavi config: $CONFIG_FILE"
+if [ ! -e "$CONFIG_FILE" ]; then
+    warn "Ludusavi config missing at $CONFIG_FILE. Run install.sh first."
+    exit 1
+fi
+say "Ludusavi config in place: $CONFIG_FILE"
 
 # --- 6. Heroic pre/post hooks (managed by install.sh as symlinks) ---
 if [ ! -x "$PRE_SCRIPT" ] || [ ! -x "$POST_SCRIPT" ]; then
