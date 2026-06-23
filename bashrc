@@ -40,7 +40,7 @@ shopt -s checkwinsize
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
-  test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+  test -r ~/git/LS_COLORS/LS_COLORS && eval "$(dircolors -b ~/git/LS_COLORS/LS_COLORS)" || eval "$(dircolors -b)"
   alias ls='ls --color=auto'
   alias dir='dir --color=auto'
   alias vdir='vdir --color=auto'
@@ -91,5 +91,9 @@ case ":$PATH:" in
 esac
 # pnpm end
 
+
+. "$HOME/.cargo/env"
+
 # Guarded broot sourcing for PR #36
 [ -f "$HOME/.config/broot/launcher/bash/br" ] && source "$HOME/.config/broot/launcher/bash/br"
+
