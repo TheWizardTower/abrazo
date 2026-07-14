@@ -7,7 +7,7 @@ on:
   schedule:
     # Mondays 04:00 UTC — catches drift from upstream package breakage
     # even when nothing in the repo has changed.
-    - cron: '0 4 * * 1'
+    - cron: "0 4 * * 1"
 
 concurrency:
   group: lint-${{ github.ref }}
@@ -98,24 +98,24 @@ jobs:
         # Stub them as empty files so the parse-check passes without installing
         # the underlying tools.
         run: |
-           mkdir -p \
-             "$HOME/.local/share/atuin" \
-             "$HOME/.local/share/jj-gh-pr" \
-             "$HOME/.cache/atuin" \
-             "$HOME/.cache/jj" \
-             "$HOME/.cache/just" \
-             "$HOME/.cache/ls-colors" \
-             "$HOME/.cache/starship" \
-             "$HOME/.cache/zoxide"
-           : > "$HOME/.local/share/atuin/init.nu"
-           : > "$HOME/.local/share/jj-gh-pr/jjpr.nu"
-           : > "$HOME/.cache/atuin/completions.nu"
-           : > "$HOME/.cache/jj/completions.nu"
-           : > "$HOME/.cache/just/completions.nu"
-           : > "$HOME/.cache/ls-colors/init.nu"
-           : > "$HOME/.cache/starship/completions.nu"
-           : > "$HOME/.cache/starship/init.nu"
-           : > "$HOME/.cache/zoxide/init.nu"
+          mkdir -p \
+            "$HOME/.local/share/atuin" \
+            "$HOME/.local/share/jj-gh-pr" \
+            "$HOME/.cache/atuin" \
+            "$HOME/.cache/jj" \
+            "$HOME/.cache/just" \
+            "$HOME/.cache/ls-colors" \
+            "$HOME/.cache/starship" \
+            "$HOME/.cache/zoxide"
+          : > "$HOME/.local/share/atuin/init.nu"
+          : > "$HOME/.local/share/jj-gh-pr/jjpr.nu"
+          : > "$HOME/.cache/atuin/completions.nu"
+          : > "$HOME/.cache/jj/completions.nu"
+          : > "$HOME/.cache/just/completions.nu"
+          : > "$HOME/.cache/ls-colors/init.nu"
+          : > "$HOME/.cache/starship/completions.nu"
+          : > "$HOME/.cache/starship/init.nu"
+          : > "$HOME/.cache/zoxide/init.nu"
 
       - name: Parse-check each .nu file
         run: |
@@ -242,7 +242,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Install opencode
         # Pinned to the version tracked locally; bump when upgrading opencode.
@@ -268,6 +268,38 @@ jobs:
             opencode debug config --pure > /dev/null
           echo "opencode/opencode.json is sound"
 
+  jj-config:
+    name: jj (config soundness)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install jj
+        run: |
+          VERSION=0.41.0
+          curl -fsSL -o /tmp/jj.tgz \
+            "https://github.com/jj-vcs/jj/releases/download/v${VERSION}/jj-v${VERSION}-x86_64-unknown-linux-musl.tar.gz"
+          mkdir -p /tmp/jj && tar -xzf /tmp/jj.tgz -C /tmp/jj
+          sudo install /tmp/jj/jj /usr/local/bin/jj
+          jj --version
+
+      - name: Validate jj/config.toml
+        # The `structured` job's taplo lint only checks TOML *grammar*. This
+        # asks jj itself whether the config is *sound*: it rejects wrong value
+        # types and unknown enum variants (e.g. ui.paginate = "sometimes") with
+        # a non-zero "Config error". jj tolerates unknown keys, so this catches
+        # type/value regressions rather than typo'd option names.
+        #
+        # Point JJ_CONFIG at only our file (not the CI runner's default config)
+        # and run against a throwaway repo so a valid config exits 0 instead of
+        # failing jj's repo lookup.
+        run: |
+          repo=$(mktemp -d)
+          jj git init "$repo" > /dev/null
+          JJ_CONFIG="$PWD/jj/config.toml" \
+            jj --ignore-working-copy -R "$repo" config list --no-pager > /dev/null
+          echo "jj/config.toml is sound"
+
   tool-configs:
     name: eslint / mypy config
     runs-on: ubuntu-latest
@@ -276,7 +308,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: eslint --print-config
         run: |
@@ -286,7 +318,7 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: "3.12"
       - name: mypy config
         run: |
           pip install mypy
@@ -302,7 +334,7 @@ jobs:
       - name: Install emacs 30.1
         uses: purcell/setup-emacs@master
         with:
-          version: '30.1'
+          version: "30.1"
 
       - name: Install just
         uses: taiki-e/install-action@just
