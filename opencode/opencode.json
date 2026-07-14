@@ -1,7 +1,36 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "permission": {
-    "lsp": "allow"
+    "lsp": "allow",
+    "edit": "allow",
+    "bash": "ask",
+    "semgrep_*": "ask"
+  },
+  "lsp": {
+    "basedpyright": {
+      "command": ["basedpyright-langserver", "--stdio"],
+      "extensions": [".py", ".pyi"]
+    },
+    "html-lsp": {
+      "command": ["vscode-html-language-server", "--stdio"],
+      "extensions": [".html", ".htm"]
+    },
+    "harper-ls": {
+      "command": ["harper-ls", "--stdio"],
+      "extensions": [".md", ".markdown"]
+    },
+    "markdown-oxide": {
+      "command": ["markdown-oxide"],
+      "extensions": [".md", ".markdown"]
+    },
+    "typos-lsp": {
+      "command": ["typos-lsp"],
+      "extensions": [".py", ".rs", ".js", ".ts", ".tsx", ".jsx", ".go", ".sh", ".lua", ".md", ".toml", ".yaml", ".yml", ".json"]
+    },
+    "snyk-ls": {
+      "command": ["snyk-ls"],
+      "extensions": [".py", ".js", ".ts", ".go", ".rs"]
+    }
   },
   "provider": {
     "cursor": {
@@ -50,12 +79,8 @@
         "Gemma-4-26B-A4B-UD-Q6_K": {
           "name": "Gemma 4 26B-A4B Q6_K — Fast & Natural",
           "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
+            "input": ["text"],
+            "output": ["text"]
           },
           "limit": {
             "context": 131072,
@@ -69,12 +94,8 @@
         "Qwen3.6-35B-A3B-MTP-UD-Q8": {
           "name": "Qwen3.6-35B-A3B MTP Q8 — Fast & Strong (MTP enabled)",
           "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
+            "input": ["text"],
+            "output": ["text"]
           },
           "limit": {
             "context": 131072,
@@ -88,12 +109,8 @@
         "Qwen3-Coder-Next-UD-Q8": {
           "name": "Qwen3-Coder-Next-UD-Q8_K_XL",
           "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
+            "input": ["text"],
+            "output": ["text"]
           },
           "limit": {
             "context": 131072,
@@ -103,12 +120,8 @@
         "GLM-4.5-Air-Q6_K": {
           "name": "GLM-4.5 Air 106B MoE (12B active) - quality coding/reasoning",
           "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
+            "input": ["text"],
+            "output": ["text"]
           },
           "limit": {
             "context": 131072,
@@ -118,12 +131,8 @@
         "GLM-4.7-Flash-THEROCK": {
           "name": "GLM-4.7 Flash 30B MoE - coding/reasoning/agentic",
           "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
+            "input": ["text"],
+            "output": ["text"]
           },
           "limit": {
             "context": 131072,
@@ -133,12 +142,8 @@
         "Qwen3.5-35B-A3B-Claude-4.6-Opus-Reasoning-Distilled-Q8_0": {
           "name": "Qwen3.5 35B MoE (3B active) - Claude 4.6 Opus reasoning distill",
           "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
+            "input": ["text"],
+            "output": ["text"]
           },
           "limit": {
             "context": 131072,
@@ -149,14 +154,10 @@
           }
         },
         "RNJ-1-Instruct": {
-          "name": "RNJ-1 Instruct 8B - fast coding/tool calling/Ralph Wiggum loop",
+          "name": "RNJ-1 Instruct 8B - fast coding/tool calling",
           "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
+            "input": ["text"],
+            "output": ["text"]
           },
           "limit": {
             "context": 262144,
@@ -164,14 +165,10 @@
           }
         },
         "Gemma4-Coding-Q8_0": {
-          "name": "Gemma 4 Coding Q8_0 - specialized code generation & software engineering",
+          "name": "Gemma 4 Coding Q8_0 - specialized code generation",
           "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
+            "input": ["text"],
+            "output": ["text"]
           },
           "limit": {
             "context": 131072,
@@ -179,14 +176,10 @@
           }
         },
         "Qwable-27B-Q4_K_M": {
-          "name": "Qwable 27B Q4_K_M - strong mid-size reasoning & general tasks",
+          "name": "Qwable 27B Q4_K_M - strong mid-size reasoning",
           "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
+            "input": ["text"],
+            "output": ["text"]
           },
           "limit": {
             "context": 131072,
@@ -194,14 +187,10 @@
           }
         },
         "Gemma-4-12B-IT-BF16": {
-          "name": "Gemma 4 12B IT BF16 - high-quality dense 12B model",
+          "name": "Gemma 4 12B IT BF16 - high-quality dense model",
           "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
+            "input": ["text"],
+            "output": ["text"]
           },
           "limit": {
             "context": 131072,
@@ -209,14 +198,10 @@
           }
         },
         "Nex-AGI-N2-Pro-IQ1_M": {
-          "name": "Nex-AGI N2 Pro IQ1_M - massive model (91GB) for maximum capability",
+          "name": "Nex-AGI N2 Pro IQ1_M - maximum capability",
           "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
+            "input": ["text"],
+            "output": ["text"]
           },
           "limit": {
             "context": 65536,
@@ -229,26 +214,17 @@
   "mcp": {
     "serena": {
       "type": "local",
-      "command": [
-        "serena",
-        "start-mcp-server",
-        "--project-from-cwd"
-      ],
+      "command": ["serena", "start-mcp-server", "--project-from-cwd"],
       "enabled": true
     },
     "kubernetes": {
       "type": "local",
-      "command": [
-        "kubernetes-mcp-server"
-      ],
+      "command": ["kubernetes-mcp-server"],
       "enabled": true
     },
     "postgres": {
       "type": "local",
-      "command": [
-        "postgres-mcp",
-        "--access-mode=restricted"
-      ],
+      "command": ["postgres-mcp", "--access-mode=restricted"],
       "environment": {
         "DATABASE_URI": "postgresql://user:pass@localhost:5432/dbname"
       },
@@ -256,11 +232,12 @@
     },
     "context7": {
       "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@upstash/context7-mcp@latest"
-      ],
+      "command": ["npx", "-y", "@upstash/context7-mcp@latest"],
+      "enabled": true
+    },
+    "semgrep": {
+      "type": "local",
+      "command": ["semgrep", "mcp"],
       "enabled": true
     }
   },
