@@ -234,6 +234,40 @@ jobs:
       - name: gitconfig parse
         run: git config --file gitconfig --list > /dev/null
 
+  opencode-config:
+    name: opencode (config soundness)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install opencode
+        # Pinned to the version tracked locally; bump when upgrading opencode.
+        run: npm i -g opencode-ai@1.17.18
+
+      - name: Validate opencode/opencode.json
+        # The `structured` job's `jq empty` only checks that this file is valid
+        # JSON. This asks opencode itself whether the config is *sound*:
+        # `debug config` resolves and schema-validates it, catching unknown
+        # keys, wrong enum values, and malformed lsp/mcp/provider entries
+        # (e.g. an lsp server given `{}` instead of `{disabled:true}` or a
+        # `command`+`extensions` pair).
+        #
+        # --pure skips external plugin downloads (network, flaky). A scratch
+        # HOME + XDG_CONFIG_HOME isolates the check from any runner config and
+        # from opencode's second global path (~/.opencode/opencode.json), so
+        # only our file is under test.
+        run: |
+          scratch=$(mktemp -d)
+          mkdir -p "$scratch/.config/opencode"
+          cp opencode/opencode.json "$scratch/.config/opencode/opencode.json"
+          HOME="$scratch" XDG_CONFIG_HOME="$scratch/.config" \
+            opencode debug config --pure > /dev/null
+          echo "opencode/opencode.json is sound"
+
   tool-configs:
     name: eslint / mypy config
     runs-on: ubuntu-latest
