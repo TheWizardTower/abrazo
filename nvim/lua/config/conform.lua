@@ -9,6 +9,7 @@ require("conform").setup({
         javascript = { "prettierd", "prettier", stop_after_first = true },
         terraform = { "terraform fmt", stop_after_first = true },
         bash = { "shfmt", "beautysh", stop_after_first = true },
+        nu = { "nufmt" },
         json = { "jq", stop_after_first = true },
     },
     format_on_save = {
