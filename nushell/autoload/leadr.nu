@@ -3,11 +3,7 @@ def __leadr_invoke__ [] {
     let LEADR_CURSOR_POSITION_ENCODING = "#CURSOR"
 
     def leadr_parse_flags [flags: list<string>] {
-        mut result = {
-            insert_type: ""
-            eval: false
-            exec: false
-        }
+        mut result = {insert_type: "", eval: false, exec: false}
         for flag in $flags {
             if $flag == "REPLACE" or $flag == "INSERT" or $flag == "PREPEND" or $flag == "APPEND" or $flag == "SURROUND" {
                 $result.insert_type = $flag
@@ -23,14 +19,14 @@ def __leadr_invoke__ [] {
 
     def leadr_extract_cursor_pos [input] {
         if ($input | str contains $LEADR_CURSOR_POSITION_ENCODING) {
-            let before = ($input | split row $LEADR_CURSOR_POSITION_ENCODING | first)
+            let before = $input | split row $LEADR_CURSOR_POSITION_ENCODING | first
             ($before | str length)
         } else {
             -1
         }
     }
 
-    def leadr_insert_command [to_insert:string insert_type:string cursor_pos:int] {
+    def leadr_insert_command [to_insert: string, insert_type: string, cursor_pos: int] {
         let original_cursor = (commandline get-cursor)
 
         match $insert_type {
@@ -56,7 +52,6 @@ def __leadr_invoke__ [] {
                     commandline set-cursor $new_cursor
                 }
             }
-
             "APPEND" => {
                 commandline edit --append $to_insert
                 if $cursor_pos >= 0 {
@@ -66,9 +61,11 @@ def __leadr_invoke__ [] {
                     commandline set-cursor --end
                 }
             }
-
             "SURROUND" => {
-                let parts = ($to_insert | parse $"{before}($LEADR_COMMAND_POSITION_ENCODING){after}")
+                let parts = (
+                    $to_insert
+                    | parse $"{before}($LEADR_COMMAND_POSITION_ENCODING){after}"
+                )
                 let before = $parts.before.0
                 let after = $parts.after.0
                 let original_buffer = (commandline)
@@ -96,7 +93,7 @@ def __leadr_invoke__ [] {
                 if $cursor_pos >= 0 {
                     commandline set-cursor $cursor_pos
                 } else {
-                    let new_cursor = ($to_insert | str length)
+                    let new_cursor = $to_insert | str length
                     commandline set-cursor $new_cursor
                 }
             }
@@ -109,7 +106,7 @@ def __leadr_invoke__ [] {
             return
         }
 
-        let parsed = ($cmd | parse "{flags} {to_insert}")
+        let parsed = $cmd | parse "{flags} {to_insert}"
 
         let flags = $parsed.flags.0 | split row "+"
         let to_insert = $parsed.to_insert.0
@@ -117,9 +114,10 @@ def __leadr_invoke__ [] {
         let parsed_flags = (leadr_parse_flags $flags)
 
         mut cursor_pos = leadr_extract_cursor_pos $to_insert
-        mut to_insert  = ($to_insert | str replace "#CURSOR" "")
+        mut to_insert = $to_insert | str replace "#CURSOR" ""
 
         if $parsed_flags.eval {
+
             # There is no such thing as eval in nushell, but capturing the output of a subshell should do in most cases
             # For reference, see https://www.nushell.sh/book/thinking_in_nu.html#think-of-nushell-as-a-compiled-language
             $to_insert = (nu -c $"($to_insert)")
@@ -135,13 +133,12 @@ def __leadr_invoke__ [] {
     leadr_main
 }
 
-$env.config.keybindings ++= [{
-    name: leadr
-    modifier: Control
-    keycode: Char_x
-    mode: [emacs vi_insert vi_normal]
-    event: {
-        send: executehostcommand
-        cmd: "__leadr_invoke__"
+$env.config.keybindings ++= [
+    {
+        name: leadr
+        modifier: Control
+        keycode: Char_x
+        mode: [emacs vi_insert vi_normal]
+        event: {send: executehostcommand, cmd: "__leadr_invoke__"}
     }
-}]
+]
