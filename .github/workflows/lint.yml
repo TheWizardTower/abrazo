@@ -79,18 +79,25 @@ jobs:
         run: xargs -r -a scripts.txt shfmt -d -i 2 -ci
 
   nushell:
-    name: nushell (parse + load)
+    name: nushell (format + parse + load)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install nushell
+      - name: Install nushell and nufmt
         run: |
           VERSION=0.109.1
+          NUFMT_VERSION=0.4.3
+          
           curl -fsSL -o /tmp/nu.tgz \
             "https://github.com/nushell/nushell/releases/download/${VERSION}/nu-${VERSION}-x86_64-unknown-linux-gnu.tar.gz"
           mkdir -p /tmp/nu && tar -xzf /tmp/nu.tgz -C /tmp/nu --strip-components=1
           sudo install /tmp/nu/nu /usr/local/bin/nu
+          
+          curl -fsSL -o /tmp/nufmt.gz \
+            "https://github.com/nushell/nufmt/releases/download/${NUFMT_VERSION}/nufmt-${NUFMT_VERSION}-x86_64-unknown-linux-musl.tar.gz"
+          mkdir -p /tmp/nufmt && tar -xzf /tmp/nufmt.gz -C /tmp/nufmt --strip-components=1
+          sudo install /tmp/nufmt/nufmt /usr/local/bin/nufmt
 
       - name: Stub runtime-generated source targets
         # Several autoload files `source` cached init / completion scripts that
@@ -116,6 +123,9 @@ jobs:
            : > "$HOME/.cache/starship/completions.nu"
            : > "$HOME/.cache/starship/init.nu"
            : > "$HOME/.cache/zoxide/init.nu"
+
+      - name: nufmt --check
+        run: git ls-files 'nushell/**/*.nu' | grep -v '^nushell/nupm/' | xargs nufmt --check
 
       - name: Parse-check each .nu file
         run: |
