@@ -122,8 +122,11 @@ jobs:
            : > "$HOME/.cache/starship/init.nu"
            : > "$HOME/.cache/zoxide/init.nu"
 
-      - name: nufmt --check
-        run: git ls-files 'nushell/**/*.nu' | grep -v '^nushell/nupm/' | xargs nufmt --check
+      - name: nufmt --all-recurse (verify formatting)
+        # nufmt formats in-place; use dry-run to verify without changes
+        run: |
+          cd "$(git rev-parse --show-toplevel)"
+          nufmt --all-recurse --dry-run
 
       - name: Parse-check each .nu file
         run: |
