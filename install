@@ -41,6 +41,10 @@ link_file "${HOME}/abrazo/nvim" "${HOME}/.config/nvim"
 link_file "${HOME}/abrazo/nvim" "${HOME}/.var/app/io.neovim.nvim/config/nvim"
 
 link_file "${HOME}/abrazo/jj" "${HOME}/.config/jj"
+
+# Atuin init for nushell (custom keybindings)
+mkdir -p "${HOME}/.local/share/atuin"
+link_file "${HOME}/abrazo/jj/config.nu" "${HOME}/.local/share/atuin/init.nu"
 link_file "${HOME}/abrazo/zellij" "${HOME}/.config/zellij"
 link_file "${HOME}/abrazo/leadr" "${HOME}/.config/leadr"
 link_file "${HOME}/abrazo/powerline" "${HOME}/.config/powerline"
