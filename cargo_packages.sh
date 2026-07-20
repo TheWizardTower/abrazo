@@ -102,6 +102,7 @@ BINSTALL_PACKAGES=(
 
 GIT_REPOS=(
   'https://github.com/bvaisvil/zenith.git'
+  'https://github.com/nushell/nufmt'
   'https://github.com/quantumsheep/sshs'
 )
 
