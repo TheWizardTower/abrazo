@@ -104,16 +104,15 @@ jobs:
         # the underlying tools.
         run: |
           mkdir -p \
-            "$HOME/.local/share/atuin" \
-            "$HOME/.local/share/jj-gh-pr" \
             "$HOME/.cache/atuin" \
             "$HOME/.cache/jj" \
             "$HOME/.cache/just" \
             "$HOME/.cache/ls-colors" \
             "$HOME/.cache/starship" \
-            "$HOME/.cache/zoxide"
-          : > "$HOME/.local/share/atuin/init.nu"
-          : > "$HOME/.local/share/jj-gh-pr/jjpr.nu"
+            "$HOME/.cache/zoxide"   \
+            "$HOME/.config/nushell/autoload" \
+            "$HOME/.local/share/atuin" \
+            "$HOME/.local/share/jj-gh-pr"
           : > "$HOME/.cache/atuin/completions.nu"
           : > "$HOME/.cache/jj/completions.nu"
           : > "$HOME/.cache/just/completions.nu"
@@ -121,6 +120,9 @@ jobs:
           : > "$HOME/.cache/starship/completions.nu"
           : > "$HOME/.cache/starship/init.nu"
           : > "$HOME/.cache/zoxide/init.nu"
+          : > "$HOME/.config/nushell/autoload/atuin.nu"
+          : > "$HOME/.local/share/atuin/init.nu"
+          : > "$HOME/.local/share/jj-gh-pr/jjpr.nu"
 
       - name: nufmt --all-recurse (verify formatting)
         # nufmt formats in-place; use dry-run to verify without changes
