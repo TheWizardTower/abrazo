@@ -20,15 +20,11 @@ push-bookmark-prefix = "amccullough/"
 [remotes.origin]
 auto-track-bookmarks = "*"
 
+# Varicon work repos: use the Varicon email, not the personal base identity.
 [[--scope]]
---when.repositories = [
-  "~/work",
-  "~/cravin-rs-fresh",
-  "~/cravin-rs-second-thread",
-  "~/cravin-rs-third-thread",
-]
+--when.repositories = ["~/work"]
 [--scope.user]
-email = "adam@cravin.com"
+email = "adam.mccullough@varicon.com.au"
 
 [merge-tools.mergiraf]
 program = "mergiraf"
