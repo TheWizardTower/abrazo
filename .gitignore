@@ -108,3 +108,4 @@ package.json
 package-lock.json
 /jj/repos
 /pi/auth.json
+secrets.sh
