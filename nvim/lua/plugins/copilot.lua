@@ -1,10 +1,37 @@
 return {
+  -- Copilot for AI-assisted coding
   {
     "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
     config = function()
-      require("copilot").setup({})
+      require("copilot").setup({
+        suggestion = { enabled = true },
+        filetypes = {
+            -- Enabled filetypes
+            default_keymaps = false,
+        },
+      })
     end,
   },
+
+  -- Copilot integration with nvim-cmp for completion
+  {
+    "zbirenbaum/copilot-cmp",
+    dependencies = { "zbirenbaum/copilot.lua" },
+    config = function()
+      require("copilot_cmp").setup({
+        -- Integrate Copilot with cmp completion sources
+        mapping = {
+            ["<C-j>"] = "accept",
+            ["<C-k>"] = "next",
+            ["<C-h>"] = "prev",
+        },
+      })
+    end,
+  },
+
+  -- Copilot Chat for conversational coding assistance
   {
     "CopilotC-Nvim/CopilotChat.nvim",
     dependencies = {
@@ -13,42 +40,41 @@ return {
     },
     build = "make tiktoken",
     opts = {
-      model = 'Qwen3-Coder-Next-UD-Q8',
-      temperature = 0.1,
-      providers = {
-        turkishDelight = {
-          get_url = function(opts) return 'http://turkishDelight:8080/v1/chat/completions' end,
-          get_headers = function() return { ['Authorization'] = 'Bearer not-needed' } end,
-          get_models = function()
-            return { { id = 'Qwen3-Coder-Next-UD-Q8', name = 'turkishDelight Qwen3' } }
-          end,
-          prepare_input = function(inputs, opts)
-            local messages = {}
-            for _, input in ipairs(inputs) do
-              table.insert(messages, {
-                role = input.role,
-                content = input.content or (input.images and #input.images > 0 and "Image attached" or ""),
-              })
-            end
-            return {
-              model = 'Qwen3-Coder-Next-UD-Q8',
-              messages = messages,
-              temperature = opts.temperature or 0.1,
+        model = 'Qwen3-Coder-Next-UD-Q8',
+        temperature = 0.1,
+        providers = {
+            turkishDelight = {
+                get_url = function(opts) return 'http://turkishDelight:8080/v1/chat/completions' end,
+                get_headers = function() return { ['Authorization'] = 'Bearer not-needed' } end,
+                get_models = function()
+                    return { { id = 'Qwen3-Coder-Next-UD-Q8', name = 'turkishDelight Qwen3' } }
+                end,
+                prepare_input = function(inputs, opts)
+                    local messages = {}
+                    for _, input in ipairs(inputs) do
+                        table.insert(messages, {
+                            role = input.role,
+                            content = input.content or (input.images and #input.images > 0 and "Image attached" or ""),
+                        })
+                    end
+                    return {
+                        model = 'Qwen3-Coder-Next-UD-Q8',
+                        messages = messages,
+                        temperature = opts.temperature or 0.1,
+                    }
+                end,
+                prepare_output = function(output, opts)
+                    if output.choices and #output.choices > 0 then
+                        local msg = output.choices[1]
+                        if msg.message and msg.message.content then
+                            return { content = msg.message.content }
+                        end
+                    end
+                    return { content = "" }
+                end,
             }
-          end,
-          prepare_output = function(output, opts)
-            if output.choices and #output.choices > 0 then
-              local msg = output.choices[1]
-              if msg.message and msg.message.content then
-                return { content = msg.message.content }
-              end
-            end
-            return { content = "" }
-          end,
-        }
-      },
+        },
     },
     cmd = "CopilotChat",
-    event = "InsertEnter"
-  },
+}
 }
