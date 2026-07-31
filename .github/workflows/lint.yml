@@ -142,12 +142,12 @@ jobs:
         run: nu -c 'source nushell/config.nu; print ok'
 
   neovim:
-    name: neovim (lua parse-check + stylua)
+    name: neovim (lua parse-check + stylua + luacheck)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install lua5.1 and stylua
+      - name: Install lua5.1, stylua, and luacheck
         # lua5.1 matches neovim's embedded LuaJIT dialect for `luac -p` parse.
         # A full headless load would trigger lazy.nvim plugin install which is
         # fragile in CI (node/luarocks/tree-sitter build deps). Parse-check is
@@ -158,6 +158,12 @@ jobs:
             https://github.com/JohnnyMorganz/StyLua/releases/latest/download/stylua-linux-x86_64.zip
           sudo unzip -o /tmp/stylua.zip -d /usr/local/bin
           sudo chmod +x /usr/local/bin/stylua
+          # Install luacheck for linting (requires luarocks)
+          curl -fsSL https://luarocks.org/releases/luarocks-3.11.0-linux.tar.gz | tar xzf -
+          cd luarocks-3.11.0 && sudo ./configure --prefix=/usr/local && sudo make install
+          cd .. && rm -rf luarocks-3.11.0
+          # Use --tree to install to a writable location (runner user home)
+          luarocks --tree=$HOME/.luarocks install luacheck
 
       - name: luac -p (parse-check)
         run: |
@@ -170,6 +176,13 @@ jobs:
       - name: stylua --check
         continue-on-error: true
         run: stylua --check nvim/
+
+      - name: luacheck (lint)
+        # Lint Neovim Lua code for potential issues and style violations.
+        # Exclude lazy.nvim since it's a third-party dependency.
+        run: |
+          cd nvim
+          luacheck . --exclude lazy-lock --max-line-length 120 || { echo "luacheck failed"; exit 1; }
 
   terminals:
     name: kitty / tmux / zellij smoke
