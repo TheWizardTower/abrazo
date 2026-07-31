@@ -309,3 +309,24 @@ validation:
   valid_ctx_sizes: [4096, 8192, 16384, 32768, 65536, 131072, 196608, 262144, 327680]
   max_temperature: 2.0
   min_temperature: 0.0
+
+peers:
+  home-lab:
+    # Base URL only — llama-swap appends the API path
+    proxy: https://llama-swap.home.lab
+    # Optional if the remote requires a key
+    # apiKey: "${env.HOME_LAB_API_KEY}"
+    models:
+      - coder
+      - prose
+      - vision
+      - imagegen
+      - whisper
+      - tts
+    # Optional — useful if the link is slow or TLS is finicky
+    timeouts:
+      connect: 30
+      keepalive: 30
+      responseHeader: 120
+      tlsHandshake: 10
+      idleConn: 90
