@@ -38,10 +38,10 @@ cmp.setup({
 
   -- Completion sources (in priority order)
   sources = cmp.config.sources({
-    { name = "copilot",  priority = 1100 },     -- Copilot (highest priority)
     { name = "nvim_lsp", priority = 1000 },     -- LSP completions
     { name = "luasnip",  priority = 750 },      -- Snippets
-    { name = "nvim_lua", priority = 650 },      -- Neovim Lua API
+    { name = "copilot",  priority = 650 },      -- Copilot (via copilot-cmp)
+    { name = "nvim_lua", priority = 600 },      -- Neovim Lua API
   }, {
     { name = "buffer", priority = 500 },        -- Buffer words
     { name = "path",   priority = 250 },        -- File paths
@@ -63,22 +63,14 @@ cmp.setup({
       behavior = cmp.ConfirmBehavior.Replace,
     }),
 
-    -- Tab: ALWAYS check Copilot first, even when cmp menu is visible
+    -- Tab: Navigate completion menu or expand snippet (copilot-cmp handles Copilot suggestions)
     ["<Tab>"] = cmp.mapping(function(fallback)
-      -- Priority 1: Check if Copilot has a suggestion (even if cmp is visible)
-      local copilot_ok, copilot_suggestion = pcall(require, "copilot.suggestion")
-      if copilot_ok and copilot_suggestion.is_visible() then
-        copilot_suggestion.accept()
-        -- Priority 2: Navigate cmp menu if it's visible
-      elseif cmp.visible() then
+      if cmp.visible() then
         cmp.select_next_item()
-        -- Priority 3: Expand or jump to next snippet placeholder
       elseif luasnip.expand_or_jumpable() then
         luasnip.expand_or_jump()
-        -- Priority 4: Trigger completion if there are words before cursor
       elseif has_words_before() then
         cmp.complete()
-        -- Priority 5: Fall back to default Tab behavior
       else
         fallback()
       end
@@ -114,14 +106,13 @@ cmp.setup({
     end, { "i", "s" }),
   }),
 
-  -- Formatting appearance with Copilot icon
+  -- Formatting appearance
   formatting = {
     fields = { "kind", "abbr", "menu" },
     format = lspkind.cmp_format({
       mode = "symbol_text",
       maxwidth = 50,
       ellipsis_char = "...",
-      symbol_map = { Copilot = "" },
       before = function(entry, vim_item)
         return vim_item
       end,
@@ -135,10 +126,7 @@ cmp.setup({
     fetching_timeout = 500,
   },
 
-  -- Experimental features - disable ghost text to avoid conflict
-  experimental = {
-    ghost_text = false,     -- Let Copilot handle ghost text
-  },
+
 })
 
 -- NOTE: A CompleteChanged autocmd with stopinsert/startinsert was previously
