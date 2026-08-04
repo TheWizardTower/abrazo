@@ -91,6 +91,12 @@ case ":$PATH:" in
 esac
 # pnpm end
 
+# krew
+case ":$PATH:" in
+*":$KREW_ROOT:"*) ;;
+*) export PATH="${KREW_ROOT:-$HOME/.krew}:$PATH" ;;
+esac
+# krew end
 
 # Atuin history with fzf integration for search, standard arrow keys for browsing
 # Arrow keys: regular bash history (with prefix matching via readline)
