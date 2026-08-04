@@ -92,9 +92,10 @@ esac
 # pnpm end
 
 # krew
+export KREW_ROOT="$HOME/.krew"
 case ":$PATH:" in
-*":$KREW_ROOT:"*) ;;
-*) export PATH="${KREW_ROOT:-$HOME/.krew}:$PATH" ;;
+*":$KREW_ROOT/bin:"*) ;;
+*) export PATH="$KREW_ROOT/bin:$PATH" ;;
 esac
 # krew end
 
