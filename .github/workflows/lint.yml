@@ -153,14 +153,15 @@ jobs:
         # fragile in CI (node/luarocks/tree-sitter build deps). Parse-check is
         # the right scope for "did this config break its own syntax".
         run: |
-          sudo apt-get update && sudo apt-get install -y lua5.1
+          sudo apt-get update && sudo apt-get install -y lua5.1 liblua5.1-0-dev
           curl -fsSL -o /tmp/stylua.zip \
-            https://github.com/JohnnyMorganz/StyLua/releases/latest/download/stylua-linux-x86_64.zip
+            https://github.com/JohnnyMorganz/StyLua/releases/download/v2.5.2/stylua-linux-x86_64.zip
           sudo unzip -o /tmp/stylua.zip -d /usr/local/bin
           sudo chmod +x /usr/local/bin/stylua
           # Install luacheck for linting (requires luarocks)
-          curl -fsSL https://luarocks.org/releases/luarocks-3.11.0-linux.tar.gz | tar xzf -
-          cd luarocks-3.11.0 && sudo ./configure --prefix=/usr/local && sudo make install
+          curl -fsSL -o /tmp/luarocks.tar.gz https://luarocks.github.io/luarocks/releases/luarocks-3.13.0.tar.gz
+          tar xzf /tmp/luarocks.tar.gz
+          cd luarocks-3.13.0 && sudo ./configure --prefix=/usr/local && sudo make install
           cd .. && rm -rf luarocks-3.11.0
           # Use --tree to install to a writable location (runner user home)
           luarocks --tree=$HOME/.luarocks install luacheck
@@ -182,7 +183,7 @@ jobs:
         # Exclude lazy.nvim since it's a third-party dependency.
         run: |
           cd nvim
-          luacheck . --exclude lazy-lock --max-line-length 120 || { echo "luacheck failed"; exit 1; }
+          luacheck . --exclude-files lazy-lock --max-line-length 120 || { echo "luacheck failed"; exit 1; }
 
   terminals:
     name: kitty / tmux / zellij smoke
