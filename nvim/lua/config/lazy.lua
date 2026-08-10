@@ -24,8 +24,9 @@ vim.g.maplocalleader = ","
 -- Setup lazy.nvim with optimization for better plugin management
 require("lazy").setup({
     spec = {
-        -- import your plugins
-        { import = "plugins" },
+        -- import all plugins from lua/plugins directory
+        -- Each plugin file returns a lazy.nvim specification
+        unpack(require("plugins")),
     },
     -- Configure any other settings here. See the documentation for more details.
     -- colorscheme that will be used when installing plugins.
