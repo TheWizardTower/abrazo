@@ -79,10 +79,17 @@ source ~/.bash-powerline.sh
 source <(leadr --bash)
 
 [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
-
-eval "$(flox activate --trust --dir ~/)"
-
 eval "$(atuin init bash --disable-up-arrow)"
+
+# atuin path
+export ATUIN_ROOT="$HOME/.atuin"
+case ":$PATH:" in
+*":$ATUIN_ROOT/bin:"*) ;;
+*) export PATH="$ATUIN_ROOT/bin:$PATH" ;;
+esac
+# atuin end
+
+eval "$(atuin init bash)"
 
 # pnpm
 export PNPM_HOME="/home/merlin/.local/share/pnpm"
