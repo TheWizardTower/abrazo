@@ -7,8 +7,7 @@ return {
             "hrsh7th/nvim-cmp",
         },
         config = function()
-            require('config.autopairs')
+            require("config.autopairs")
         end,
     },
 }
-

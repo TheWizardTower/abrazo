@@ -7,7 +7,13 @@
 # actually starts with `export extern` / `module` / `extern` before adding here —
 # many CLIs accept the arguments silently and emit nothing (or bash) for unknown shells.
 
-const tools = [[name, args]; [atuin, [gen-completions --shell nushell]], [jj, [util completion nushell]], [just, [--completions nushell]], [starship, [completions nushell]]]
+const tools = [
+    [name, args];
+    [atuin, [gen-completions --shell nushell]]
+    [jj, [util completion nushell]]
+    [just, [--completions nushell]]
+    [starship, [completions nushell]]
+]
 
 for tool in $tools {
     let cache_dir = [$env.HOME .cache $tool.name] | path join

@@ -38,4 +38,3 @@ gitsigns.setup({
         end, "Blame line")
     end,
 })
-

@@ -12,5 +12,5 @@ return {
                 model = "auto",
             },
         })
-    end
+    end,
 }

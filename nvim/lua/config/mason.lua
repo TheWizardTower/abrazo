@@ -1,6 +1,5 @@
-
 require("mason").setup()
-require("mason-tool-installer").setup {
+require("mason-tool-installer").setup({
     ensure_installed = {
         "ast-grep",
         "bacon",
@@ -56,5 +55,5 @@ require("mason-tool-installer").setup {
         "yamlfmt",
         "yamllint",
         "yq",
-    }
-}
+    },
+})

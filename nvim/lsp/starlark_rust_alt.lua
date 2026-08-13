@@ -10,7 +10,7 @@
 
 ---@type vim.lsp.Config
 return {
-    cmd = { 'starlark', '--lsp' },
-    filetypes = { 'star', 'bzl', 'BUILD.bazel', 'Tiltfile', 'starlark' },
-    root_markers = { '.git' },
+    cmd = { "starlark", "--lsp" },
+    filetypes = { "star", "bzl", "BUILD.bazel", "Tiltfile", "starlark" },
+    root_markers = { ".git" },
 }

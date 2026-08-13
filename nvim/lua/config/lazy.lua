@@ -6,7 +6,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
     if vim.v.shell_error ~= 0 then
         vim.api.nvim_echo({
             { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-            { out,                            "WarningMsg" },
+            { out, "WarningMsg" },
             { "\nPress any key to exit..." },
         }, true, {})
         vim.fn.getchar()
@@ -14,28 +14,34 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
     end
 end
 vim.opt.rtp:prepend(lazypath)
-
 -- Make sure to setup `mapleader` and `maplocalleader` before
 -- loading lazy.nvim so that mappings are correct.
 -- This is also a good place to setup other settings (vim.opt)
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
-
-
-
-
--- vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>fp", "<cmd>lua vim.lsp.buf.format()<CR>")
-
-
--- Setup lazy.nvim
+-- Setup lazy.nvim with optimization for better plugin management
 require("lazy").setup({
     spec = {
-        -- import your plugins
-        { import = "plugins" },
+        -- import all plugins from lua/plugins directory
+        -- Each plugin file returns a lazy.nvim specification
+        unpack(require("plugins")),
     },
     -- Configure any other settings here. See the documentation for more details.
     -- colorscheme that will be used when installing plugins.
     install = { colorscheme = { "habamax" } },
-    -- automatically check for plugin updates
-    checker = { enabled = true },
+    -- Automatically check for plugin updates
+    checker = { enabled = true, notify = false }, -- Notify disabled to reduce flicker
+    -- Optimization settings
+    defaults = {
+        lazy = true, -- All plugins lazy by default
+        ---@type string[]
+        install = { "missing", "update" },
+    },
+    -- Performance optimization: only update changed plugins
+    performance = {
+        cache = {
+            enabled = true,
+            path = vim.fn.stdpath("cache") .. "/lazy-vim",
+        },
+    },
 })

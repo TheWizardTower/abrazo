@@ -7,8 +7,7 @@ return {
             "JoosepAlviste/nvim-ts-context-commentstring",
         },
         config = function()
-            require('config.comment')
+            require("config.comment")
         end,
     },
 }
-
