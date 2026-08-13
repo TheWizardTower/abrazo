@@ -107,6 +107,19 @@ case ":$PATH:" in
 esac
 # krew end
 
+# cuda-toolkit
+export CUDA_ROOT="/usr/local/cuda"
+case ":$PATH:" in
+*":$CUDA_ROOT/bin:"*) ;;
+*) export PATH="$CUDA_ROOT/bin:$PATH" ;;
+esac
+
+case ":$LD_LIBRARY_PATH:" in
+*":$CUDA_ROOT/lib64:"*) ;;
+*) export LD_LIBRARY_PATH="$CUDA_ROOT/lib64:$LD_LIBRARY_PATH" ;;
+esac
+# cuda-toolkit end
+
 # Atuin history with fzf integration for search, standard arrow keys for browsing
 # Arrow keys: regular bash history (with prefix matching via readline)
 bind '"\e[A": history-search-backward' 2>/dev/null || true
