@@ -1,4 +1,3 @@
-
 local wk = require("which-key")
 wk.add({
     { "<Leader>f",  group = "file" }, -- group
@@ -10,7 +9,6 @@ wk.add({
     { "<Leader>F",  group = "find (FFF)" },                               -- FFF plugin group
     { "<Leader>Ff", function() require("fff").find_files() end, desc = "FFF: find files" },
     { "<Leader>Fg", function() require("fff").live_grep() end, desc = "FFF: live grep" },
-    
     { "<Leader>W",  proxy = "<c-w>",                 group = "windows" }, -- proxy to window mappings
     {
         "<Leader>b",
@@ -27,7 +25,6 @@ wk.add({
         { "<Leader>q", "<cmd>q<cr>", desc = "Quit" }, -- no need to specify mode since it's inherited
         { "<Leader>w", "<cmd>w<cr>", desc = "Write" },
     },
-    
     -- Diagnostic mappings (Category 2 fix)
     {
         "<Leader>d",
@@ -38,7 +35,6 @@ wk.add({
     { "<Leader>dp", vim.diagnostic.goto_prev, desc = "Previous diagnostic" },
     { "<Leader>df", function() vim.diagnostic.open_float() end, desc = "Show diagnostics float" },
     { "<Leader>dx", function() vim.diagnostic.reset(vim.api.nvim_get_current_buf()) end, desc = "Clear diagnostics" },
-    
     -- LSP mappings (Category 2 fix)
     {
         "<Leader>l",
@@ -54,7 +50,6 @@ wk.add({
             vim.notify("No LSP servers attached to this buffer", vim.log.levels.WARN)
             return
         end
-        
         local msg = {}
         for _, client in ipairs(clients) do
             table.insert(msg, string.format(
@@ -63,10 +58,8 @@ wk.add({
                 client.id
             ))
         end
-        
         vim.ui.list(msg, { prompt = "LSP Clients:" })
     end, desc = "Show LSP clients" },
-    
     -- Git mappings (via gitsigns)
     {
         "<Leader>g",
@@ -76,14 +69,12 @@ wk.add({
     { "<Leader>gr", ":Gitsigns reset_hunk<CR>", desc = "Reset hunk", mode = "n" },
     { "<Leader>gp", ":Gitsigns preview_hunk<CR>", desc = "Preview hunk", mode = "n" },
     { "<Leader>gb", function() require('gitsigns').blame_line() end, desc = "Blame line" },
-    
     -- Project/Git mappings
     {
         "<Leader>p",
         group = "project/git",
     },
     { "<Leader>pg", ":Neogit<CR>", desc = "Neogit status" },
-    
     -- Jujube (jj) mappings
     {
         "<Leader>j",
@@ -92,7 +83,6 @@ wk.add({
     { "<Leader>js", function() require("config.jujube").open_jj_status() end, desc = "Jujube: status" },
     { "<Leader>jg", function() require("config.jujube").open_jj_log() end, desc = "Jujube: log" },
     { "<Leader>jd", function() require("config.jujube").open_jj_diff() end, desc = "Jujube: diff" },
-    
     -- Utility mappings
     {
         "<Leader>u",

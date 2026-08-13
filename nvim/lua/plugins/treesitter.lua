@@ -11,7 +11,6 @@ return {
     config = function()
       -- Create a deferred setup that runs after the plugin is loaded
       local augroup = vim.api.nvim_create_augroup("TreesitterSetup", { clear = true })
-      
       vim.api.nvim_create_autocmd("User", {
         group = augroup,
         pattern = "LazyLoaded",
@@ -20,7 +19,6 @@ return {
           if event.data and event.data.plugin == "nvim-treesitter" then
             -- Now that the plugin is loaded, run setup
             require('config.treesitter')
-            
             -- Enable incremental selection (requires nvim 0.10+)
             pcall(function()
               require('nvim-treesitter.configs').setup {
@@ -35,7 +33,6 @@ return {
                 },
               }
             end)
-            
             -- Remove the autocmd after running
             vim.api.nvim_clear_autocmds({ group = augroup })
           end

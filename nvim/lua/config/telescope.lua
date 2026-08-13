@@ -13,7 +13,6 @@ require('telescope').setup {
         file_ignore_patterns = { ".git/", "node_modules/" },
         shorten_path = true,
         winblend = 0,
-        
         -- Layout settings
         layout_config = {
             horizontal = {
@@ -24,11 +23,9 @@ require('telescope').setup {
                 mirror = false,
             },
         },
-        
         -- Sorting and matching
         sorting_strategy = "ascending",
         scroll_strategy = "limit",
-        
         -- Color scheme integration
         vimgrep_arguments = {
             "rg",
@@ -48,7 +45,6 @@ require('telescope').setup {
         git_status = {
             show_ignored_files = false,
         },
-        
         -- Project picker with better defaults
         projects = {
             theme = "dropdown",

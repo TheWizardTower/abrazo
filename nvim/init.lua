@@ -22,11 +22,11 @@ require("autorun")
 vim.cmd('colorscheme habamax')
 
 -- Safe settings for disk and crash recovery
-vim.opt.swapfile = true          -- Keep swap files for crash recovery  
+vim.opt.swapfile = true          -- Keep swap files for crash recovery
 vim.opt.backup = false           -- No backup files (we use undo instead)
 vim.opt.writebackup = true       -- Write backup during writes
 vim.opt.undofile = true          -- Persistent undo
- vim.opt.hidden = true            -- Allow buffer switching without save
+vim.opt.hidden = true            -- Allow buffer switching without save
 
 -- Better updatetime for LSP responsiveness
 vim.opt.updatetime = 200         -- Lower than default 400ms for faster diagnostics

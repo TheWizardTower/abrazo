@@ -205,17 +205,12 @@ vim.opt.updatetime = 300
 -- diagnostics appeared/became resolved
 vim.opt.signcolumn = "yes"
 
-local keyset = vim.keymap.set
 -- Autocomplete
 function _G.check_back_space()
     local col = vim.fn.col('.') - 1
     return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
 end
 
-
--- Apply codeAction to the selected region
--- Example: `<leader>aap` for current paragraph
-local opts = { silent = true, nowait = true }
 
 -- Diagnostics configuration (Category 2 fix)
 local diagnostic_config = {
@@ -250,7 +245,7 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
     group = diag_augroup,
     callback = function()
         local bufnr = vim.api.nvim_get_current_buf()
-        
+
         -- Add virtual text to diagnostics for better visibility
         vim.diagnostic.enable(true, { namespace_id = 0, bufnr = bufnr })
     end,
@@ -299,7 +294,7 @@ map("n", "<leader>li", function()
         vim.notify("No LSP servers attached to this buffer", vim.log.levels.WARN)
         return
     end
-    
+
     local msg = {}
     for _, client in ipairs(clients) do
         table.insert(msg, string.format(
@@ -309,7 +304,7 @@ map("n", "<leader>li", function()
             client.supported_methods()
         ))
     end
-    
+
     vim.ui.list(msg, { prompt = "LSP Clients:" })
 end, { desc = "Show LSP clients" })
 

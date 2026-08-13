@@ -32,7 +32,7 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
     group = diag_augroup,
     callback = function()
         local bufnr = vim.api.nvim_get_current_buf()
-        
+
         -- Add virtual text to diagnostics for better visibility
         vim.diagnostic.enable(true, { namespace_id = 0, bufnr = bufnr })
     end,
@@ -81,7 +81,7 @@ map("n", "<leader>li", function()
         vim.notify("No LSP servers attached to this buffer", vim.log.levels.WARN)
         return
     end
-    
+
     local msg = {}
     for _, client in ipairs(clients) do
         table.insert(msg, string.format(
@@ -91,6 +91,6 @@ map("n", "<leader>li", function()
             client.supported_methods()
         ))
     end
-    
+
     vim.ui.list(msg, { prompt = "LSP Clients:" })
 end, { desc = "Show LSP clients" })
