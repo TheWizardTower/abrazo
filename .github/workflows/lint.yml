@@ -164,7 +164,7 @@ jobs:
           cd luarocks-3.13.0 && sudo ./configure --prefix=/usr/local && sudo make install
           cd .. && rm -rf luarocks-3.11.0
           # Use --tree to install to a writable location (runner user home)
-          luarocks --tree=$HOME/.luarocks install luacheck
+          luarocks --tree="$HOME/.luarocks" install luacheck
 
       - name: luac -p (parse-check)
         run: |
