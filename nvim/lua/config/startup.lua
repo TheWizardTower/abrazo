@@ -5,4 +5,3 @@ vim.g.startuptime_tries = 10
 
 -- Optimize Lua module loading
 package.path = vim.fn.stdpath("config") .. "/lua/?.lua;" .. package.path
-

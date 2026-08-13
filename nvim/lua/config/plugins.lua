@@ -83,7 +83,7 @@ function M.create_plugin_spec(group_name)
             local name = plugin[1]:gsub(".*/", "")
             table.insert(spec, {
                 import = "plugins." .. name:gsub("%.lua$", ""),
-                opts = plugin[2]
+                opts = plugin[2],
             })
         end
     end

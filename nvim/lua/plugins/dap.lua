@@ -10,8 +10,7 @@ return {
             },
         },
         config = function()
-            require('config.dap')
+            require("config.dap")
         end,
     },
 }
-

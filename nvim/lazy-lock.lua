@@ -1,3 +1,3 @@
 return {
-  ["rafikdraoui/jj-diffconflicts"] = { version = "*" },
+    ["rafikdraoui/jj-diffconflicts"] = { version = "*" },
 }

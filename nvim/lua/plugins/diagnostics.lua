@@ -4,7 +4,7 @@ return {
         "nvim-lspconfig/nvim-lspconfig",
         dependencies = { "nvim-telescope/telescope.nvim" },
         config = function()
-            require('config.diagnostics')
+            require("config.diagnostics")
         end,
     },
 }

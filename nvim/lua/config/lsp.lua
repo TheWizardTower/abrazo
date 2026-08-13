@@ -1,11 +1,10 @@
-require('lsp-setup').setup({
+require("lsp-setup").setup({
     on_attach = function(client, bufnr)
         vim.lsp.completion.enable(true, client.id, bufnr, {
             autotrigger = true,
             convert = function(item)
                 return { abbr = item.label:gsub("%b()", "") }
             end,
-
         })
         vim.keymap.set("i", "<C-space>", vim.lsp.completion.get, { desc = "trigger autocompletion" })
         vim.keymap.set("i", "<C-S-space>", vim.lsp.completion.get, { desc = "trigger autocompletion" })
@@ -32,7 +31,7 @@ require('lsp-setup').setup({
         rust_analyzer = {
             settings = {
                 settings = {
-                    ['rust-analyzer'] = {
+                    ["rust-analyzer"] = {
                         inlayHints = {
                             bindingModeHints = {
                                 enable = false,
@@ -45,10 +44,10 @@ require('lsp-setup').setup({
                                 minLines = 25,
                             },
                             closureReturnTypeHints = {
-                                enable = 'never',
+                                enable = "never",
                             },
                             lifetimeElisionHints = {
-                                enable = 'never',
+                                enable = "never",
                                 useParameterNames = false,
                             },
                             maxLength = 25,
@@ -56,7 +55,7 @@ require('lsp-setup').setup({
                                 enable = true,
                             },
                             reborrowHints = {
-                                enable = 'never',
+                                enable = "never",
                             },
                             renderColons = true,
                             typeHints = {
@@ -64,10 +63,10 @@ require('lsp-setup').setup({
                                 hideClosureInitialization = false,
                                 hideNamedConstructor = false,
                             },
-                        }
+                        },
                     },
-                }
-            }
+                },
+            },
         },
         bashls = {},
         ast_grep = {},
@@ -84,7 +83,6 @@ require('lsp-setup').setup({
         harper_ls = {},
         just = {},
         eslint = {},
-
     },
     inlay_hints = {
         enabled = true,
@@ -93,9 +91,8 @@ require('lsp-setup').setup({
         lint = {
             enabled = true,
         },
-    }
+    },
 })
-
 
 -- Additional LSP servers enabled via native vim.lsp.enable() (nvim 0.11+).
 -- Only servers NOT already configured via lsp-setup above are listed here.
@@ -109,35 +106,35 @@ end
 -- Map of server name -> binary name (or command) to check.
 -- Servers already configured via lsp-setup.nvim are NOT listed here to avoid double-starting.
 local additional_servers = {
-    awk_ls           = "awk-language-server",
-    bacon_ls         = "bacon-ls",
-    bzl              = "bzl",
-    clangd           = "clangd",
-    cmake            = "cmake-language-server",
-    cspell_ls        = "cspell",
-    dprint           = "dprint",
-    gitlab_ci_ls     = "gitlab-ci-ls",
-    hydra_lsp        = "hydra-lsp",
-    jqls             = "jq-lsp",
-    jsonls           = "vscode-json-language-server",
-    latexindent      = "latexindent",
-    ["ltex-ls"]      = "ltex-ls",
+    awk_ls = "awk-language-server",
+    bacon_ls = "bacon-ls",
+    bzl = "bzl",
+    clangd = "clangd",
+    cmake = "cmake-language-server",
+    cspell_ls = "cspell",
+    dprint = "dprint",
+    gitlab_ci_ls = "gitlab-ci-ls",
+    hydra_lsp = "hydra-lsp",
+    jqls = "jq-lsp",
+    jsonls = "vscode-json-language-server",
+    latexindent = "latexindent",
+    ["ltex-ls"] = "ltex-ls",
     ["ltex-ls-plus"] = "ltex-ls-plus",
-    marksman         = "marksman",
-    nushell          = "nu",
-    ocamllsp         = "ocamllsp",
-    proselint        = "proselint",
-    quick_lint_js    = "quick-lint-js",
-    starlark         = "tilt",
-    starlark_rust    = "starlark",
-    tectonic         = "tectonic",
-    terraformls      = "terraform-ls",
-    ["tex-fmt"]      = "tex-fmt",
-    texlab           = "texlab",
-    tflint           = "tflint",
-    vale             = "vale",
-    ["vale-ls"]      = "vale-ls",
-    yamlls           = "yaml-language-server",
+    marksman = "marksman",
+    nushell = "nu",
+    ocamllsp = "ocamllsp",
+    proselint = "proselint",
+    quick_lint_js = "quick-lint-js",
+    starlark = "tilt",
+    starlark_rust = "starlark",
+    tectonic = "tectonic",
+    terraformls = "terraform-ls",
+    ["tex-fmt"] = "tex-fmt",
+    texlab = "texlab",
+    tflint = "tflint",
+    vale = "vale",
+    ["vale-ls"] = "vale-ls",
+    yamlls = "yaml-language-server",
 }
 
 for server, binary in pairs(additional_servers) do
@@ -146,21 +143,19 @@ for server, binary in pairs(additional_servers) do
     end
 end
 
-
 -- require("ltex_extra").setup {}
 
-
 -- setup() is also available as an alias
-require('lspkind').init({
+require("lspkind").init({
     -- defines how annotations are shown
     -- default: symbol
     -- options: 'text', 'text_symbol', 'symbol_text', 'symbol'
-    mode = 'symbol_text',
+    mode = "symbol_text",
 
     -- default symbol map
     -- can be either 'default' (requires nerd-fonts font) or
     -- 'codicons' for codicon preset (requires vscode-codicons font)
-    preset = 'codicons',
+    preset = "codicons",
 
     -- override preset symbols
     symbol_map = {
@@ -192,7 +187,6 @@ require('lspkind').init({
     },
 })
 
-
 -- Some servers have issues with backup files, see #649
 vim.opt.backup = false
 vim.opt.writebackup = false
@@ -207,10 +201,9 @@ vim.opt.signcolumn = "yes"
 
 -- Autocomplete
 function _G.check_back_space()
-    local col = vim.fn.col('.') - 1
-    return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
+    local col = vim.fn.col(".") - 1
+    return col == 0 or vim.fn.getline("."):sub(col, col):match("%s") ~= nil
 end
-
 
 -- Diagnostics configuration (Category 2 fix)
 local diagnostic_config = {
@@ -223,10 +216,10 @@ local diagnostic_config = {
             untracked = false,
         },
         text = {
-            [vim.diagnostic.severity.ERROR]     = "✖",
-            [vim.diagnostic.severity.WARN]      = "▲",
-            [vim.diagnostic.severity.HINT]      = "⚑",
-            [vim.diagnostic.severity.INFO]      = "➤",
+            [vim.diagnostic.severity.ERROR] = "✖",
+            [vim.diagnostic.severity.WARN] = "▲",
+            [vim.diagnostic.severity.HINT] = "⚑",
+            [vim.diagnostic.severity.INFO] = "➤",
         },
     },
     underline = true,
@@ -297,14 +290,11 @@ map("n", "<leader>li", function()
 
     local msg = {}
     for _, client in ipairs(clients) do
-        table.insert(msg, string.format(
-            "• %s (id: %d, capabilities: %s)",
-            client.name,
-            client.id,
-            client.supported_methods()
-        ))
+        table.insert(
+            msg,
+            string.format("• %s (id: %d, capabilities: %s)", client.name, client.id, client.supported_methods())
+        )
     end
 
     vim.ui.list(msg, { prompt = "LSP Clients:" })
 end, { desc = "Show LSP clients" })
-

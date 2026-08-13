@@ -9,17 +9,23 @@ return {
         keys = {
             {
                 "<leader>ff",
-                function() require("fff").find_files() end,
+                function()
+                    require("fff").find_files()
+                end,
                 desc = "FFF: find files",
             },
             {
                 "<leader>fg",
-                function() require("fff").live_grep() end,
+                function()
+                    require("fff").live_grep()
+                end,
                 desc = "FFF: live grep",
             },
             {
                 "<leader>fc",
-                function() require("fff").live_grep({ query = vim.fn.expand("<cword>") }) end,
+                function()
+                    require("fff").live_grep({ query = vim.fn.expand("<cword>") })
+                end,
                 desc = "FFF: grep word under cursor",
             },
         },

@@ -21,11 +21,7 @@ local function audit_plugins()
             f:close()
             -- Check for common issues
             local has_setup = content:match("setup%(") or content:match(":setup%(")
-            print(string.format(
-                "  %s - %s",
-                name,
-                has_setup and "Configured" or "May need setup"
-            ))
+            print(string.format("  %s - %s", name, has_setup and "Configured" or "May need setup"))
         end
     end
     print("\n=== Recommendations ===")

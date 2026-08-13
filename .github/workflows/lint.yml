@@ -183,6 +183,7 @@ jobs:
         # Exclude lazy.nvim since it's a third-party dependency.
         run: |
           cd nvim
+          export PATH="$HOME/.luarocks/bin:$PATH"
           luacheck . --exclude-files lazy-lock --max-line-length 120 || { echo "luacheck failed"; exit 1; }
 
   terminals:

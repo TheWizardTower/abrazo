@@ -10,10 +10,10 @@ local diagnostic_config = {
             untracked = false,
         },
         text = {
-            [vim.diagnostic.severity.ERROR]     = "✖",
-            [vim.diagnostic.severity.WARN]      = "▲",
-            [vim.diagnostic.severity.HINT]      = "⚑",
-            [vim.diagnostic.severity.INFO]      = "➤",
+            [vim.diagnostic.severity.ERROR] = "✖",
+            [vim.diagnostic.severity.WARN] = "▲",
+            [vim.diagnostic.severity.HINT] = "⚑",
+            [vim.diagnostic.severity.INFO] = "➤",
         },
     },
     underline = true,
@@ -84,12 +84,10 @@ map("n", "<leader>li", function()
 
     local msg = {}
     for _, client in ipairs(clients) do
-        table.insert(msg, string.format(
-            "• %s (id: %d, capabilities: %s)",
-            client.name,
-            client.id,
-            client.supported_methods()
-        ))
+        table.insert(
+            msg,
+            string.format("• %s (id: %d, capabilities: %s)", client.name, client.id, client.supported_methods())
+        )
     end
 
     vim.ui.list(msg, { prompt = "LSP Clients:" })

@@ -22,4 +22,3 @@ vim.api.nvim_set_hl(0, "ExtraWhitespace", {
     ctermbg = "darkred",
     guibg = "#592b2b",
 })
-

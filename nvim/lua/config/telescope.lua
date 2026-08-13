@@ -1,4 +1,4 @@
-require('telescope').setup {
+require("telescope").setup({
     defaults = {
         -- Default configuration for telescope goes here:
         mappings = {
@@ -6,8 +6,8 @@ require('telescope').setup {
                 -- map actions.which_key to <C-h> (default: <C-/>)
                 -- actions.which_key shows the mappings for your picker,
                 -- e.g., git_{create, delete, ...}_branch for the git_branches picker
-                ["<C-h>"] = "which_key"
-            }
+                ["<C-h>"] = "which_key",
+            },
         },
         -- Better defaults for file finding
         file_ignore_patterns = { ".git/", "node_modules/" },
@@ -56,5 +56,5 @@ require('telescope').setup {
         live_grep_args = {
             auto_quoting = true,
         },
-    }
-}
+    },
+})

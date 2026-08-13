@@ -19,26 +19,26 @@ require("config.lazy")
 require("autorun")
 
 -- Set colorscheme (habamax is built into Neovim)
-vim.cmd('colorscheme habamax')
+vim.cmd("colorscheme habamax")
 
 -- Safe settings for disk and crash recovery
-vim.opt.swapfile = true          -- Keep swap files for crash recovery
-vim.opt.backup = false           -- No backup files (we use undo instead)
-vim.opt.writebackup = true       -- Write backup during writes
-vim.opt.undofile = true          -- Persistent undo
-vim.opt.hidden = true            -- Allow buffer switching without save
+vim.opt.swapfile = true -- Keep swap files for crash recovery
+vim.opt.backup = false -- No backup files (we use undo instead)
+vim.opt.writebackup = true -- Write backup during writes
+vim.opt.undofile = true -- Persistent undo
+vim.opt.hidden = true -- Allow buffer switching without save
 
 -- Better updatetime for LSP responsiveness
-vim.opt.updatetime = 200         -- Lower than default 400ms for faster diagnostics
+vim.opt.updatetime = 200 -- Lower than default 400ms for faster diagnostics
 
 -- Signcolumn setup for better visibility of signs (diagnostics, git, etc.)
-vim.opt.signcolumn = "yes:2"     -- Always show sign column with 2 characters width
+vim.opt.signcolumn = "yes:2" -- Always show sign column with 2 characters width
 
 -- Line length indicator
-vim.opt.colorcolumn = "80"       -- Show line length guide at 80 chars
+vim.opt.colorcolumn = "80" -- Show line length guide at 80 chars
 
 -- Completion menu height
-vim.opt.pumheight = 15           -- Limit completion menu to 15 items max
+vim.opt.pumheight = 15 -- Limit completion menu to 15 items max
 
 -- Set completeopt for nvim-cmp
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
@@ -61,4 +61,3 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 --         vim.fn.matchadd("ExtraWhitespace", [[\s+$]])
 --     end,
 -- })
-

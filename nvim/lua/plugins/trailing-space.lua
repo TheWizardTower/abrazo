@@ -5,7 +5,7 @@ return {
         version = "*",
         event = { "BufReadPre", "BufNewFile" },
         config = function()
-            require('config.trailing-space')
+            require("config.trailing-space")
         end,
     },
 }

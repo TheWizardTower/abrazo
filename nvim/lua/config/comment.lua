@@ -24,4 +24,3 @@ comment.setup({
     },
     pre_hook = pre_hook,
 })
-
