@@ -92,81 +92,7 @@
     }
   },
   "provider": {
-    "golem": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "llama-swap (golem)",
-      "options": {
-        "baseURL": "https://llama-swap.home.lab/v1",
-        "apiKey": "local"
-      },
-      "models": {
-        "coder": {
-          "name": "Coder (Qwen2.5-Coder / interim)",
-          "limit": {
-            "context": 4096,
-            "output": 2048
-          }
-        },
-        "prose": {
-          "name": "Prose (Qwen3-4B)",
-          "limit": {
-            "context": 4096,
-            "output": 2048
-          }
-        },
-        "qwen8b": {
-          "name": "Qwen3-8B",
-          "limit": {
-            "context": 4096,
-            "output": 2048
-          }
-        },
-        "vision": {
-          "name": "Vision (Qwen2.5-VL)",
-          "limit": {
-            "context": 4096,
-            "output": 2048
-          }
-        }
-      }
-    },
-    "cursor": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "Cursor Agent (local)",
-      "options": {
-        "baseURL": "http://127.0.0.1:32123/v1"
-      },
-      "models": {
-        "auto": {
-          "name": "Cursor Agent Auto"
-        },
-        "gpt-5": {
-          "name": "Cursor Agent GPT-5 (alias → gpt-5.2)"
-        },
-        "gpt-5.2": {
-          "name": "Cursor Agent GPT-5.2"
-        },
-        "gpt-5.1": {
-          "name": "Cursor Agent GPT-5.1"
-        },
-        "gpt-5.1-codex": {
-          "name": "Cursor Agent GPT-5.1 Codex"
-        },
-        "sonnet-4.5": {
-          "name": "Cursor Agent Sonnet 4.5"
-        },
-        "sonnet-4.5-thinking": {
-          "name": "Cursor Agent Sonnet 4.5 Thinking"
-        },
-        "claude-4.5-opus-thinking": {
-          "name": "Claude 4.5 Opus Thinking"
-        },
-        "claude-4.5-opus": {
-          "name": "Claude 4.5 Opus"
-        }
-      }
-    },
-    "llama.cpp": {
+    "turkishDelight": {
       "npm": "@ai-sdk/openai-compatible",
       "name": "llama-swap",
       "options": {
@@ -348,80 +274,136 @@
             "context": 65536,
             "output": 32768
           }
+        },
+        "architect": {
+          "id": "Qwen3.6-35B-A3B-MTP-UD-Q8",
+          "name": "TD Architect",
+          "limit": {
+            "context": 131072,
+            "output": 8192
+          }
+        },
+        "coder-big": {
+          "id": "Qwen3-Coder-Next-UD-Q8",
+          "name": "TD Coder",
+          "limit": {
+            "context": 131072,
+            "output": 8192
+          }
+        },
+        "golem-prose": {
+          "id": "prose",
+          "name": "Golem Prose (peer)",
+          "limit": {
+            "context": 8192,
+            "output": 2048
+          }
+        },
+        "golem-coder": {
+          "id": "coder",
+          "name": "Golem Coder (peer)",
+          "limit": {
+            "context": 8192,
+            "output": 2048
+          }
+        },
+        "golem-vision": {
+          "id": "vision",
+          "name": "Golem Vision (peer)",
+          "limit": {
+            "context": 4096,
+            "output": 2048
+          }
+        },
+        "laptop-chat": {
+          "id": "chat-familiar",
+          "name": "Laptop Phi (peer)",
+          "limit": {
+            "context": 8192,
+            "output": 2048
+          }
+        },
+        "laptop-coder": {
+          "id": "coder-familiar",
+          "name": "Laptop Coder (peer)",
+          "limit": {
+            "context": 8192,
+            "output": 2048
+          }
+        },
+        "laptop-small": {
+          "id": "small-familiar",
+          "name": "Laptop Fast (peer)",
+          "limit": {
+            "context": 8192,
+            "output": 1024
+          }
+        },
+        "laptop-chat3": {
+          "id": "chat3-familiar",
+          "name": "Laptop Qwen3B (peer)",
+          "limit": {
+            "context": 8192,
+            "output": 1024
+          }
         }
       }
     }
   },
-  "mcp": {
-    "vigil": {
-      "type": "local",
-      "command": [
-        "kubectl-vigil",
-        "mcp-server"
-      ],
-      "enabled": true
-    },
-    "grafana": {
-      "type": "local",
-      "command": [
-        "uvx",
-        "mcp-grafana"
-      ],
-      "enabled": true,
-      "environment": {
-        "GRAFANA_URL": "https://grafana.home.lab/"
+  "agent": {
+    "plan": {
+      "description": "Architecture and planning on turkishDelight; prefer no edits",
+      "mode": "primary",
+      "model": "turkishDelight/architect",
+      "permission": {
+        "edit": "deny",
+        "bash": "ask"
       }
     },
-    "serena": {
-      "type": "local",
-      "command": [
-        "serena",
-        "start-mcp-server",
-        "--project-from-cwd"
-      ],
-      "enabled": true
+    "build": {
+      "description": "Implementation on turkishDelight big coder",
+      "mode": "primary",
+      "model": "turkishDelight/coder-big",
+      "permission": {
+        "edit": "allow",
+        "bash": "ask"
+      }
     },
-    "kubernetes": {
-      "type": "local",
-      "command": [
-        "kubernetes-mcp-server"
-      ],
-      "enabled": true
+    "explore": {
+      "description": "Fast read-only codebase search via laptop peer",
+      "mode": "subagent",
+      "model": "turkishDelight/golem-coder",
+      "permission": {
+        "edit": "deny",
+        "bash": "deny"
+      }
     },
-    "postgres": {
-      "type": "local",
-      "command": [
-        "postgres-mcp",
-        "--access-mode=restricted"
-      ],
-      "environment": {
-        "DATABASE_URI": "postgresql://user:pass@localhost:5432/dbname"
-      },
-      "enabled": false
+    "general": {
+      "description": "Multi-step work on Golem prose peer",
+      "mode": "subagent",
+      "model": "turkishDelight/golem-prose"
     },
-    "context7": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@upstash/context7-mcp@latest"
-      ],
-      "enabled": true
+    "golem-coder": {
+      "description": "Focused implementation on Golem coder peer",
+      "mode": "subagent",
+      "model": "turkishDelight/golem-coder",
+      "permission": {
+        "edit": "allow",
+        "bash": "ask"
+      }
     },
-    "semgrep": {
-      "type": "local",
-      "command": [
-        "semgrep",
-        "mcp"
-      ],
-      "enabled": true
+    "laptop-coder": {
+      "description": "Small coding tasks on laptop coder peer",
+      "mode": "subagent",
+      "model": "turkishDelight/laptop-coder",
+      "permission": {
+        "edit": "allow",
+        "bash": "ask"
+      }
     }
   },
   "plugin": [
-    "@zenobius/opencode-background",
-    "cc-safety-net",
-    "opencode-cursor-auth@1.0.16",
-    "opencode-rts-sounds"
+    "cc-safety-net"
   ],
   "instructions": [
     "~/.config/opencode/plugin/shell-strategy/shell_strategy.md"
