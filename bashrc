@@ -105,18 +105,6 @@ esac
 bind '"\e[A": history-search-backward' 2>/dev/null || true
 bind '"\e[B": history-search-forward' 2>/dev/null || true
 
-# Alt+R: Launch atuin + fzf for powerful search with preview
-atuin-fzf() {
-  local cmd
-  cmd=$(atuin search --shell-upward-binding-command | fzf --height=40% --layout=reverse --border | sed 's/.*→ //')
-  if [ -n "$cmd" ]; then
-    READLINE_LINE="$cmd"
-    READLINE_POINT=${#READLINE_LINE}
-  fi
-}
-
-bind -x '"\e[r": atuin-fzf' 2>/dev/null || true
-
 [ -f "$HOME/.config/broot/launcher/bash/br" ] && source "$HOME/.config/broot/launcher/bash/br"
 
 . "$HOME/.cargo/env"
