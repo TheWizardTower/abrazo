@@ -205,11 +205,14 @@ models:
       min-p: 0.05
       presence-penalty: 1.05
       frequency-penalty: 1.12
-      chat_template_file: "${models_dir}/chat_template.jinja"
+      chat_template_file: "${models_dir}/chat_template.jinja.txt"
     cmd: |
       ${base}
       --model ${model_path}
+      --jinja
       --chat-template-file ${chat_template_file}
+      --reasoning off
+      --chat-template-kwargs '{"enable_thinking": false}'
       --temp ${temp}
       --top-p ${top-p}
       --top-k ${top-k}
@@ -232,7 +235,7 @@ models:
       min-p: 0
       presence-penalty: 1.0
       frequency-penalty: 1.0
-      chat-template-file: "${models_dir}/chat_template.jinja"
+      chat_template_file: "${models_dir}/chat_template.jinja.txt"
     cmd: |
       ${base}
       --model ${model}
@@ -242,7 +245,8 @@ models:
       --min-p ${min-p}
       --presence-penalty ${presence-penalty}
       --frequency-penalty ${frequency-penalty}
-      --chat-template-file ${chat-template-file}
+      --jinja
+      --chat-template-file ${chat_template_file}
       ${std-tail}
 
   Qwen3.6-35B-A3B-MTP-UD-Q8:
@@ -252,7 +256,7 @@ models:
     macros:
       model_path: "${models_dir}/Qwen3.6-35B-A3B-UD-Q8_K_XL.gguf"
       ctx_size: 131072
-      chat_template_file: "${models_dir}/chat_template.jinja"
+      chat_template_file: "${models_dir}/chat_template.jinja.txt"
       temp: 0.9
       top-p: 0.95
       top-k: 40
@@ -262,6 +266,7 @@ models:
     cmd: |
       ${base}
       --model ${model_path}
+      --jinja
       --chat-template-file ${chat_template_file}
       --chat-template-kwargs '{"enable_thinking": false}'
       --spec-type draft-mtp
@@ -283,7 +288,7 @@ models:
     macros:
       model_path: "${models_dir}/gemma-4-26B-A4B-it-UD-Q8_K_XL.gguf"
       ctx_size: 131072
-      chat_template_file: "${models_dir}/chat_template.jinja"
+      chat_template_file: "${models_dir}/chat_template.jinja.txt"
       temp: 0.85
       top-p: 0.95
       top-k: 40
@@ -293,6 +298,7 @@ models:
     cmd: |
       ${base}
       --model ${model_path}
+      --jinja
       --chat-template-file ${chat_template_file}
       --temp ${temp}
       --top-p ${top-p}
@@ -311,6 +317,15 @@ validation:
   min_temperature: 0.0
 
 peers:
+  laptop:
+    # Base URL of the *other* llama-swap (no /v1 suffix)
+    proxy: http://10.19.46.76:8080
+    models:
+      - chat-familiar
+      - coder-familiar
+      - small-familiar
+      - chat3-familiar
+
   home-lab:
     # Base URL only — llama-swap appends the API path
     proxy: https://llama-swap.home.lab
