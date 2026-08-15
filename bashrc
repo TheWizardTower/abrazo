@@ -111,5 +111,3 @@ bind '"\e[B": history-search-forward' 2>/dev/null || true
 
 # Guarded broot sourcing for PR #36
 [ -f "$HOME/.config/broot/launcher/bash/br" ] && source "$HOME/.config/broot/launcher/bash/br"
-
-
