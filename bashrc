@@ -79,10 +79,17 @@ source ~/.bash-powerline.sh
 source <(leadr --bash)
 
 [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
-
-eval "$(flox activate --trust --dir ~/)"
-
 eval "$(atuin init bash --disable-up-arrow)"
+
+# atuin path
+export ATUIN_ROOT="$HOME/.atuin"
+case ":$PATH:" in
+*":$ATUIN_ROOT/bin:"*) ;;
+*) export PATH="$ATUIN_ROOT/bin:$PATH" ;;
+esac
+# atuin end
+
+eval "$(atuin init bash)"
 
 # pnpm
 export PNPM_HOME="/home/merlin/.local/share/pnpm"
@@ -100,6 +107,19 @@ case ":$PATH:" in
 esac
 # krew end
 
+# cuda-toolkit
+export CUDA_ROOT="/usr/local/cuda"
+case ":$PATH:" in
+*":$CUDA_ROOT/bin:"*) ;;
+*) export PATH="$CUDA_ROOT/bin:$PATH" ;;
+esac
+
+case ":$LD_LIBRARY_PATH:" in
+*":$CUDA_ROOT/lib64:"*) ;;
+*) export LD_LIBRARY_PATH="$CUDA_ROOT/lib64:$LD_LIBRARY_PATH" ;;
+esac
+# cuda-toolkit end
+
 # Atuin history with fzf integration for search, standard arrow keys for browsing
 # Arrow keys: regular bash history (with prefix matching via readline)
 bind '"\e[A": history-search-backward' 2>/dev/null || true
@@ -111,3 +131,5 @@ bind '"\e[B": history-search-forward' 2>/dev/null || true
 
 # Guarded broot sourcing for PR #36
 [ -f "$HOME/.config/broot/launcher/bash/br" ] && source "$HOME/.config/broot/launcher/bash/br"
+
+. "$HOME/.atuin/bin/env"

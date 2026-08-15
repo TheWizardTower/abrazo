@@ -109,3 +109,10 @@ package-lock.json
 /jj/repos
 /pi/auth.json
 secrets.sh
+/pi/agent/auth.json
+# pi session state and local artifacts
+/pi/agent/sessions/
+/pi/agent/missions/
+/pi/agent/run-history.jsonl
+/pi/agent/models-store.json
+/pi/agent/npm/node_modules/
