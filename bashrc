@@ -79,8 +79,10 @@ source ~/.bash-powerline.sh
 source <(leadr --bash)
 
 [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
+
 eval "$(flox activate --trust --dir ~/)"
-eval "$(atuin init bash)"
+
+eval "$(atuin init bash --disable-up-arrow)"
 
 # pnpm
 export PNPM_HOME="/home/merlin/.local/share/pnpm"
@@ -114,8 +116,6 @@ atuin-fzf() {
 }
 
 bind -x '"\e[r": atuin-fzf' 2>/dev/null || true
-
-eval "$(atuin init bash --disable-up-arrow)"
 
 [ -f "$HOME/.config/broot/launcher/bash/br" ] && source "$HOME/.config/broot/launcher/bash/br"
 
