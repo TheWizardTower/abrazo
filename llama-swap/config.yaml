@@ -311,6 +311,15 @@ validation:
   min_temperature: 0.0
 
 peers:
+  laptop:
+    # Base URL of the *other* llama-swap (no /v1 suffix)
+    proxy: http://10.19.46.76:8080
+    models:
+      - chat-familiar
+      - coder-familiar
+      - small-familiar
+      - chat3-familiar
+
   home-lab:
     # Base URL only — llama-swap appends the API path
     proxy: https://llama-swap.home.lab
