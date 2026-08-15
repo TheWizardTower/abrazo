@@ -1,0 +1,12 @@
+{
+  "lastChangelogVersion": "0.84.2",
+  "theme": "dark",
+  "transport": "auto",
+  "defaultProvider": "llama-swap",
+  "defaultModel": "Qwen3-Coder-Next-UD-Q8",
+  "defaultThinkingLevel": "high",
+  "packages": [
+    "npm:pi-subagents",
+    "npm:@danielmeneses/pi-llama-swap"
+  ]
+}
