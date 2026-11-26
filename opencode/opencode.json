@@ -100,7 +100,7 @@
       },
       "models": {
         "Gemma-4-26B-A4B-UD-Q6_K": {
-          "name": "Gemma 4 26B-A4B Q6_K — Fast & Natural",
+          "name": "Gemma 4 26B-A4B Q6_K \u2014 Fast & Natural",
           "modalities": {
             "input": [
               "text"
@@ -119,7 +119,7 @@
           }
         },
         "Qwen3.6-35B-A3B-MTP-UD-Q8": {
-          "name": "Qwen3.6-35B-A3B MTP Q8 — Fast & Strong (MTP enabled)",
+          "name": "Qwen3.6-35B-A3B MTP Q8 \u2014 Fast & Strong (MTP enabled)",
           "modalities": {
             "input": [
               "text"
@@ -402,9 +402,6 @@
       }
     }
   },
-  "plugin": [
-    "cc-safety-net"
-  ],
   "instructions": [
     "~/.config/opencode/plugin/shell-strategy/shell_strategy.md"
   ]
