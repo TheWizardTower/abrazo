@@ -124,7 +124,11 @@ def __leadr_invoke__ [] {
             $cursor_pos = -1
         }
 
-        leadr_insert_command $to_insert $parsed_flags.insert_type $cursor_pos
+        (leadr_insert_command
+            $to_insert
+            $parsed_flags.insert_type
+            $cursor_pos
+        )
 
         if $parsed_flags.exec {
             commandline edit --append --accept ""
