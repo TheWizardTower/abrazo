@@ -116,3 +116,6 @@ secrets.sh
 /pi/agent/run-history.jsonl
 /pi/agent/models-store.json
 /pi/agent/npm/node_modules/
+
+# OpenCode plugin directory (cloned at runtime)
+opencode/plugin/
