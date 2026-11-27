@@ -21,6 +21,7 @@ fi
 echo "=== Setting up OpenCode config ==="
 mkdir -p ~/.config/opencode
 ln -sf ~/abrazo/opencode/opencode.json ~/.config/opencode/opencode.json
+ln -sf ~/abrazo/opencode/cli.json ~/.config/opencode/cli.json
 
 # ========================
 # Daniel's Skill Repos
